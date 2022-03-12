@@ -3,6 +3,7 @@ import Resources from "../Utils/Resources";
 //@ts-ignore
 // import Environment from "./Environment";
 import Computer from "./Computer";
+import ComputerScreen from "./ComputerScreen";
 //@ts-ignore
 // import Floor from "./Floor.js";
 // //@ts-ignore
@@ -15,6 +16,7 @@ export default class World {
   floor: any;
   computer: any;
   environment: any;
+  computerScreen: any;
 
   constructor() {
     this.application = new Application();
@@ -26,6 +28,7 @@ export default class World {
       // Setup
       // this.floor = new Floor();
       this.computer = new Computer();
+      this.computerScreen = new ComputerScreen();
       // this.environment = new Environment();
     });
   }

@@ -18,7 +18,6 @@ export default class Camera {
     this.canvas = this.application.canvas;
 
     this.setInstance();
-    this.setControls();
   }
 
   setInstance() {
@@ -33,7 +32,12 @@ export default class Camera {
   }
 
   setControls() {
-    this.controls = new OrbitControls(this.instance, this.canvas);
+    let element = this.canvas;
+    if (this.application.renderer) {
+      element = this.application.renderer.cssInstance.domElement;
+    }
+
+    this.controls = new OrbitControls(this.instance, element);
     this.controls.enableDamping = true;
   }
 
