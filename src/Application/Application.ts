@@ -20,6 +20,7 @@ export default class Application {
   sizes: Sizes;
   time: Time;
   scene: THREE.Scene;
+  cssScene: THREE.Scene;
   resources: Resources;
   camera: Camera;
   renderer: Renderer;
@@ -46,9 +47,12 @@ export default class Application {
     this.sizes = new Sizes();
     this.time = new Time();
     this.scene = new THREE.Scene();
+    this.cssScene = new THREE.Scene();
     this.resources = new Resources(sources);
     this.camera = new Camera();
     this.renderer = new Renderer();
+    // Set controls after renderer is created
+    this.camera.setControls();
     this.world = new World();
 
     // Resize event
