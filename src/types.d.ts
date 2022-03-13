@@ -18,6 +18,12 @@ type ModelResource = {
   path: string;
 };
 
+type EnclosingPlane = {
+  size: THREE.Vector2;
+  position: THREE.Vector3;
+  rotation: THREE.Euler;
+};
+
 type LoadedResource = LoadedTexture | LoadedCubeTexture | LoadedModel;
 
 type LoadedTexture = THREE.Texture;
