@@ -11,30 +11,40 @@ const sources: Resource[] = [
   //     "textures/environmentMap/nz.jpg",
   //   ],
   // },
-  // {
-  //   name: "grassColorTexture",
-  //   type: "texture",
-  //   path: "textures/dirt/color.jpg",
-  // },
-  // {
-  //   name: "grassNormalTexture",
-  //   type: "texture",
-  //   path: "textures/dirt/normal.jpg",
-  // },
-  // {
-  //   name: "foxModel",
-  //   type: "gltfModel",
-  //   path: "models/Fox/glTF/Fox.gltf",
-  // },
   {
     name: "monitorModel",
     type: "gltfModel",
-    path: "models/Computer/monitor.glb",
+    path: "models/Monitor/monitor.glb",
   },
   {
     name: "monitorTexture",
     type: "texture",
-    path: "models/Computer/monitor_bake.png",
+    path: "models/Monitor/monitor_baked_altered.png",
+  },
+  {
+    name: "crtSmudgeTexture",
+    type: "texture",
+    path: "crt/smudges.png",
+  },
+  {
+    name: "crtBorderTexture",
+    type: "texture",
+    path: "crt/frame.png",
+  },
+  {
+    name: "siteTexture",
+    type: "texture",
+    path: "crt/site.png",
+  },
+  {
+    name: "crtShadowTexture",
+    type: "texture",
+    path: "crt/shadows.png",
+  },
+  {
+    name: "crtReflectionTexture",
+    type: "texture",
+    path: "crt/reflections.png",
   },
 ];
 
