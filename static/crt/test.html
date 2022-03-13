@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        display: flex;
+        justify-content: center;
+        margin-top: 10vh;
+      }
+      .site {
+        /* position: relative; */
+        width: 100%;
+        height: 100%;
+        padding: 48px;
+        box-sizing: border-box;
+        color: white;
+        background-color: #008081;
+      }
+
+      .container {
+        width: 500px;
+        height: 500px;
+        /* width: 100%;
+        height: 90vh; */
+        /* display: flex; */
+        /* flex-direction: column; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        position: relative;
+      }
+
+      .imageOverlay {
+        width: 100%;
+        height: 100%;
+        /* background-color: rgba(0, 0, 0, 0.5); */
+        /* opacity: 0.5; */
+        position: absolute;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        /* display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; */
+      }
+
+      .img {
+        width: 500px;
+        height: 500px;
+      }
+
+      .screen {
+        opacity: 1;
+        mix-blend-mode: screen;
+      }
+
+      .soft-light {
+        opacity: 0.5;
+        mix-blend-mode: soft-light;
+      }
+
+      .smudges {
+        opacity: 0.3;
+      }
+
+      video {
+        object-fit: fill;
+      }
+
+      p {
+        margin: 0px;
+      }
+
+      .jitter {
+        animation-duration: 0.3s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-name: jittery;
+        z-index: -10;
+      }
+
+
+      @keyframes jittery {
+        10% {
+          transform: translate(-0.2px, -0.3px) scale(1, 1);
+        }
+        20% {
+          transform: translate(0.3px, 0.2px)  scale(1, 1);
+        }
+        30% {
+          transform: translate(-0.4px, -0.5px) scale(1, 1);
+        }
+        40% {
+          transform: translate(0.1px, 0.2px) scale(1, 1);
+        }
+        50% {
+          transform: translate(-0.05px, -0.1px) scale(1, 1);
+        }
+        60% {
+          transform: translate(0.0px, 0.15px) scale(1, 1);
+        }
+        70% {
+          transform: translate(-0.15px, -0.2px)scale(1, 1);
+        }
+        80% {
+          transform: translate(0.15px, 0.25px)  scale(1, 1);
+        }
+        90% {
+          transform: translate(-0.25px, -0.15px) scale(1, 1);
+        }
+        100% {
+          transform: translate(0.15px, 0.05px) scale(1, 1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="site jitter">
+        <h1>Heading</h1>
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur
+          suscipit modi a rerum non. Sequi labore eum maxime asperiores nemo
+          laudantium magnam? Porro a cupiditate ipsum, quibusdam soluta
+          excepturi numquam!
+        </p>
+      </div>
+      <video
+        class="imageOverlay screen"
+        width="500"
+        height="500"
+        autoplay
+        muted
+        loop
+      >
+        <source src="./scan.mp4" type="video/mp4" />
+        oops
+      </video>
+      <div class="imageOverlay">
+        <image src="./smudges.png" class="img screen smudges" alt=""></image>
+      </div>
+      <div class="imageOverlay">
+        <image src="./shadows.png" class="img" alt=""></image>
+      </div>
+      <div class="imageOverlay">
+        <image src="./reflections.png" class="img screen" alt=""></image>
+      </div>
+      <div class="imageOverlay">
+        <image src="./border.png" class="img" alt=""></image>
+      </div>
+    </div>
+  </body>
+</html>
