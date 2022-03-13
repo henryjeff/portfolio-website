@@ -45,6 +45,7 @@ export default class Application {
     // Setup
     this.debug = new Debug();
     this.sizes = new Sizes();
+    // console.log(this.sizes);
     this.time = new Time();
     this.scene = new THREE.Scene();
     this.cssScene = new THREE.Scene();
