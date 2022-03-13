@@ -16,7 +16,6 @@ export default class Renderer {
 
   constructor() {
     this.application = new Application();
-    this.canvas = this.application.canvas;
     this.sizes = this.application.sizes;
     this.scene = this.application.scene;
     this.cssScene = this.application.cssScene;
@@ -27,30 +26,32 @@ export default class Renderer {
 
   setInstance() {
     this.instance = new THREE.WebGLRenderer({
-      canvas: this.canvas,
       antialias: true,
       alpha: true,
+      powerPreference: "high-performance",
     });
-
     // Settings
     this.instance.physicallyCorrectLights = true;
     this.instance.outputEncoding = THREE.sRGBEncoding;
     this.instance.toneMapping = THREE.CineonToneMapping;
-    this.instance.toneMappingExposure = 1.75;
+    // this.instance.toneMappingExposure = 1;
     this.instance.shadowMap.enabled = true;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.instance.setClearColor("#211d20");
     this.instance.setSize(this.sizes.width, this.sizes.height);
     this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
+    this.instance.domElement.style.position = "absolute";
+    this.instance.setClearColor(0x000000, 0.0);
+    this.instance.domElement.style.zIndex = "1px";
+    this.instance.domElement.style.top = "0px";
 
-    document.body.appendChild(this.instance.domElement);
+    document.querySelector("#webgl")?.appendChild(this.instance.domElement);
 
     this.cssInstance = new CSS3DRenderer();
     this.cssInstance.setSize(this.sizes.width, this.sizes.height);
     this.cssInstance.domElement.style.position = "absolute";
     this.cssInstance.domElement.style.top = "0px";
 
-    document.body.appendChild(this.cssInstance.domElement);
+    document.querySelector("#css")?.appendChild(this.cssInstance.domElement);
   }
 
   resize() {
@@ -60,6 +61,8 @@ export default class Renderer {
   }
 
   update() {
+    this.application.camera.instance.updateProjectionMatrix();
+
     this.instance.render(this.scene, this.camera.instance);
     this.cssInstance.render(this.cssScene, this.camera.instance);
   }
