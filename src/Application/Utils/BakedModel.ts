@@ -5,7 +5,7 @@ export default class BakedModel {
   texture: LoadedTexture;
   material: THREE.MeshBasicMaterial;
 
-  constructor(model: LoadedModel, texture: LoadedTexture) {
+  constructor(model: LoadedModel, texture: LoadedTexture, scale?: number) {
     this.model = model;
     this.texture = texture;
 
@@ -22,6 +22,7 @@ export default class BakedModel {
 
     this.model.scene.traverse((child) => {
       if (child instanceof THREE.Mesh) {
+        if (scale) child.scale.set(scale, scale, scale);
         child.material = this.material;
       }
     });
