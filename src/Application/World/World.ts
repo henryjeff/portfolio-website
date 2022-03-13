@@ -4,11 +4,6 @@ import Resources from "../Utils/Resources";
 // import Environment from "./Environment";
 import Computer from "./Computer";
 import ComputerScreen from "./ComputerScreen";
-//@ts-ignore
-// import Floor from "./Floor.js";
-// //@ts-ignore
-// import Fox from "./Fox.js";
-
 export default class World {
   application: Application;
   scene: THREE.Scene;
@@ -26,7 +21,6 @@ export default class World {
     // Wait for resources
     this.resources.on("ready", () => {
       // Setup
-      // this.floor = new Floor();
       this.computer = new Computer();
       this.computerScreen = new ComputerScreen();
       // this.environment = new Environment();
