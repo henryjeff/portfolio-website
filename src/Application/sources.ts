@@ -46,6 +46,27 @@ const sources: Resource[] = [
     type: "texture",
     path: "crt/reflections.png",
   },
+
+  {
+    name: "screenSmudgesTexture",
+    type: "texture",
+    path: "models/Screen/smudgesTexture.png",
+  },
+  {
+    name: "screenBorderTexture",
+    type: "texture",
+    path: "models/Screen/frameTexture.png",
+  },
+  {
+    name: "screenAlphaMap",
+    type: "texture",
+    path: "models/Screen/frameTextureAlpha.png",
+  },
+  {
+    name: "screenModel",
+    type: "gltfModel",
+    path: "models/Screen/screenModel.glb",
+  },
 ];
 
 export default sources;

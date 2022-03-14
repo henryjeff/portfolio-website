@@ -1,12 +1,17 @@
 import * as THREE from "three";
 
 export default class BakedModel {
-  model: LoadedModel;
+  model: THREE.Group;
   texture: LoadedTexture;
   material: THREE.MeshBasicMaterial;
 
-  constructor(model: LoadedModel, texture: LoadedTexture, scale?: number) {
-    this.model = model;
+  constructor(
+    model: LoadedModel,
+    texture: LoadedTexture,
+    scale?: number,
+    materialParams?: THREE.MeshBasicMaterialParameters
+  ) {
+    this.model = model.scene.clone();
     this.texture = texture;
 
     this.texture.flipY = false;
@@ -14,13 +19,14 @@ export default class BakedModel {
 
     this.material = new THREE.MeshBasicMaterial({
       map: this.texture,
+      ...materialParams,
     });
 
-    if (this.model.scene.children.length != 1) {
+    if (this.model.children.length != 1) {
       console.error("Model has more than one child, Baker can't bake");
     }
 
-    this.model.scene.traverse((child) => {
+    this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         if (scale) child.scale.set(scale, scale, scale);
         child.material = this.material;
@@ -31,6 +37,14 @@ export default class BakedModel {
   }
 
   getModel(): THREE.Group {
-    return this.model.scene;
+    return this.model;
+  }
+
+  setPosition(position: THREE.Vector3) {
+    this.model.position.copy(position);
+  }
+
+  setRotation(rotation: THREE.Euler) {
+    this.model.rotation.copy(rotation);
   }
 }
