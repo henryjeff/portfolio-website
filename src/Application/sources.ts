@@ -27,24 +27,24 @@ const sources: Resource[] = [
     path: "crt/smudges.png",
   },
   {
-    name: "crtBorderTexture",
+    name: "crtDustTexture",
+    type: "texture",
+    path: "crt/dust.png",
+  },
+  {
+    name: "crtFrameTexture",
     type: "texture",
     path: "crt/frame.png",
   },
   {
-    name: "siteTexture",
-    type: "texture",
-    path: "crt/site.png",
-  },
-  {
     name: "crtShadowTexture",
     type: "texture",
-    path: "crt/shadows.png",
+    path: "crt/shadow.png",
   },
   {
     name: "crtReflectionTexture",
     type: "texture",
-    path: "crt/reflections.png",
+    path: "crt/reflection.png",
   },
 ];
 

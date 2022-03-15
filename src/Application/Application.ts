@@ -12,6 +12,8 @@ import Resources from "./Utils/Resources";
 
 import sources from "./sources";
 
+import Stats from "stats.js";
+
 let instance: Application | null = null;
 
 export default class Application {
@@ -25,6 +27,7 @@ export default class Application {
   camera: Camera;
   renderer: Renderer;
   world: World;
+  stats: any;
 
   constructor(_canvas?: HTMLElement) {
     // Singleton
@@ -56,6 +59,10 @@ export default class Application {
     this.camera.setControls();
     this.world = new World();
 
+    this.stats = new Stats();
+    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom);
+
     // Resize event
     this.sizes.on("resize", () => {
       this.resize();
@@ -73,9 +80,11 @@ export default class Application {
   }
 
   update() {
+    this.stats.begin();
     this.camera.update();
     this.world.update();
     this.renderer.update();
+    this.stats.end();
   }
 
   destroy() {

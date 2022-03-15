@@ -48,6 +48,7 @@ export default class Resources extends EventEmitter {
         });
       } else if (source.type === "texture") {
         this.loaders.textureLoader.load(source.path, (file) => {
+          file.encoding = THREE.sRGBEncoding;
           this.sourceLoaded(source, file);
         });
       } else if (source.type === "cubeTexture") {
