@@ -22,29 +22,29 @@ const sources: Resource[] = [
     path: "models/Monitor/monitor_baked_altered.png",
   },
   {
-    name: "crtSmudgeTexture",
+    name: "monitorSmudgeTexture",
     type: "texture",
-    path: "crt/smudges.png",
+    path: "textures/monitor/smudges.png",
   },
   {
-    name: "crtDustTexture",
+    name: "monitorDustTexture",
     type: "texture",
-    path: "crt/dust.png",
+    path: "textures/monitor/dust.png",
   },
   {
-    name: "crtFrameTexture",
+    name: "monitorFrameTexture",
     type: "texture",
-    path: "crt/frame.png",
+    path: "textures/monitor/frame.png",
   },
   {
-    name: "crtShadowTexture",
+    name: "monitorShadowTexture",
     type: "texture",
-    path: "crt/shadow.png",
+    path: "textures/monitor/shadow.png",
   },
   {
-    name: "crtReflectionTexture",
+    name: "monitorReflectionTexture",
     type: "texture",
-    path: "crt/reflection.png",
+    path: "textures/monitor/reflection.png",
   },
 ];
 

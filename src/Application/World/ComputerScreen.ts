@@ -77,32 +77,32 @@ export default class ComputerScreen extends EventEmitter {
     const video = document.getElementById("video");
     const videoTexture = new THREE.VideoTexture(video as HTMLVideoElement);
 
-    const reflectionTexture = textures.crtReflectionTexture;
+    const reflectionTexture = textures.monitorReflectionTexture;
     reflectionTexture.encoding = THREE.LinearEncoding;
 
     const scaleFactor = 5;
 
     const layers = {
       smudge: {
-        texture: textures.crtSmudgeTexture,
+        texture: textures.monitorSmudgeTexture,
         blending: THREE.AdditiveBlending,
         opacity: 0.1,
         offset: 24,
       },
       frame: {
-        texture: textures.crtFrameTexture,
+        texture: textures.monitorFrameTexture,
         blending: THREE.NormalBlending,
         opacity: 1,
         offset: 25,
       },
       innerShadow: {
-        texture: textures.crtShadowTexture,
+        texture: textures.monitorShadowTexture,
         blending: THREE.NormalBlending,
         opacity: 1,
         offset: 3,
       },
       dust: {
-        texture: textures.crtDustTexture,
+        texture: textures.monitorDustTexture,
         blending: THREE.AdditiveBlending,
         opacity: 0.1,
         offset: 1,
