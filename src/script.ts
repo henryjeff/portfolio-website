@@ -1,9 +1,5 @@
-import "./style.css";
+import './style.css';
 
-import Application from "./Application/Application";
+import Application from './Application/Application';
 
-const canvas = document.querySelector("canvas.webgl");
-
-if (canvas) {
-  const app: Application = new Application(canvas as HTMLElement);
-}
+const app: Application = new Application();

@@ -2,21 +2,16 @@ import Application from "../Application";
 import Resources from "../Utils/Resources";
 //@ts-ignore
 // import Environment from "./Environment";
-import Computer from "./Computer";
-import ComputerScreen from "./ComputerScreen";
-//@ts-ignore
-// import Floor from "./Floor.js";
-// //@ts-ignore
-// import Fox from "./Fox.js";
-
+import Monitor from "./Monitor";
+import MonitorScreen from "./MonitorScreen";
 export default class World {
   application: Application;
   scene: THREE.Scene;
   resources: Resources;
   floor: any;
-  computer: any;
   environment: any;
-  computerScreen: any;
+  monitor: Monitor;
+  monitorScreen: MonitorScreen;
 
   constructor() {
     this.application = new Application();
@@ -26,9 +21,8 @@ export default class World {
     // Wait for resources
     this.resources.on("ready", () => {
       // Setup
-      // this.floor = new Floor();
-      this.computer = new Computer();
-      this.computerScreen = new ComputerScreen();
+      this.monitor = new Monitor();
+      this.monitorScreen = new MonitorScreen();
       // this.environment = new Environment();
     });
   }
