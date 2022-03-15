@@ -1,5 +1,5 @@
-import "./style.css";
+import './style.css';
 
-import Application from "./Application/Application";
+import Application from './Application/Application';
 
 const app: Application = new Application();
