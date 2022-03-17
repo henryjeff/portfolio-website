@@ -32,11 +32,6 @@ const sources: Resource[] = [
         path: 'textures/monitor/dust.png',
     },
     {
-        name: 'monitorFrameTexture',
-        type: 'texture',
-        path: 'textures/monitor/frame.png',
-    },
-    {
         name: 'monitorShadowTexture',
         type: 'texture',
         path: 'textures/monitor/shadow.png',
