@@ -14,3 +14,54 @@ body {
     left: 0;
     outline: none;
 }
+
+.jitter {
+    animation-duration: 0.3s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: jittery;
+    z-index: -10;
+}
+
+@keyframes jittery {
+    10% {
+        transform: translate(-0.2px, -0.3px) scale(1, 1);
+    }
+
+    20% {
+        transform: translate(0.3px, 0.2px) scale(1, 1);
+    }
+
+    30% {
+        transform: translate(-0.4px, -0.5px) scale(1, 1);
+    }
+
+    40% {
+        transform: translate(0.1px, 0.2px) scale(1, 1);
+    }
+
+    50% {
+        transform: translate(-0.05px, -0.1px) scale(1, 1);
+    }
+
+    60% {
+        transform: translate(0px, 0.15px) scale(1, 1);
+    }
+
+    70% {
+        transform: translate(-0.15px, -0.2px) scale(1, 1);
+    }
+
+    80% {
+        transform: translate(0.15px, 0.25px) scale(1, 1);
+    }
+
+    90% {
+        transform: translate(-0.25px, -0.15px) scale(1, 1);
+    }
+
+    100% {
+        transform: translate(0.15px, 0.05px) scale(1, 1);
+    }
+}
