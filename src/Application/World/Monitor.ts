@@ -31,7 +31,7 @@ export default class Monitor {
         this.bakedModel = new BakedModel(
             this.resources.items.gltfModel.monitorModel,
             this.resources.items.texture.monitorTexture,
-            890
+            900
         );
 
         this.setModel();
