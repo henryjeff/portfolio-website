@@ -433,8 +433,6 @@ export default class MonitorScreen extends EventEmitter {
 
             // @ts-ignore
             this.dimmingPlane.material.opacity = (1 - dot) * 1.7;
-
-            console.log(dot);
         }
     }
 }
