@@ -55,8 +55,6 @@ export default class Application {
         this.resources = new Resources(sources);
         this.camera = new Camera();
         this.renderer = new Renderer();
-        // Set controls after renderer is created
-        this.camera.setControls();
         this.world = new World();
 
         this.stats = new Stats();

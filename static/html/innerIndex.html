@@ -20,8 +20,6 @@
     body {
       margin: 0px;
       cursor: none;
-      /* cursor: url(../crt/almostTransparent.png), crosshair; */
-      /* cursor: url(../crt/noCursor.png), none; */
     }
 
     .container {
@@ -30,20 +28,17 @@
       display: flex;
       width: 1280px;
       height: 1024px;
-      /* cursor: none; */
 
     }
 
     .browser {
       position: absolute;
       border: 2px solid black;
-      /* height: 400px; */
       width: 600px;
       display: flex;
       flex-direction: column;
       margin-top: 160px;
       margin-left: 260px;
-      /* padding: 32px; */
       box-sizing: border-box;
       background-color: white;
 
@@ -200,7 +195,7 @@
       animation-name: jittery;
       z-index: -10;
     }
-    
+
     button:hover {
       cursor: none
     }
@@ -259,99 +254,67 @@
     }
   </style>
   <script>
-    // const fn = () => {
-    //   document.getElementById('text').style.display = 'none';
-    // }
-    // get the cursor element and set its position to the mouse position
-
-
-    // document.body.style.cursor = 'none';
-
-    // document.body.requestPointerLock();
-    // var havePointerLock = 'pointerLockElement' in document ||
-    //   'mozPointerLockElement' in document ||
-    //   'webkitPointerLockElement' in document;
-    // console.log(havePointerLock)
-
-
-    //   const element =
-
-    // document.body.requestPointerLock = document.body.requestPointerLock ||
-    //   document.body.mozRequestPointerLock ||
-    //   document.body.webkitRequestPointerLock;
-
-    // Ask the browser to lock the pointer
-    // element.requestPointerLock();
     window.onload = () => {
       document.addEventListener('mousemove', e => {
         const cursor = document.getElementById('cursor');
-        cursor.style.left = e.pageX - 4+ 'px';
-        cursor.style.top = e.pageY - 2+ 'px';
+        cursor.style.left = e.pageX - 4 + 'px';
+        cursor.style.top = e.pageY - 2 + 'px';
       });
-      
+
       document.getElementById("button").addEventListener("click", () => {
         document.getElementById('browser').style.backgroundColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
       });
-      
-      
-    }
-      // document.addEventListener('click', e => {
-      //   cursor.style.display = 'none';
-      // });
-      // document.addEventListener('mouseleave', e => {
-      //   cursor.style.display = 'block';
-      // });
 
+    }
   </script>
 </head>
 
 <body>
   <div id="computer" class="container jitter">
-    <image id="cursor" class="jitter" src="../textures/crt/cursor.svg"></image>
+    <image id="cursor" class="jitter" src="../textures/monitor/cursor.svg"></image>
     <div class="browser" id="browser">
       <div class="outer-bar">
-          <div class="inner-bar">
-            <div class="box-button-outer">
-              <div class="box-button"></div>
-            </div>
-            <p style="color: white; font-size: 24px">About me</p>
-            <div class="box-button-outer">
-              <div class="box-button"></div>
-            </div>
+        <div class="inner-bar">
+          <div class="box-button-outer">
+            <div class="box-button"></div>
           </div>
-        </div>
-        <div class="contentContainer">
-          <div class="scroll-bar">
-            <div class="scroll-thumb-outer">
-              <div class="scroll-thumb"></div>
-            </div>
-            <div class="scroll-bar-fill checkerboard"></div>
-            <div class="box-button-outer">
-              <div class="box-button"></div>
-            </div>
-            <div class="button-spacer"></div>
-            <div class="box-button-outer">
-              <div class="box-button"></div>
-            </div>
+          <p style="color: white; font-size: 24px">About me</p>
+          <div class="box-button-outer">
+            <div class="box-button"></div>
           </div>
-          <div class="content">
-            <p style="font-size: 24px;">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequatur alias, culpa corporis molestias voluptate eius
-              dolorum, voluptatum assumenda commodi natus possimus. Voluptate
-              asperiores tenetur ea minima perferendis laboriosam blanditiis
-              nesciunt?
-            </p>
-            <button id="button"><p>Press Button!</p></button>
-          </div>
-        </div>
-        <div class="browser-footer">
-          <div class="footer-segment no-left-border"></div>
-          <div class="footer-main"></div>
-          <div class="footer-segment no-right-border"></div>
         </div>
       </div>
+      <div class="contentContainer">
+        <div class="scroll-bar">
+          <div class="scroll-thumb-outer">
+            <div class="scroll-thumb"></div>
+          </div>
+          <div class="scroll-bar-fill checkerboard"></div>
+          <div class="box-button-outer">
+            <div class="box-button"></div>
+          </div>
+          <div class="button-spacer"></div>
+          <div class="box-button-outer">
+            <div class="box-button"></div>
+          </div>
+        </div>
+        <div class="content"  id="button">
+          <p style="font-size: 24px;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Consequatur alias, culpa corporis molestias voluptate eius
+            dolorum, voluptatum assumenda commodi natus possimus. Voluptate
+            asperiores tenetur ea minima perferendis laboriosam blanditiis
+            nesciunt?
+          </p>
+        </div>
+      </div>
+      <div class="browser-footer">
+        <div class="footer-segment no-left-border"></div>
+        <div class="footer-main"></div>
+        <div class="footer-segment no-right-border"></div>
+      </div>
     </div>
+  </div>
 </body>
 
 </html>

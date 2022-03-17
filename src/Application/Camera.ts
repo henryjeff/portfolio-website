@@ -5,6 +5,9 @@ import Debug from './Utils/Debug';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import GUI from 'lil-gui';
 import EventEmitter from './Utils/EventEmitter';
+import TWEEN from '@tweenjs/tween.js';
+import keyframes from './cameraKeyframes';
+import { Vector3 } from 'three';
 
 export default class Camera extends EventEmitter {
     application: Application;
@@ -15,11 +18,11 @@ export default class Camera extends EventEmitter {
     controls: OrbitControls;
     debug: Debug;
     debugFolder: GUI;
-    mouse: { x: number; y: number };
-    target: { x: number; y: number };
-    targetPos: { x: number; y: number };
-    lockedCamera: boolean;
-    screenLocation: THREE.Vector3;
+    mouse: THREE.Vector2;
+    position: THREE.Vector3;
+    focalPoint: THREE.Vector3;
+    keyframes: CameraKeyframes;
+    debugParams: { lockedCamera: boolean };
 
     constructor() {
         super();
@@ -28,97 +31,71 @@ export default class Camera extends EventEmitter {
         this.scene = this.application.scene;
         this.canvas = this.application.canvas;
         this.debug = this.application.debug;
-        this.mouse = { x: 0, y: 0 };
-        this.target = { x: 0, y: 0 };
-        this.targetPos = { x: 0, y: 0 };
+        this.keyframes = keyframes;
+        this.mouse = new THREE.Vector2(0, 0);
 
-        this.lockCameraToScreen();
+        this.position = new THREE.Vector3().copy(this.keyframes.start.position);
+        this.focalPoint = new THREE.Vector3().copy(
+            this.keyframes.start.focalPoint
+        );
 
-        if (this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder('camera');
-            let debug = {
-                lockedCamera: this.lockedCamera,
-            };
-            this.debugFolder.add(debug, 'lockedCamera');
-            this.debugFolder.onChange((event) => {
-                if (event.property === 'lockedCamera') {
-                    if (event.value) {
-                        this.lockCameraToScreen();
-                    } else {
-                        this.unlockCamera();
-                    }
-                }
-            });
-        }
+        this.on('leftMonitor', () => {
+            this.moveTo(this.keyframes.start, 1000);
+        });
 
-        this.on('focusChange', (position) => {
-            console.log(position);
+        this.on('enterMonitor', () => {
+            this.moveTo(this.keyframes.monitor, 1000);
         });
 
         this.setInstance();
+        this.setDebug();
+    }
+
+    moveTo(keyframe: CameraKeyframe, duration: number = 1000) {
+        const tweenPos = new TWEEN.Tween(this.position).to(
+            keyframe.position,
+            duration
+        );
+        const tweenFoc = new TWEEN.Tween(this.focalPoint).to(
+            keyframe.focalPoint,
+            duration
+        );
+
+        tweenPos.easing(TWEEN.Easing.Exponential.InOut);
+        tweenFoc.easing(TWEEN.Easing.Exponential.InOut);
+
+        tweenPos.start();
+        tweenFoc.start();
     }
 
     setInstance() {
         this.instance = new THREE.PerspectiveCamera(
-            45,
+            50,
             this.sizes.width / this.sizes.height,
             1,
             10000
         );
-        this.instance.position.set(0, 850, 2000);
-        this.screenLocation = new THREE.Vector3(0, 0, 0);
-        this.screenLocation.copy(this.instance.position);
-        this.instance.lookAt(this.instance.position);
+
+        this.instance.position.copy(this.position);
+        this.instance.lookAt(this.focalPoint);
         this.scene.add(this.instance);
 
         document.addEventListener(
             'mousemove',
-            (event) => this.onMouseMove(event, this.sizes),
+            (event) => this.onMouseMove(event),
             false
         );
     }
 
-    onMouseMove(event: MouseEvent, sizes: Sizes) {
-        this.mouse.x = event.clientX - sizes.width / 2;
-        this.mouse.y = event.clientY - sizes.height / 2;
-    }
-
-    setPointerEvents(toggle: boolean) {
-        const gl = document.getElementById('webgl');
-        if (gl) {
-            if (toggle) {
-                gl.style.pointerEvents = 'auto';
-            } else {
-                gl.style.pointerEvents = 'none';
-            }
+    setDebug() {
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder('Camera');
         }
     }
 
-    lockCameraToScreen() {
-        if (this.controls) {
-            this.destroyControls();
-        }
-        this.setPointerEvents(false);
-        this.lockedCamera = true;
-    }
-
-    unlockCamera() {
-        this.setPointerEvents(true);
-        this.setControls();
-        this.lockedCamera = false;
-    }
-
-    setControls() {
-        let element = this.canvas;
-        if (this.application.renderer) {
-            element = this.application.renderer.instance.domElement;
-        }
-        this.controls = new OrbitControls(this.instance, element);
-        this.controls.enableDamping = true;
-    }
-
-    destroyControls() {
-        this.controls.dispose();
+    onMouseMove(event: MouseEvent) {
+        this.mouse.x = event.clientX;
+        this.mouse.y = event.clientY;
     }
 
     resize() {
@@ -127,25 +104,21 @@ export default class Camera extends EventEmitter {
     }
 
     update() {
-        if (this.lockedCamera) {
-            this.instance.rotation.set(0, 0, 0);
-            this.target.x = (1 - this.mouse.x) * 0.0001;
-            // this.target.y = (1 - this.mouse.y) * 0.0001;
-            // this.targetPos.y = (1 - this.mouse.y) * 0.3;
-            this.targetPos.y = (1 - this.mouse.y) * 0.3 + this.screenLocation.y;
-            this.targetPos.x = this.mouse.x * 0.3;
+        TWEEN.update();
 
-            this.instance.position.x +=
-                0.1 * (this.targetPos.x - this.instance.position.x);
-            this.instance.position.y +=
-                0.1 * (this.targetPos.y - this.instance.position.y);
+        const tempPos = new Vector3().copy(this.position);
 
-            // this.instance.rotation.x +=
-            //   0.1 * (this.target.y - this.instance.rotation.x);
-            // this.instance.rotation.y +=
-            //   0.1 * (this.target.x - this.instance.rotation.y);
-        } else {
-            this.controls.update();
-        }
+        const targetX = this.mouse.x - this.sizes.width / 2;
+        const targetY = this.mouse.y - this.sizes.height / 2;
+
+        this.instance.position.copy(
+            tempPos.add(new THREE.Vector3(targetX * 0.1, targetY * -0.1, 0))
+        );
+
+        const tempFocal = new Vector3().copy(this.focalPoint);
+
+        this.instance.lookAt(
+            tempFocal.add(new THREE.Vector3(targetX * 0.05, targetY * -0.05, 0))
+        );
     }
 }

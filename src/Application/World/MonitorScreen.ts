@@ -8,6 +8,13 @@ import Sizes from '../Utils/Sizes';
 import Camera from '../Camera';
 import EventEmitter from '../Utils/EventEmitter';
 
+const SCREEN_SIZE = { w: 1280, h: 1024 };
+const IFRAME_PADDING = 64;
+const IFRAME_SIZE = {
+    w: SCREEN_SIZE.w - IFRAME_PADDING,
+    h: SCREEN_SIZE.h - IFRAME_PADDING,
+};
+
 export default class MonitorScreen extends EventEmitter {
     application: Application;
     scene: THREE.Scene;
@@ -20,6 +27,9 @@ export default class MonitorScreen extends EventEmitter {
     position: THREE.Vector3;
     rotation: THREE.Euler;
     camera: Camera;
+    prevInComputer: boolean;
+    inComputer: boolean;
+    dimmingPlane: THREE.Mesh;
 
     constructor() {
         super();
@@ -28,15 +38,37 @@ export default class MonitorScreen extends EventEmitter {
         this.cssScene = this.application.cssScene;
         this.sizes = this.application.sizes;
         this.resources = this.application.resources;
-        this.screenSize = new THREE.Vector2(1280, 1024);
+        this.screenSize = new THREE.Vector2(SCREEN_SIZE.w, SCREEN_SIZE.h);
         this.camera = this.application.camera;
-        this.position = new THREE.Vector3(0, 940, 235);
+        this.position = new THREE.Vector3(0, 950, 275);
         this.rotation = new THREE.Euler(-3 * THREE.MathUtils.DEG2RAD, 0, 0);
 
         // Create screen
+        this.initializeScreenEvents();
         this.createIframe();
         const maxOffset = this.createTextureLayers();
         this.createEnclosingPlanes(maxOffset);
+        this.createPerspectiveDimmer(maxOffset);
+    }
+
+    initializeScreenEvents() {
+        document.addEventListener(
+            'mousemove',
+            (event) => {
+                // @ts-ignore
+                this.inComputer = event.inComputer;
+
+                if (this.inComputer && !this.prevInComputer) {
+                    this.camera.trigger('enterMonitor');
+                }
+
+                if (!this.inComputer && this.prevInComputer) {
+                    this.camera.trigger('leftMonitor');
+                }
+                this.prevInComputer = this.inComputer;
+            },
+            false
+        );
     }
 
     /**
@@ -47,7 +79,10 @@ export default class MonitorScreen extends EventEmitter {
         const container = document.createElement('div');
         container.style.width = this.screenSize.width + 'px';
         container.style.height = this.screenSize.height + 'px';
+        container.style.paddingTop = IFRAME_PADDING + 'px';
+        container.style.paddingLeft = IFRAME_PADDING + 'px';
         container.style.opacity = '1';
+        container.style.background = '#1d2e2f';
 
         // Create iframe
         const iframe = document.createElement('iframe');
@@ -56,26 +91,41 @@ export default class MonitorScreen extends EventEmitter {
         iframe.onload = () => {
             console.log('iframe loaded');
             if (iframe.contentWindow) {
-                iframe.contentWindow.addEventListener('mousemove', (event) => {
-                    var clRect = iframe.getBoundingClientRect();
+                window.addEventListener('message', (event) => {
                     var evt = new CustomEvent('mousemove', {
                         bubbles: true,
                         cancelable: false,
                     });
+                    var clRect = iframe.getBoundingClientRect();
+
+                    const { top, left, width, height } = clRect;
+
+                    const widthRatio = width / IFRAME_SIZE.w;
+                    const heightRatio = height / IFRAME_SIZE.h;
+
+                    // @ts-ignore
+                    evt.clientX = Math.round(
+                        event.data.clientX * widthRatio + left
+                    );
+
                     //@ts-ignore
-                    evt.clientX = event.clientX + clRect.left;
-                    //@ts-ignore
-                    evt.clientY = event.clientY - clRect.top;
+                    evt.clientY = Math.round(
+                        event.data.clientY * heightRatio + top
+                    );
+                    // @ts-ignore
+                    evt.inComputer = true;
                     iframe.dispatchEvent(evt);
                 });
             }
         };
 
         // Set iframe attributes
-        iframe.src = './html/innerIndex.html';
-        iframe.style.width = this.screenSize.width + 'px';
-        iframe.style.height = this.screenSize.height + 'px';
+        iframe.src = 'http://localhost:3000/';
+        iframe.style.width = IFRAME_SIZE.w + 'px';
+        iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';
+        iframe.className = 'jitter';
+        iframe.frameBorder = '0';
 
         // Add iframe to container
         container.appendChild(iframe);
@@ -136,8 +186,14 @@ export default class MonitorScreen extends EventEmitter {
         const video = document.getElementById('video');
         const videoTexture = new THREE.VideoTexture(video as HTMLVideoElement);
 
+        // Create video texture from the document
+        const video2 = document.getElementById('video2');
+        const videoTexture2 = new THREE.VideoTexture(
+            video2 as HTMLVideoElement
+        );
+
         // Scale factor to multiply depth offset by
-        const scaleFactor = 5;
+        const scaleFactor = 4;
 
         // Construct the texture layers
         const layers = {
@@ -146,12 +202,6 @@ export default class MonitorScreen extends EventEmitter {
                 blending: THREE.AdditiveBlending,
                 opacity: 0.1,
                 offset: 24,
-            },
-            frame: {
-                texture: textures.monitorFrameTexture,
-                blending: THREE.NormalBlending,
-                opacity: 1,
-                offset: 25,
             },
             innerShadow: {
                 texture: textures.monitorShadowTexture,
@@ -177,6 +227,12 @@ export default class MonitorScreen extends EventEmitter {
                 opacity: 0.5,
                 offset: 1,
             },
+            // video2: {
+            //     texture: videoTexture2,
+            //     blending: THREE.AdditiveBlending,
+            //     opacity: 0.1,
+            //     offset: 20,
+            // },
         };
 
         // Declare max offset
@@ -311,7 +367,7 @@ export default class MonitorScreen extends EventEmitter {
     createEnclosingPlane(plane: EnclosingPlane) {
         const material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
-            color: 0x000000,
+            color: 0x48493f,
         });
 
         const geometry = new THREE.PlaneGeometry(plane.size.x, plane.size.y);
@@ -319,6 +375,35 @@ export default class MonitorScreen extends EventEmitter {
 
         mesh.position.copy(plane.position);
         mesh.rotation.copy(plane.rotation);
+
+        this.scene.add(mesh);
+    }
+
+    createPerspectiveDimmer(maxOffset: number) {
+        const material = new THREE.MeshBasicMaterial({
+            side: THREE.DoubleSide,
+            color: 0x000000,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+        });
+
+        const plane = new THREE.PlaneGeometry(
+            this.screenSize.width,
+            this.screenSize.height
+        );
+
+        const mesh = new THREE.Mesh(plane, material);
+
+        mesh.position.copy(
+            this.offsetPosition(
+                this.position,
+                new THREE.Vector3(0, 0, maxOffset - 2)
+            )
+        );
+
+        mesh.rotation.copy(this.rotation);
+
+        this.dimmingPlane = mesh;
 
         this.scene.add(mesh);
     }
@@ -334,5 +419,22 @@ export default class MonitorScreen extends EventEmitter {
         newPosition.copy(position);
         newPosition.add(offset);
         return newPosition;
+    }
+
+    update() {
+        if (this.dimmingPlane) {
+            const planeNormal = new THREE.Vector3(0, 0, 1);
+            const viewVector = new THREE.Vector3();
+            viewVector.copy(this.camera.position);
+            viewVector.sub(this.position);
+            viewVector.normalize();
+
+            const dot = viewVector.dot(planeNormal);
+
+            // @ts-ignore
+            this.dimmingPlane.material.opacity = (1 - dot) * 1.7;
+
+            console.log(dot);
+        }
     }
 }

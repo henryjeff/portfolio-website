@@ -3,9 +3,6 @@ import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import Application from './Application';
 import Sizes from './Utils/Sizes';
 import Camera from './Camera';
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 export default class Renderer {
     application: Application;
@@ -16,7 +13,6 @@ export default class Renderer {
     camera: Camera;
     instance: THREE.WebGLRenderer;
     cssInstance: CSS3DRenderer;
-    composer: EffectComposer;
 
     constructor() {
         this.application = new Application();
@@ -38,9 +34,7 @@ export default class Renderer {
         // this.instance.physicallyCorrectLights = true;
         this.instance.outputEncoding = THREE.sRGBEncoding;
         this.instance.toneMapping = THREE.CineonToneMapping;
-        // this.instance.toneMappingExposure = 1.1;
-        // this.instance.shadowMap.enabled = true;
-        // this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.instance.toneMappingExposure = 1;
         this.instance.setSize(this.sizes.width, this.sizes.height);
         this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
         this.instance.domElement.style.position = 'absolute';

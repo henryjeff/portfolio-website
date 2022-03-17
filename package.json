@@ -8,6 +8,8 @@
   "dependencies": {
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
+    "@tweenjs/tween.js": "^18.6.4",
+    "@types/tweenjs": "^1.0.4",
     "babel-loader": "^8.2.3",
     "camera-controls": "^1.34.2",
     "clean-webpack-plugin": "^4.0.0",
