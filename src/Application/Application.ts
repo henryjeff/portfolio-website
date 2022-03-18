@@ -13,6 +13,7 @@ import Resources from './Utils/Resources';
 import sources from './sources';
 
 import Stats from 'stats.js';
+import Loading from './Utils/Loading';
 
 let instance: Application | null = null;
 
@@ -27,6 +28,7 @@ export default class Application {
     camera: Camera;
     renderer: Renderer;
     world: World;
+    loading: Loading;
     stats: any;
 
     constructor(_canvas?: HTMLElement) {
@@ -39,7 +41,7 @@ export default class Application {
 
         // Global access
         //@ts-ignore
-        window.Application = this;
+        // window.Application = this;
 
         // Options
         if (_canvas) {
@@ -48,7 +50,7 @@ export default class Application {
         // Setup
         this.debug = new Debug();
         this.sizes = new Sizes();
-        // console.log(this.sizes);
+        this.loading = new Loading();
         this.time = new Time();
         this.scene = new THREE.Scene();
         this.cssScene = new THREE.Scene();
