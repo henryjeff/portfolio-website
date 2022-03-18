@@ -19,27 +19,22 @@ const sources: Resource[] = [
     {
         name: 'monitorTexture',
         type: 'texture',
-        path: 'models/Monitor/monitor_baked_altered.png',
+        path: 'models/Monitor/monitor_baked_altered.jpg',
     },
     {
         name: 'monitorSmudgeTexture',
         type: 'texture',
-        path: 'textures/monitor/smudges.png',
-    },
-    {
-        name: 'monitorDustTexture',
-        type: 'texture',
-        path: 'textures/monitor/dust.png',
+        path: 'textures/monitor/layers/compressed/smudges.jpg',
     },
     {
         name: 'monitorShadowTexture',
         type: 'texture',
-        path: 'textures/monitor/shadow.png',
+        path: 'textures/monitor/layers/compressed/shadow-compressed.png',
     },
     {
         name: 'monitorReflectionTexture',
         type: 'texture',
-        path: 'textures/monitor/reflection.png',
+        path: 'textures/monitor/layers/compressed/reflection-compressed.png',
     },
 ];
 
