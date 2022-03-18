@@ -30,6 +30,7 @@ export default class MonitorScreen extends EventEmitter {
     prevInComputer: boolean;
     inComputer: boolean;
     dimmingPlane: THREE.Mesh;
+    videoTexture: THREE.VideoTexture;
 
     constructor() {
         super();
@@ -182,15 +183,16 @@ export default class MonitorScreen extends EventEmitter {
     createTextureLayers() {
         const textures = this.resources.items.texture;
 
+        this.getVideoTextures();
         // Create video texture from the document
-        const video = document.getElementById('video');
-        const videoTexture = new THREE.VideoTexture(video as HTMLVideoElement);
+        // const video = document.getElementById('video');
+        // const videoTexture = new THREE.VideoTexture(video as HTMLVideoElement);
 
-        // Create video texture from the document
-        const video2 = document.getElementById('video2');
-        const videoTexture2 = new THREE.VideoTexture(
-            video2 as HTMLVideoElement
-        );
+        // // Create video texture from the document
+        // const video2 = document.getElementById('video2');
+        // const videoTexture2 = new THREE.VideoTexture(
+        //     video2 as HTMLVideoElement
+        // );
 
         // Scale factor to multiply depth offset by
         const scaleFactor = 4;
@@ -209,12 +211,6 @@ export default class MonitorScreen extends EventEmitter {
                 opacity: 1,
                 offset: 3,
             },
-            dust: {
-                texture: textures.monitorDustTexture,
-                blending: THREE.AdditiveBlending,
-                opacity: 0.1,
-                offset: 1,
-            },
             reflection: {
                 texture: textures.monitorReflectionTexture,
                 blending: THREE.AdditiveBlending,
@@ -222,7 +218,7 @@ export default class MonitorScreen extends EventEmitter {
                 offset: 24,
             },
             video: {
-                texture: videoTexture,
+                texture: this.videoTexture,
                 blending: THREE.AdditiveBlending,
                 opacity: 0.5,
                 offset: 1,
@@ -253,6 +249,19 @@ export default class MonitorScreen extends EventEmitter {
 
         // Return the max offset
         return maxOffset;
+    }
+
+    getVideoTextures() {
+        const video = document.getElementById('video');
+        if (!video) {
+            setTimeout(() => {
+                this.getVideoTextures();
+            }, 100);
+        } else {
+            this.videoTexture = new THREE.VideoTexture(
+                video as HTMLVideoElement
+            );
+        }
     }
 
     /**
@@ -397,7 +406,7 @@ export default class MonitorScreen extends EventEmitter {
         mesh.position.copy(
             this.offsetPosition(
                 this.position,
-                new THREE.Vector3(0, 0, maxOffset - 2)
+                new THREE.Vector3(0, 0, maxOffset - 5)
             )
         );
 
