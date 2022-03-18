@@ -121,7 +121,10 @@ export default class MonitorScreen extends EventEmitter {
         };
 
         // Set iframe attributes
-        iframe.src = 'http://localhost:3000/';
+        // DEV
+        // iframe.src = 'http://localhost:3000/';
+        // PROD
+        iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';
