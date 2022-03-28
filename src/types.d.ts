@@ -1,5 +1,9 @@
 type Resource = TextureResource | CubeTextureResource | ModelResource;
 
+declare interface StyleSheetCSS {
+    [key: string]: React.CSSProperties;
+}
+
 type TextureResource = {
     name: string;
     type: 'texture';
