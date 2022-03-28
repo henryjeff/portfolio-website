@@ -30,7 +30,7 @@ export default class MonitorScreen extends EventEmitter {
     prevInComputer: boolean;
     inComputer: boolean;
     dimmingPlane: THREE.Mesh;
-    videoTexture: THREE.VideoTexture;
+    videoTextures: { [key in string]: THREE.VideoTexture };
 
     constructor() {
         super();
@@ -41,8 +41,9 @@ export default class MonitorScreen extends EventEmitter {
         this.resources = this.application.resources;
         this.screenSize = new THREE.Vector2(SCREEN_SIZE.w, SCREEN_SIZE.h);
         this.camera = this.application.camera;
-        this.position = new THREE.Vector3(0, 950, 275);
+        this.position = new THREE.Vector3(0, 950, 255);
         this.rotation = new THREE.Euler(-3 * THREE.MathUtils.DEG2RAD, 0, 0);
+        this.videoTextures = {};
 
         // Create screen
         this.initializeScreenEvents();
@@ -186,16 +187,8 @@ export default class MonitorScreen extends EventEmitter {
     createTextureLayers() {
         const textures = this.resources.items.texture;
 
-        this.getVideoTextures();
-        // Create video texture from the document
-        // const video = document.getElementById('video');
-        // const videoTexture = new THREE.VideoTexture(video as HTMLVideoElement);
-
-        // // Create video texture from the document
-        // const video2 = document.getElementById('video2');
-        // const videoTexture2 = new THREE.VideoTexture(
-        //     video2 as HTMLVideoElement
-        // );
+        this.getVideoTextures('video-1');
+        this.getVideoTextures('video-2');
 
         // Scale factor to multiply depth offset by
         const scaleFactor = 4;
@@ -212,26 +205,26 @@ export default class MonitorScreen extends EventEmitter {
                 texture: textures.monitorShadowTexture,
                 blending: THREE.NormalBlending,
                 opacity: 1,
-                offset: 3,
+                offset: 5,
             },
-            reflection: {
-                texture: textures.monitorReflectionTexture,
-                blending: THREE.AdditiveBlending,
-                opacity: 0.6,
-                offset: 24,
-            },
+            // reflection: {
+            //     texture: textures.monitorReflectionTexture,
+            //     blending: THREE.AdditiveBlending,
+            //     opacity: 0.6,
+            //     offset: 24,
+            // },
             video: {
-                texture: this.videoTexture,
+                texture: this.videoTextures['video-1'],
                 blending: THREE.AdditiveBlending,
                 opacity: 0.5,
-                offset: 1,
+                offset: 10,
             },
-            // video2: {
-            //     texture: videoTexture2,
-            //     blending: THREE.AdditiveBlending,
-            //     opacity: 0.1,
-            //     offset: 20,
-            // },
+            video2: {
+                texture: this.videoTextures['video-2'],
+                blending: THREE.AdditiveBlending,
+                opacity: 0.1,
+                offset: 15,
+            },
         };
 
         // Declare max offset
@@ -254,14 +247,14 @@ export default class MonitorScreen extends EventEmitter {
         return maxOffset;
     }
 
-    getVideoTextures() {
-        const video = document.getElementById('video');
+    getVideoTextures(videoId: string) {
+        const video = document.getElementById(videoId);
         if (!video) {
             setTimeout(() => {
-                this.getVideoTextures();
+                this.getVideoTextures(videoId);
             }, 100);
         } else {
-            this.videoTexture = new THREE.VideoTexture(
+            this.videoTextures[videoId] = new THREE.VideoTexture(
                 video as HTMLVideoElement
             );
         }
@@ -437,14 +430,26 @@ export default class MonitorScreen extends EventEmitter {
         if (this.dimmingPlane) {
             const planeNormal = new THREE.Vector3(0, 0, 1);
             const viewVector = new THREE.Vector3();
-            viewVector.copy(this.camera.position);
+            viewVector.copy(this.camera.instance.position);
             viewVector.sub(this.position);
             viewVector.normalize();
 
             const dot = viewVector.dot(planeNormal);
 
+            // calculate the distance from the camera vector to the plane vector
+            const dimPos = this.dimmingPlane.position;
+            const camPos = this.camera.instance.position;
+
+            const distance = Math.sqrt(
+                (camPos.x - dimPos.x) ** 2 +
+                    (camPos.y - dimPos.y) ** 2 +
+                    (camPos.z - dimPos.z) ** 2
+            );
+
+            const opacity = 1 / (distance / 2200);
+
             // @ts-ignore
-            this.dimmingPlane.material.opacity = (1 - dot) * 1.7;
+            this.dimmingPlane.material.opacity = (1 - opacity) * (1 - dot);
         }
     }
 }

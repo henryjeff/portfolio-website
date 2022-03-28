@@ -3,7 +3,7 @@ import Application from '../Application';
 import BakedModel from '../Utils/BakedModel';
 import Resources from '../Utils/Resources';
 
-export default class Environment {
+export default class Furniture {
     application: Application;
     scene: THREE.Scene;
     resources: Resources;
@@ -20,8 +20,8 @@ export default class Environment {
 
     bakeModel() {
         this.bakedModel = new BakedModel(
-            this.resources.items.gltfModel.environmentModel,
-            this.resources.items.texture.environmentTexture,
+            this.resources.items.gltfModel.decorModel,
+            this.resources.items.texture.decorTexture,
             900
         );
     }
@@ -29,6 +29,4 @@ export default class Environment {
     setModel() {
         this.scene.add(this.bakedModel.getModel());
     }
-
-    update() {}
 }
