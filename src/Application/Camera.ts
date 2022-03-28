@@ -47,6 +47,7 @@ export default class Camera extends EventEmitter {
             this.moveTo(this.keyframes.monitor, 1000);
         });
 
+        // this.moveThroughKeyframes();
         this.setInstance();
         this.setDebug();
     }
@@ -70,10 +71,10 @@ export default class Camera extends EventEmitter {
 
     setInstance() {
         this.instance = new THREE.PerspectiveCamera(
-            50,
+            35,
             this.sizes.width / this.sizes.height,
-            1,
-            10000
+            10,
+            900000
         );
 
         this.instance.position.copy(this.position);
@@ -108,17 +109,31 @@ export default class Camera extends EventEmitter {
 
         const tempPos = new Vector3().copy(this.position);
 
-        const targetX = this.mouse.x - this.sizes.width / 2;
-        const targetY = this.mouse.y - this.sizes.height / 2;
+        // const targetX = this.mouse.x - this.sizes.width / 2;
+        // const targetY = this.mouse.y - this.sizes.height / 2;
 
-        this.instance.position.copy(
-            tempPos.add(new THREE.Vector3(targetX * 0.1, targetY * -0.1, 0))
-        );
+        // get current time
+        // const time = Date.now();
 
-        const tempFocal = new Vector3().copy(this.focalPoint);
+        // set x and z to rotate around the x and y axis
+        // const x = Math.sin(time * 0.001) * tempPos.x;
+        // const z = Math.cos(time * 0.001) * tempPos.z;
 
-        this.instance.lookAt(
-            tempFocal.add(new THREE.Vector3(targetX * 0.05, targetY * -0.05, 0))
-        );
+        // set the position of the camera
+        // this.instance.position.set(x, this.instance.position.y, z);
+
+        // this.targetX =
+        // this.instance.position.copy(
+        //     tempPos.add(new THREE.Vector3(targetX * 0.1, targetY * -0.1, 0))
+        // );
+
+        this.instance.position.copy(this.position);
+        this.instance.lookAt(this.focalPoint);
+
+        // const tempFocal = new Vector3().copy(this.focalPoint);
+
+        // this.instance.lookAt(
+        //     tempFocal.add(new THREE.Vector3(targetX * 0.05, targetY * -0.05, 0))
+        // );
     }
 }

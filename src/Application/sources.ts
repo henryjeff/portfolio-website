@@ -1,25 +1,33 @@
 const sources: Resource[] = [
-    // {
-    //   name: "environmentMapTexture",
-    //   type: "cubeTexture",
-    //   path: [
-    //     "textures/environmentMap/px.jpg",
-    //     "textures/environmentMap/nx.jpg",
-    //     "textures/environmentMap/py.jpg",
-    //     "textures/environmentMap/ny.jpg",
-    //     "textures/environmentMap/pz.jpg",
-    //     "textures/environmentMap/nz.jpg",
-    //   ],
-    // },
     {
-        name: 'monitorModel',
+        name: 'computerSetupModel',
         type: 'gltfModel',
-        path: 'models/Monitor/monitor.glb',
+        path: 'models/Computer/computer_setup.gltf',
     },
     {
-        name: 'monitorTexture',
+        name: 'computerSetupTexture',
         type: 'texture',
-        path: 'models/Monitor/monitor_baked_altered.jpg',
+        path: 'models/Computer/baked_computer.jpg',
+    },
+    {
+        name: 'environmentModel',
+        type: 'gltfModel',
+        path: 'models/World/environment.glb',
+    },
+    {
+        name: 'environmentTexture',
+        type: 'texture',
+        path: 'models/World/baked_environment.jpg',
+    },
+    {
+        name: 'decorModel',
+        type: 'gltfModel',
+        path: 'models/Decor/decor.glb',
+    },
+    {
+        name: 'decorTexture',
+        type: 'texture',
+        path: 'models/Decor/baked_decor.jpg',
     },
     {
         name: 'monitorSmudgeTexture',

@@ -31,14 +31,16 @@ export default class Renderer {
             powerPreference: 'high-performance',
         });
         // Settings
-        // this.instance.physicallyCorrectLights = true;
+        this.instance.physicallyCorrectLights = true;
         this.instance.outputEncoding = THREE.sRGBEncoding;
-        this.instance.toneMapping = THREE.CineonToneMapping;
-        this.instance.toneMappingExposure = 1;
+        // this.instance.toneMapping = THREE.CineonToneMapping;
+        // this.instance.toneMappingExposure = 1;
         this.instance.setSize(this.sizes.width, this.sizes.height);
         this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
-        this.instance.domElement.style.position = 'absolute';
         this.instance.setClearColor(0x000000, 0.0);
+
+        // Style
+        this.instance.domElement.style.position = 'absolute';
         this.instance.domElement.style.zIndex = '1px';
         this.instance.domElement.style.top = '0px';
 
