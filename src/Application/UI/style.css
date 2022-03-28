@@ -11,6 +11,11 @@ p {
     color: white;
 }
 
+br {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
 .loading::after {
     display: inline-block;
     animation: dotty steps(1, end) 1s infinite;

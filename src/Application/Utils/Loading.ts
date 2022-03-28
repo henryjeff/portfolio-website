@@ -21,7 +21,9 @@ export default class Loading extends EventEmitter {
             this.progress = loaded / toLoad;
             UIEventBus.dispatch('loadedSource', {
                 sourceName: sourceName,
-                progress: this.progress,
+                progress: loaded / toLoad,
+                toLoad: toLoad,
+                loaded: loaded,
             });
         });
     }

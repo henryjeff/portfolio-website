@@ -7,8 +7,15 @@ import GUI from 'lil-gui';
 import EventEmitter from './Utils/EventEmitter';
 import TWEEN from '@tweenjs/tween.js';
 import keyframes from './cameraKeyframes';
-import { Vector3 } from 'three';
 import Renderer from './Renderer';
+import Resources from './Utils/Resources';
+import UIEventBus from './UI/EventBus';
+
+// create enums for camera states
+export enum CameraState {
+    IDLE = 'idle',
+    MONITOR_LOCK = 'monitorLock',
+}
 
 export default class Camera extends EventEmitter {
     application: Application;
@@ -19,11 +26,17 @@ export default class Camera extends EventEmitter {
     debug: Debug;
     renderer: Renderer;
     debugFolder: GUI;
+    resources: Resources;
     mouse: THREE.Vector2;
     position: THREE.Vector3;
     focalPoint: THREE.Vector3;
     keyframes: CameraKeyframes;
     debugParams: { lockedCamera: boolean };
+    state: {
+        next: CameraState;
+        current: CameraState;
+        moving: boolean;
+    };
 
     constructor() {
         super();
@@ -31,39 +44,61 @@ export default class Camera extends EventEmitter {
         this.sizes = this.application.sizes;
         this.scene = this.application.scene;
         this.renderer = this.application.renderer;
+        this.resources = this.application.resources;
         this.debug = this.application.debug;
         this.keyframes = keyframes;
         this.mouse = new THREE.Vector2(0, 0);
 
-        this.position = new THREE.Vector3().copy(this.keyframes.start.position);
+        this.state = {
+            next: CameraState.IDLE,
+            current: CameraState.IDLE,
+            moving: false,
+        };
+        this.position = new THREE.Vector3().copy(
+            this.keyframes.loading.position
+        );
         this.focalPoint = new THREE.Vector3().copy(
-            this.keyframes.start.focalPoint
+            this.keyframes.loading.focalPoint
         );
 
-        this.on('leftMonitor', () => {
-            this.moveTo(this.keyframes.start, 1000);
+        UIEventBus.on('loadingScreenDone', () => {
+            this.tweenTo(
+                this.keyframes.start,
+                2200,
+                TWEEN.Easing.Exponential.Out
+            );
         });
 
-        this.on('enterMonitor', () => {
-            this.moveTo(this.keyframes.monitor, 1000);
-        });
+        // this.on('leftMonitor', () => {
+        // this.moveTo(this.keyframes.start, 1000);
+        // });
+
+        // this.on('enterMonitor', () => {
+        // this.moveTo(this.keyframes.monitor, 1000);
+        // });
 
         this.setInstance();
         this.setDebug();
     }
 
-    moveTo(keyframe: CameraKeyframe, duration: number = 1000) {
+    tweenTo(keyframe: CameraKeyframe, duration: number = 1000, easing?: any) {
+        if (this.state.moving) return;
+        this.state.moving = true;
+
         const tweenPos = new TWEEN.Tween(this.position).to(
             keyframe.position,
             duration
         );
-        const tweenFoc = new TWEEN.Tween(this.focalPoint).to(
-            keyframe.focalPoint,
-            duration
-        );
+        const that = this;
 
-        tweenPos.easing(TWEEN.Easing.Exponential.InOut);
-        tweenFoc.easing(TWEEN.Easing.Exponential.InOut);
+        const tweenFoc = new TWEEN.Tween(this.focalPoint)
+            .to(keyframe.focalPoint, duration)
+            .onComplete(() => {
+                that.state.moving = false;
+            });
+
+        tweenPos.easing(easing || TWEEN.Easing.Exponential.InOut);
+        tweenFoc.easing(easing || TWEEN.Easing.Exponential.InOut);
 
         tweenPos.start();
         tweenFoc.start();
@@ -101,22 +136,27 @@ export default class Camera extends EventEmitter {
         this.instance.lookAt(this.focalPoint);
         this.scene.add(this.instance);
 
-        document.addEventListener(
-            'mousemove',
-            (event) => this.onMouseMove(event),
-            false
-        );
+        // add document listener for mouse click
+        document.addEventListener('mousedown', this.toggleState.bind(this));
+    }
+
+    toggleState() {
+        console.log(this.state.moving);
+        if (!this.state.moving) {
+            if (this.state.current === CameraState.IDLE) {
+                this.state.current = CameraState.MONITOR_LOCK;
+                this.tweenTo(this.keyframes.monitor, 1000);
+            } else {
+                this.state.current = CameraState.IDLE;
+                this.tweenTo(this.keyframes.start, 1000);
+            }
+        }
     }
 
     setDebug() {
         if (this.debug.active) {
             this.debugFolder = this.debug.ui.addFolder('Camera');
         }
-    }
-
-    onMouseMove(event: MouseEvent) {
-        this.mouse.x = event.clientX;
-        this.mouse.y = event.clientY;
     }
 
     resize() {
@@ -127,28 +167,27 @@ export default class Camera extends EventEmitter {
     update() {
         TWEEN.update();
 
-        const tempPos = new Vector3().copy(this.position);
-
         // const targetX = this.mouse.x - this.sizes.width / 2;
         // const targetY = this.mouse.y - this.sizes.height / 2;
 
         // get current time
-        const time = Date.now();
 
         // set x and z to rotate around the x and y axis
-        const x = Math.sin(time * 0.0002) * tempPos.x;
-        const y = (Math.sin(time * 0.0001) * tempPos.y) / 2 + tempPos.y;
 
         // console.log(z);
 
         // set the position of the camera
+        // const tempPos = new Vector3().copy(this.position);
+        // const time = Date.now();
+        // const x = Math.sin(time * 0.0002) * tempPos.x;
+        // const y = (Math.sin(time * 0.0001) * tempPos.y) / 2 + tempPos.y;
 
-        this.instance.position.set(
-            x,
-            // this.instance.position.y,
-            y,
-            this.instance.position.z
-        );
+        // this.instance.position.set(
+        //     x,
+        //     // this.instance.position.y,
+        //     y,
+        //     this.instance.position.z
+        // );
 
         // this.targetX =
         // this.instance.position.copy(
@@ -166,7 +205,7 @@ export default class Camera extends EventEmitter {
 
         // console.log(this.instance.position);
 
-        // this.instance.position.copy(this.position);
+        this.instance.position.copy(this.position);
         this.instance.lookAt(this.focalPoint);
 
         // const tempFocal = new Vector3().copy(this.focalPoint);

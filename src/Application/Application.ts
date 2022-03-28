@@ -55,7 +55,6 @@ export default class Application {
         this.resources = new Resources(sources);
         this.camera = new Camera();
         this.renderer = new Renderer();
-        this.camera.setOrbitControls();
         this.world = new World();
 
         this.ui = new UI();
@@ -111,7 +110,6 @@ export default class Application {
             }
         });
 
-        this.camera.controls.dispose();
         this.renderer.instance.dispose();
 
         if (this.debug.active) this.debug.ui.destroy();

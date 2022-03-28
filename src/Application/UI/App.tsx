@@ -6,6 +6,7 @@ import './style.css';
 const App = () => (
     <div id="ui-app">
         <LoadingScreen />
+        {/* <button>HEllo</button> */}
     </div>
 );
 
