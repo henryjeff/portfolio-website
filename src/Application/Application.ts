@@ -20,7 +20,6 @@ import UI from './UI';
 let instance: Application | null = null;
 
 export default class Application {
-    canvas: HTMLElement;
     debug: Debug;
     sizes: Sizes;
     time: Time;
@@ -34,7 +33,7 @@ export default class Application {
     ui: UI;
     stats: any;
 
-    constructor(_canvas?: HTMLElement) {
+    constructor() {
         // Singleton
         if (instance) {
             return instance;
@@ -46,10 +45,6 @@ export default class Application {
         //@ts-ignore
         // window.Application = this;
 
-        // Options
-        if (_canvas) {
-            this.canvas = _canvas;
-        }
         // Setup
         this.debug = new Debug();
         this.sizes = new Sizes();

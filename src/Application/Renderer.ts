@@ -6,7 +6,6 @@ import Camera from './Camera';
 
 export default class Renderer {
     application: Application;
-    canvas: HTMLElement;
     sizes: Sizes;
     scene: THREE.Scene;
     cssScene: THREE.Scene;

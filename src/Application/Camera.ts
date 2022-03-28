@@ -14,7 +14,6 @@ export default class Camera extends EventEmitter {
     application: Application;
     sizes: Sizes;
     scene: THREE.Scene;
-    canvas: HTMLElement;
     instance: THREE.PerspectiveCamera;
     controls: OrbitControls;
     debug: Debug;
@@ -31,7 +30,6 @@ export default class Camera extends EventEmitter {
         this.application = new Application();
         this.sizes = this.application.sizes;
         this.scene = this.application.scene;
-        this.canvas = this.application.canvas;
         this.renderer = this.application.renderer;
         this.debug = this.application.debug;
         this.keyframes = keyframes;
@@ -77,7 +75,6 @@ export default class Camera extends EventEmitter {
         //     this.instance,
         //     this.application.renderer.instance.domElement
         // );
-        // // console.log(this.application.canvas);
         // this.controls.enableDamping = true;
         // this.controls.dampingFactor = 0.1;
         // this.controls.enableZoom = false;
