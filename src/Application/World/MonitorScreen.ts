@@ -206,12 +206,6 @@ export default class MonitorScreen extends EventEmitter {
                 opacity: 1,
                 offset: 5,
             },
-            // reflection: {
-            //     texture: textures.monitorReflectionTexture,
-            //     blending: THREE.AdditiveBlending,
-            //     opacity: 0.6,
-            //     offset: 24,
-            // },
             video: {
                 texture: this.videoTextures['video-1'],
                 blending: THREE.AdditiveBlending,
