@@ -28,12 +28,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             );
         });
 
-        setTimeout(() => {
-            setShowBiosInfo(true);
-        }, 500);
+        setShowBiosInfo(true);
         setTimeout(() => {
             setShowLoadingResources(true);
-        }, 900);
+        }, 1000);
     }, []);
 
     useEffect(() => {
@@ -42,7 +40,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             setTimeout(() => {
                 setOverlayOpacity(0);
                 eventBus.dispatch('loadingScreenDone', {});
-            }, 1000);
+            }, 1500);
         }
     }, [progress]);
 
@@ -94,12 +92,13 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             </div>
             <div style={styles.body}>
                 <p>HSP S13 2000-2022 Special UC131S</p>
-                <br />
+                <div style={styles.spacer} />
                 {showBiosInfo && (
                     <>
                         <p>HSP Showcase(tm) XX 113</p>
                         <p>Checking RAM : {14000} OK</p>
-                        <br />
+                        <div style={styles.spacer} />
+                        <div style={styles.spacer} />
                         {showLoadingResources ? (
                             progress == 1 ? (
                                 <p>FINISHED LOADING RESOURCES</p>
@@ -114,21 +113,21 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         )}
                     </>
                 )}
-                <br />
+                <div style={styles.spacer} />
                 <div style={styles.resourcesLoadingList}>
                     {showLoadingResources &&
                         resourcesLoaded.map((resource) => (
                             <p key={resource}>{resource}</p>
                         ))}
                 </div>
-                <br />
+                <div style={styles.spacer} />
                 {showLoadingResources && doneLoading && (
                     <p>
                         All Content Loaded, launching{' '}
                         <b>'Henry Heffernan Portfolio Showcase'</b> V1.0
                     </p>
                 )}
-                <br />
+                <div style={styles.spacer} />
             </div>
             <div style={styles.footer}>
                 <p>
@@ -151,10 +150,24 @@ const styles: StyleSheetCSS = {
         justifyContent: 'space-between',
         alignItems: 'center',
         transition: 'opacity 0.2s, transform 0.2s',
+        MozTransition: 'opacity 0.2s, transform 0.2s',
+        WebkitTransition: 'opacity 0.2s, transform 0.2s',
+        OTransition: 'opacity 0.2s, transform 0.2s',
+        msTransition: 'opacity 0.2s, transform 0.2s',
+
         transitionTimingFunction: 'ease-in-out',
+        MozTransitionTimingFunction: 'ease-in-out',
+        WebkitTransitionTimingFunction: 'ease-in-out',
+        OTransitionTimingFunction: 'ease-in-out',
+        msTransitionTimingFunction: 'ease-in-out',
+
         boxSizing: 'border-box',
         fontSize: 16,
         letterSpacing: 0.8,
+    },
+
+    spacer: {
+        height: 16,
     },
     header: {
         width: '100%',
