@@ -2,7 +2,6 @@ import TWEEN from '@tweenjs/tween.js';
 import * as THREE from 'three';
 import Application from '../Application';
 import EventEmitter from './EventEmitter';
-import { gsap } from 'gsap';
 import Resources from './Resources';
 
 export default class Loading extends EventEmitter {
@@ -23,10 +22,8 @@ export default class Loading extends EventEmitter {
         this.scene = this.application.scene;
         this.on('loadedSource', (sourceName, loaded, toLoad) => {
             this.progress = loaded / toLoad;
-            console.log(this.progress);
-            // this.loadingText.textContent = `${sourceName} ${loaded}/${toLoad}`;
             if (this.loadingText) {
-                this.loadingText.innerHTML = `Loading... ${loaded}/${toLoad}`;
+                this.loadingText.innerHTML = `Loading ${sourceName}... ${loaded}/${toLoad}`;
             }
             if (this.loadingBar) {
                 this.loadingBar.style.transform = `scaleX(${this.progress})`;
