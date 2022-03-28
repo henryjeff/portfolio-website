@@ -91,7 +91,6 @@ export default class MonitorScreen extends EventEmitter {
 
         // Bubble mouse move events to the main application, so we can affect the camera
         iframe.onload = () => {
-            console.log('iframe loaded');
             if (iframe.contentWindow) {
                 window.addEventListener('message', (event) => {
                     var evt = new CustomEvent('mousemove', {
@@ -446,10 +445,11 @@ export default class MonitorScreen extends EventEmitter {
                     (camPos.z - dimPos.z) ** 2
             );
 
-            const opacity = 1 / (distance / 2200);
+            const opacity = 1 / (distance / 10000);
 
             // @ts-ignore
-            this.dimmingPlane.material.opacity = (1 - opacity) * (1 - dot);
+            this.dimmingPlane.material.opacity =
+                (1 - opacity) * 0.5 + (1 - dot) * 0.5;
         }
     }
 }

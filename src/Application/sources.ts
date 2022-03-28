@@ -29,11 +29,6 @@ const sources: Resource[] = [
         type: 'texture',
         path: 'models/Decor/baked_decor.jpg',
     },
-    // {
-    //     name: 'coffeeSteamModel',
-    //     type: 'gltfModel',
-    //     path: 'models/Decor/coffee_steam_model.glb',
-    // },
     {
         name: 'monitorSmudgeTexture',
         type: 'texture',
