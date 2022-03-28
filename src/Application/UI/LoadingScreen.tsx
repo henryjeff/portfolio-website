@@ -7,7 +7,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [progress, setProgress] = useState(0);
     const [toLoad, setToLoad] = useState(0);
     const [loaded, setLoaded] = useState(0);
-    const [ram, setRam] = useState(14000);
     const [overlayOpacity, setOverlayOpacity] = useState(1);
 
     const [showBiosInfo, setShowBiosInfo] = useState(false);
@@ -28,11 +27,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 )}... ${Math.round(data.progress * 100)}%`
             );
         });
-        // @ts-ignore
-        const ramLimit = window.performance.memory.jsHeapSizeLimit;
-        if (ramLimit) {
-            setRam(ramLimit);
-        }
 
         setTimeout(() => {
             setShowBiosInfo(true);
@@ -104,7 +98,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 {showBiosInfo && (
                     <>
                         <p>HSP Showcase(tm) XX 113</p>
-                        <p>Checking RAM : {ram} OK</p>
+                        <p>Checking RAM : {14000} OK</p>
                         <br />
                         {showLoadingResources ? (
                             progress == 1 ? (
