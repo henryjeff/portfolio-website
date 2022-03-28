@@ -8,6 +8,7 @@
   "dependencies": {
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
     "@tweenjs/tween.js": "^18.6.4",
     "@types/tweenjs": "^1.0.4",
     "babel-loader": "^8.2.3",
@@ -16,6 +17,9 @@
     "copy-webpack-plugin": "^10.2.4",
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
+    "glslify": "^7.1.1",
+    "glslify-import-loader": "^0.1.2",
+    "glslify-loader": "^2.0.0",
     "gsap": "^3.9.1",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
@@ -24,6 +28,8 @@
     "mini-css-extract-plugin": "^2.5.3",
     "portfinder-sync": "0.0.2",
     "raw-loader": "^4.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "stats.js": "^0.17.0",
     "style-loader": "^3.3.1",
     "three": "^0.137.5",
@@ -35,6 +41,9 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.14",
     "@types/stats.js": "^0.17.0",
     "@types/three": "^0.138.0"
   }

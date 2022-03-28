@@ -4,6 +4,7 @@ import ComputerSetup from './Computer';
 import MonitorScreen from './MonitorScreen';
 import Environment from './Environment';
 import Decor from './Decor';
+import CoffeeSteam from './CoffeeSteam';
 export default class World {
     application: Application;
     scene: THREE.Scene;
@@ -14,6 +15,7 @@ export default class World {
     decor: Decor;
     computerSetup: ComputerSetup;
     monitorScreen: MonitorScreen;
+    coffeeSteam: CoffeeSteam;
 
     constructor() {
         this.application = new Application();
@@ -26,15 +28,13 @@ export default class World {
             this.decor = new Decor();
             this.computerSetup = new ComputerSetup();
             this.monitorScreen = new MonitorScreen();
+            this.coffeeSteam = new CoffeeSteam();
         });
     }
 
     update() {
-        if (this.monitorScreen) {
-            this.monitorScreen.update();
-        }
-        if (this.environment) {
-            this.environment.update();
-        }
+        if (this.monitorScreen) this.monitorScreen.update();
+        if (this.environment) this.environment.update();
+        if (this.coffeeSteam) this.coffeeSteam.update();
     }
 }

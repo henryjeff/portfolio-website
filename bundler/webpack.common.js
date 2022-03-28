@@ -50,7 +50,7 @@ module.exports = {
             },
             // JS
             {
-                test: /\.js$/,
+                test: /\.tsx$/,
                 exclude: /node_modules/,
                 use:
                 [
@@ -86,6 +86,16 @@ module.exports = {
                 {
                     filename: 'assets/fonts/[hash][ext]'
                 }
+            },
+            // Shaders
+            {
+                test: /\.(glsl|vs|fs|vert|frag)$/,
+                exclude: /node_modules/,
+                use: [
+                    'glslify-import-loader',
+                    'raw-loader',
+                    'glslify-loader'
+                ]
             }
         ]
     }

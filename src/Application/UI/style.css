@@ -1,0 +1,36 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    /* font-family: ocr-a-std, monospace; */
+    font-family: monospace;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+}
+
+.loading::after {
+    display: inline-block;
+    animation: dotty steps(1, end) 1s infinite;
+    content: '';
+}
+
+@keyframes dotty {
+    0% {
+        content: '';
+    }
+    25% {
+        content: '.';
+    }
+    50% {
+        content: '..';
+    }
+    75% {
+        content: '...';
+    }
+    100% {
+        content: '';
+    }
+}

@@ -18,7 +18,6 @@ export default class BakedModel {
 
         this.model.scene.traverse((child) => {
             if (child instanceof THREE.Mesh) {
-                console.log(child);
                 if (scale) child.scale.set(scale, scale, scale);
                 child.material.map = this.texture;
                 child.material = this.material;
