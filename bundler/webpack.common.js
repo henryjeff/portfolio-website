@@ -50,7 +50,7 @@ module.exports = {
             },
             // JS
             {
-                test: /\.js$/,
+                test: /\.tsx$/,
                 exclude: /node_modules/,
                 use:
                 [
