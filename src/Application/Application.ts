@@ -57,10 +57,12 @@ export default class Application {
         this.resources = new Resources(sources);
         this.camera = new Camera();
         this.renderer = new Renderer();
+        this.camera.setOrbitControls();
         this.world = new World();
 
         this.stats = new Stats();
         this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+
         document.body.appendChild(this.stats.dom);
 
         // Resize event

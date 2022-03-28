@@ -2,7 +2,7 @@ const sources: Resource[] = [
     {
         name: 'computerSetupModel',
         type: 'gltfModel',
-        path: 'models/Computer/computer_setup.gltf',
+        path: 'models/Computer/computer_setup.glb',
     },
     {
         name: 'computerSetupTexture',
@@ -29,6 +29,11 @@ const sources: Resource[] = [
         type: 'texture',
         path: 'models/Decor/baked_decor.jpg',
     },
+    // {
+    //     name: 'coffeeSteamModel',
+    //     type: 'gltfModel',
+    //     path: 'models/Decor/coffee_steam_model.glb',
+    // },
     {
         name: 'monitorSmudgeTexture',
         type: 'texture',
@@ -38,11 +43,6 @@ const sources: Resource[] = [
         name: 'monitorShadowTexture',
         type: 'texture',
         path: 'textures/monitor/layers/compressed/shadow-compressed.png',
-    },
-    {
-        name: 'monitorReflectionTexture',
-        type: 'texture',
-        path: 'textures/monitor/layers/compressed/reflection-compressed.png',
     },
 ];
 
