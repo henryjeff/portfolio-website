@@ -16,13 +16,11 @@ export default class BakedModel {
             map: this.texture,
         });
 
-        if (this.model.scene.children.length != 1) {
-            console.error("Model has more than one child, Baker can't bake");
-        }
-
         this.model.scene.traverse((child) => {
             if (child instanceof THREE.Mesh) {
+                console.log(child);
                 if (scale) child.scale.set(scale, scale, scale);
+                child.material.map = this.texture;
                 child.material = this.material;
             }
         });
