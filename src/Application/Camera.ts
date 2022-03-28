@@ -141,7 +141,6 @@ export default class Camera extends EventEmitter {
     }
 
     toggleState() {
-        console.log(this.state.moving);
         if (!this.state.moving) {
             if (this.state.current === CameraState.IDLE) {
                 this.state.current = CameraState.MONITOR_LOCK;

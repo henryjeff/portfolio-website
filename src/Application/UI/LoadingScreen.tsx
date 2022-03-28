@@ -7,6 +7,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [progress, setProgress] = useState(0);
     const [toLoad, setToLoad] = useState(0);
     const [loaded, setLoaded] = useState(0);
+    const [ram, setRam] = useState(14000);
     const [overlayOpacity, setOverlayOpacity] = useState(1);
 
     const [showBiosInfo, setShowBiosInfo] = useState(false);
@@ -14,18 +15,25 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [doneLoading, setDoneLoading] = useState(false);
     const [resourcesLoaded] = useState<string[]>([]);
 
+    // @ts-ignore
+
     useEffect(() => {
         eventBus.on('loadedSource', (data) => {
             setProgress(data.progress);
             setToLoad(data.toLoad);
             setLoaded(data.loaded);
-            console.log('NEW DATA: ', data.sourceName);
             resourcesLoaded.push(
                 `Loaded ${data.sourceName}${getSpace(
                     data.sourceName
                 )}... ${Math.round(data.progress * 100)}%`
             );
         });
+        // @ts-ignore
+        const ramLimit = window.performance.memory.jsHeapSizeLimit;
+        if (ramLimit) {
+            setRam(ramLimit);
+        }
+
         setTimeout(() => {
             setShowBiosInfo(true);
         }, 500);
@@ -35,7 +43,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     }, []);
 
     useEffect(() => {
-        console.log(progress, toLoad, loaded);
         if (progress >= 1) {
             setDoneLoading(true);
             setTimeout(() => {
@@ -66,17 +73,17 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         <div
             style={Object.assign({}, styles.overlay, {
                 opacity: overlayOpacity,
-                transform: `scale(${overlayOpacity === 0 ? 1.06 : 1})`,
+                transform: `scale(${overlayOpacity === 0 ? 1.02 : 1})`,
             })}
         >
             <div style={styles.header}>
                 <div style={styles.logoContainer}>
                     {/* add image of logo */}
-                    <img
+                    {/* <img
                         style={styles.logoImage}
                         src={require('../../../static/ui/boot_world.png')}
                         alt="logo"
-                    />
+                    /> */}
                     <div>
                         <p>
                             <b>Heffernan,</b>{' '}
@@ -92,12 +99,12 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 </div>
             </div>
             <div style={styles.body}>
-                <p>BCN SIT 1989-1994 Special UC612C</p>
+                <p>HSP S13 2000-2022 Special UC131S</p>
                 <br />
                 {showBiosInfo && (
                     <>
-                        <p>SIT Rehab(tm) XX 115</p>
-                        <p>Checking RAM : 12000K OK</p>
+                        <p>HSP Showcase(tm) XX 113</p>
+                        <p>Checking RAM : {ram} OK</p>
                         <br />
                         {showLoadingResources ? (
                             progress == 1 ? (
@@ -153,6 +160,7 @@ const styles: StyleSheetCSS = {
         transitionTimingFunction: 'ease-in-out',
         boxSizing: 'border-box',
         fontSize: 16,
+        letterSpacing: 0.8,
     },
     header: {
         width: '100%',
@@ -174,7 +182,6 @@ const styles: StyleSheetCSS = {
         paddingRight: 48,
     },
     logoContainer: {
-        // marginLeft: 64,
         display: 'flex',
         flexDirection: 'row',
     },
@@ -186,7 +193,6 @@ const styles: StyleSheetCSS = {
     logoImage: {
         width: 64,
         height: 42,
-        // backgroundColor: 'red',
         imageRendering: 'pixelated',
         marginRight: 16,
     },

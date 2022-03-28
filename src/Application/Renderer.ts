@@ -3,6 +3,7 @@ import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import Application from './Application';
 import Sizes from './Utils/Sizes';
 import Camera from './Camera';
+import UIEventBus from './UI/EventBus';
 
 export default class Renderer {
     application: Application;
@@ -12,6 +13,7 @@ export default class Renderer {
     camera: Camera;
     instance: THREE.WebGLRenderer;
     cssInstance: CSS3DRenderer;
+    raiseExposure: boolean;
 
     constructor() {
         this.application = new Application();
@@ -21,6 +23,7 @@ export default class Renderer {
         this.camera = this.application.camera;
 
         this.setInstance();
+        // this.setExposureStart();
     }
 
     setInstance() {
@@ -30,10 +33,9 @@ export default class Renderer {
             powerPreference: 'high-performance',
         });
         // Settings
-        this.instance.physicallyCorrectLights = true;
+        // this.instance.physicallyCorrectLights = true;
         this.instance.outputEncoding = THREE.sRGBEncoding;
-        // this.instance.toneMapping = THREE.CineonToneMapping;
-        // this.instance.toneMappingExposure = 1;
+        // this.instance.toneMapping = THREE.CustomToneMapping;
         this.instance.setSize(this.sizes.width, this.sizes.height);
         this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
         this.instance.setClearColor(0x000000, 0.0);
@@ -55,6 +57,13 @@ export default class Renderer {
             ?.appendChild(this.cssInstance.domElement);
     }
 
+    // setExposureStart() {
+    //     this.instance.toneMappingExposure = 0.8;
+    //     UIEventBus.on('loadingScreenDone', () => {
+    //         this.raiseExposure = true;
+    //     });
+    // }
+
     resize() {
         this.instance.setSize(this.sizes.width, this.sizes.height);
         this.instance.setPixelRatio(Math.min(this.sizes.pixelRatio, 2));
@@ -63,7 +72,12 @@ export default class Renderer {
 
     update() {
         this.application.camera.instance.updateProjectionMatrix();
-
+        // if (this.raiseExposure) {
+        //     this.instance.toneMappingExposure += 0.001;
+        //     if (this.instance.toneMappingExposure > 0.7) {
+        //         this.raiseExposure = false;
+        //     }
+        // }
         this.instance.render(this.scene, this.camera.instance);
         this.cssInstance.render(this.cssScene, this.camera.instance);
     }
