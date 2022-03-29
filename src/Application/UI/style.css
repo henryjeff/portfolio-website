@@ -40,3 +40,63 @@ br {
         content: '';
     }
 }
+.blinking-cursor {
+    background-color: #fff;
+    width: 1em;
+    height: 0.2em;
+    -webkit-animation: 0.5s blink step-end infinite;
+    -moz-animation: 0.5s blink step-end infinite;
+    -ms-animation: 0.5s blink step-end infinite;
+    -o-animation: 0.5s blink step-end infinite;
+    animation: 0.5s blink step-end infinite;
+}
+
+@keyframes blink {
+    from,
+    to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: white;
+    }
+}
+
+@-moz-keyframes blink {
+    from,
+    to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: white;
+    }
+}
+
+@-webkit-keyframes blink {
+    from,
+    to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: white;
+    }
+}
+
+@-ms-keyframes blink {
+    from,
+    to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: white;
+    }
+}
+
+@-o-keyframes blink {
+    from,
+    to {
+        background-color: transparent;
+    }
+    50% {
+        background-color: white;
+    }
+}

@@ -76,11 +76,15 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             <div style={styles.header}>
                 <div style={styles.logoContainer}>
                     <div>
-                        <p>
-                            <b>Heffernan,</b>{' '}
+                        <p style={styles.green}>
+                            <i>
+                                <b>Heffernan,</b>{' '}
+                            </i>
                         </p>
-                        <p>
-                            <b>Henry Inc.</b>
+                        <p style={styles.green}>
+                            <i>
+                                <b>Henry Inc.</b>
+                            </i>
                         </p>
                     </div>
                 </div>
@@ -122,13 +126,14 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 {showLoadingResources && doneLoading && (
                     <p>
                         All Content Loaded, launching{' '}
-                        <b style={styles.red}>
+                        <b style={styles.green}>
                             'Henry Heffernan Portfolio Showcase'
                         </b>{' '}
                         V1.0
                     </p>
                 )}
                 <div style={styles.spacer} />
+                <span className="blinking-cursor" />
             </div>
             <div style={styles.footer}>
                 <p>
@@ -180,8 +185,8 @@ const styles: StyleSheetCSS = {
     headerInfo: {
         marginLeft: 64,
     },
-    red: {
-        color: 'lightGreen',
+    green: {
+        color: '#6ba8a9',
     },
     body: {
         flex: 1,
