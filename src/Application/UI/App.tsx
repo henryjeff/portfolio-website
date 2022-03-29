@@ -5,6 +5,7 @@ import './style.css';
 
 const App = () => (
     <div id="ui-app">
+        {/* <ClickToStart /> */}
         <LoadingScreen />
         {/* <button>HEllo</button> */}
     </div>

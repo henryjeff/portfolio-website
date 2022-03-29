@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import eventBus from './EventBus';
 
 type LoadingProps = {};
+
+let resources = '';
 
 const LoadingScreen: React.FC<LoadingProps> = () => {
     const [progress, setProgress] = useState(0);
@@ -12,27 +14,30 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [showBiosInfo, setShowBiosInfo] = useState(false);
     const [showLoadingResources, setShowLoadingResources] = useState(false);
     const [doneLoading, setDoneLoading] = useState(false);
-    const [resourcesLoaded] = useState<string[]>([]);
+    const [counter, setCounter] = useState(0);
+    const [resources] = useState<string[]>([]);
 
-    // @ts-ignore
+    useEffect(() => {
+        setShowBiosInfo(true);
+    }, []);
 
     useEffect(() => {
         eventBus.on('loadedSource', (data) => {
             setProgress(data.progress);
             setToLoad(data.toLoad);
             setLoaded(data.loaded);
-            resourcesLoaded.push(
+            resources.push(
                 `Loaded ${data.sourceName}${getSpace(
                     data.sourceName
-                )}... ${Math.round(data.progress * 100)}%`
+                )} ... ${Math.round(data.progress * 100)}%`
             );
         });
-
-        setShowBiosInfo(true);
-        setTimeout(() => {
-            setShowLoadingResources(true);
-        }, 1000);
     }, []);
+
+    useEffect(() => {
+        setShowLoadingResources(true);
+        setCounter(counter + 1);
+    }, [loaded]);
 
     useEffect(() => {
         if (progress >= 1) {
@@ -70,12 +75,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         >
             <div style={styles.header}>
                 <div style={styles.logoContainer}>
-                    {/* add image of logo */}
-                    {/* <img
-                        style={styles.logoImage}
-                        src={require('../../../static/ui/boot_world.png')}
-                        alt="logo"
-                    /> */}
                     <div>
                         <p>
                             <b>Heffernan,</b>{' '}
@@ -115,16 +114,18 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 )}
                 <div style={styles.spacer} />
                 <div style={styles.resourcesLoadingList}>
-                    {showLoadingResources &&
-                        resourcesLoaded.map((resource) => (
-                            <p key={resource}>{resource}</p>
-                        ))}
+                    {resources.map((sourceName) => (
+                        <p key={sourceName}>{sourceName}</p>
+                    ))}
                 </div>
                 <div style={styles.spacer} />
                 {showLoadingResources && doneLoading && (
                     <p>
                         All Content Loaded, launching{' '}
-                        <b>'Henry Heffernan Portfolio Showcase'</b> V1.0
+                        <b style={styles.red}>
+                            'Henry Heffernan Portfolio Showcase'
+                        </b>{' '}
+                        V1.0
                     </p>
                 )}
                 <div style={styles.spacer} />
@@ -179,6 +180,9 @@ const styles: StyleSheetCSS = {
     headerInfo: {
         marginLeft: 64,
     },
+    red: {
+        color: 'lightGreen',
+    },
     body: {
         flex: 1,
         display: 'flex',
@@ -194,7 +198,8 @@ const styles: StyleSheetCSS = {
     },
     resourcesLoadingList: {
         display: 'flex',
-        paddingLeft: 24,
+        paddingLeft: 32,
+        paddingBottom: 32,
         flexDirection: 'column',
     },
     logoImage: {
