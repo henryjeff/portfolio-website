@@ -5,6 +5,8 @@ import MonitorScreen from './MonitorScreen';
 import Environment from './Environment';
 import Decor from './Decor';
 import CoffeeSteam from './CoffeeSteam';
+import Cursor from './Cursor';
+import Hitboxes from './Hitboxes';
 export default class World {
     application: Application;
     scene: THREE.Scene;
@@ -16,6 +18,7 @@ export default class World {
     computerSetup: ComputerSetup;
     monitorScreen: MonitorScreen;
     coffeeSteam: CoffeeSteam;
+    cursor: Cursor;
 
     constructor() {
         this.application = new Application();
@@ -29,6 +32,8 @@ export default class World {
             this.computerSetup = new ComputerSetup();
             this.monitorScreen = new MonitorScreen();
             this.coffeeSteam = new CoffeeSteam();
+            const hb = new Hitboxes();
+            // this.cursor = new Cursor();
         });
     }
 

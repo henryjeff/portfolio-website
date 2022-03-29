@@ -33,10 +33,6 @@ type CameraKeyframe = {
     focalPoint: THREE.Vector3;
 };
 
-type CameraKeyframes = {
-    [key: string]: CameraKeyframe;
-};
-
 type LoadedResource = LoadedTexture | LoadedCubeTexture | LoadedModel;
 
 type LoadedTexture = THREE.Texture;

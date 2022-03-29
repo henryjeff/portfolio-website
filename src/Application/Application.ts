@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import Debug from './Utils/Debug';
 import Sizes from './Utils/Sizes';
 import Time from './Utils/Time';
-import Camera from './Camera';
+import Camera from './camera/Camera';
 import Renderer from './Renderer';
 
 //@ts-ignore

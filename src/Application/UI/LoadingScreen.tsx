@@ -21,6 +21,8 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
 
     useEffect(() => {
         setShowBiosInfo(true);
+        // DEBUG OVERRIDE
+        // start();
     }, []);
 
     useEffect(() => {
@@ -49,13 +51,18 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 setTimeout(() => {
                     setStartPopupOpacity(1);
                 }, 500);
-            }, 1500);
+            }, 1000);
         }
     }, [progress]);
 
     const start = useCallback(() => {
         setLoadingOverlayOpacity(0);
         eventBus.dispatch('loadingScreenDone', {});
+        const ui = document.getElementById('ui');
+        if (ui) {
+            console.log('OKKK');
+            ui.style.pointerEvents = 'none';
+        }
     }, []);
 
     const getSpace = (sourceName: string) => {

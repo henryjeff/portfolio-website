@@ -5,7 +5,7 @@ import Application from '../Application';
 import Debug from '../Utils/Debug';
 import Resources from '../Utils/Resources';
 import Sizes from '../Utils/Sizes';
-import Camera from '../Camera';
+import Camera from '../camera/Camera';
 import EventEmitter from '../Utils/EventEmitter';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
@@ -122,9 +122,9 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // DEV
-        // iframe.src = 'http://localhost:3000/';
+        iframe.src = 'http://localhost:3000/';
         // PROD
-        iframe.src = 'https://portfolio-inner.vercel.app/';
+        // iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';
@@ -443,7 +443,7 @@ export default class MonitorScreen extends EventEmitter {
 
             // @ts-ignore
             this.dimmingPlane.material.opacity =
-                (1 - opacity) * 0.5 + (1 - dot) * 0.5;
+                (1 - opacity) * 0.7 + (1 - dot) * 0.7;
         }
     }
 }

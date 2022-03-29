@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { CSS3DRenderer } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
 import Application from './Application';
 import Sizes from './Utils/Sizes';
-import Camera from './Camera';
+import Camera from './camera/Camera';
 import UIEventBus from './UI/EventBus';
 
 export default class Renderer {

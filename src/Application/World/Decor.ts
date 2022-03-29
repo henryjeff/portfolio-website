@@ -3,7 +3,7 @@ import Application from '../Application';
 import BakedModel from '../Utils/BakedModel';
 import Resources from '../Utils/Resources';
 
-export default class Furniture {
+export default class Decor {
     application: Application;
     scene: THREE.Scene;
     resources: Resources;
