@@ -137,7 +137,7 @@ export default class Camera extends EventEmitter {
         this.scene.add(this.instance);
 
         // add document listener for mouse click
-        document.addEventListener('mousedown', this.toggleState.bind(this));
+        // document.addEventListener('mousedown', this.toggleState.bind(this));
     }
 
     toggleState() {

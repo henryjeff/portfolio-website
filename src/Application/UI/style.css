@@ -43,7 +43,7 @@ br {
 .blinking-cursor {
     background-color: #fff;
     width: 1em;
-    height: 0.2em;
+    height: 0.15em;
     -webkit-animation: 0.5s blink step-end infinite;
     -moz-animation: 0.5s blink step-end infinite;
     -ms-animation: 0.5s blink step-end infinite;
@@ -99,4 +99,21 @@ br {
     50% {
         background-color: white;
     }
+}
+
+.bios-start-button {
+    background-color: #000;
+    border: 4px solid #fff;
+    border-width: 4px 3px 4px 3px;
+}
+
+.bios-start-button p {
+    box-sizing: border-box;
+    padding: 8px;
+}
+
+.bios-start-button:hover p {
+    background-color: #fff;
+    cursor: pointer;
+    color: #000;
 }
