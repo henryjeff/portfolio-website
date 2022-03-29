@@ -12,12 +12,14 @@ import {
     MonitorKeyframe,
     IdleKeyframe,
     LoadingKeyframe,
+    DeskKeyframe,
 } from './CameraKeyframes';
 
 export enum CameraKey {
     IDLE = 'idle',
     MONITOR = 'monitor',
     LOADING = 'loading',
+    DESK = 'desk',
 }
 export default class Camera extends EventEmitter {
     application: Application;
@@ -51,11 +53,9 @@ export default class Camera extends EventEmitter {
             idle: new IdleKeyframe(),
             monitor: new MonitorKeyframe(),
             loading: new LoadingKeyframe(),
+            desk: new DeskKeyframe(),
         };
 
-        this.setPostLoadTransition();
-        this.setInstance();
-        // add mouse listener
         document.addEventListener('mousedown', (event) => {
             event.preventDefault();
             // print target and current keyframe
@@ -63,14 +63,18 @@ export default class Camera extends EventEmitter {
                 this.currentKeyframe === CameraKey.IDLE ||
                 this.targetKeyframe === CameraKey.IDLE
             ) {
-                this.transition(CameraKey.MONITOR);
+                this.transition(CameraKey.DESK);
             } else if (
-                this.currentKeyframe === CameraKey.MONITOR ||
-                this.targetKeyframe === CameraKey.MONITOR
+                this.currentKeyframe === CameraKey.DESK ||
+                this.targetKeyframe === CameraKey.DESK
             ) {
                 this.transition(CameraKey.IDLE);
             }
         });
+
+        this.setPostLoadTransition();
+        this.setInstance();
+        this.setEventListeners();
     }
 
     transition(key: CameraKey, duration: number = 1000, easing?: any) {
@@ -108,6 +112,22 @@ export default class Camera extends EventEmitter {
         this.currentKeyframe = CameraKey.LOADING;
 
         this.scene.add(this.instance);
+    }
+
+    setEventListeners() {
+        this.on('enterMonitor', () => {
+            const atDesk =
+                this.currentKeyframe === CameraKey.DESK ||
+                this.targetKeyframe === CameraKey.DESK;
+            const easing = atDesk
+                ? TWEEN.Easing.Exponential.Out
+                : TWEEN.Easing.Exponential.InOut;
+            const duration = atDesk ? 1000 : 1500;
+            this.transition(CameraKey.MONITOR, duration, easing);
+        });
+        this.on('leftMonitor', () => {
+            this.transition(CameraKey.DESK);
+        });
     }
 
     setPostLoadTransition() {

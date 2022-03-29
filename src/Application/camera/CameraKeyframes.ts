@@ -1,6 +1,9 @@
 import * as THREE from 'three';
 import { CameraKey } from './Camera';
 import Time from '../Utils/Time';
+import Application from '../Application';
+import Mouse from '../Utils/Mouse';
+import Sizes from '../Utils/Sizes';
 
 export class CameraKeyframeInstance {
     position: THREE.Vector3;
@@ -20,7 +23,11 @@ const keys: { [key in CameraKey]: CameraKeyframe } = {
         focalPoint: new THREE.Vector3(0, -1000, 0),
     },
     monitor: {
-        position: new THREE.Vector3(0, 880, 2700),
+        position: new THREE.Vector3(0, 900, 2200),
+        focalPoint: new THREE.Vector3(0, 900, 0),
+    },
+    desk: {
+        position: new THREE.Vector3(0, 880, 5000),
         focalPoint: new THREE.Vector3(0, 850, 0),
     },
     loading: {
@@ -45,6 +52,35 @@ export class LoadingKeyframe extends CameraKeyframeInstance {
     }
 
     update() {}
+}
+
+export class DeskKeyframe extends CameraKeyframeInstance {
+    origin: THREE.Vector3;
+    application: Application;
+    mouse: Mouse;
+    sizes: Sizes;
+    target: THREE.Vector3;
+
+    constructor() {
+        const keyframe = keys.desk;
+        super(keyframe);
+        this.application = new Application();
+        this.mouse = this.application.mouse;
+        this.sizes = this.application.sizes;
+        // this.origin = new THREE.Vector3().copy(keyframe.position);
+        this.target = new THREE.Vector3().copy(keyframe.focalPoint);
+    }
+
+    update() {
+        // this.position.x = this.origin.x + 0.01;
+        this.target.x +=
+            (this.mouse.x - this.sizes.width / 2 - this.target.x) * 0.02;
+        this.target.y +=
+            (-(this.mouse.y - this.sizes.height) - this.target.y) * 0.02;
+        this.target.z = this.focalPoint.z;
+
+        this.focalPoint.copy(this.target);
+    }
 }
 
 export class IdleKeyframe extends CameraKeyframeInstance {

@@ -5,6 +5,7 @@ import Sizes from './Utils/Sizes';
 import Time from './Utils/Time';
 import Camera from './camera/Camera';
 import Renderer from './Renderer';
+import Mouse from './Utils/Mouse';
 
 //@ts-ignore
 import World from './World/World';
@@ -29,6 +30,7 @@ export default class Application {
     camera: Camera;
     renderer: Renderer;
     world: World;
+    mouse: Mouse;
     loading: Loading;
     ui: UI;
     stats: any;
@@ -48,6 +50,7 @@ export default class Application {
         // Setup
         this.debug = new Debug();
         this.sizes = new Sizes();
+        this.mouse = new Mouse();
         this.loading = new Loading();
         this.time = new Time();
         this.scene = new THREE.Scene();

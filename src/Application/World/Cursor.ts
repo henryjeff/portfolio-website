@@ -25,27 +25,6 @@ export default class Cursor {
             })
         );
 
-        // add event listener to mousemove event to update cursor position
-        // window.addEventListener('mousemove', (event) => {
-        //     event.preventDefault();
-        //     this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        //     this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-        //     // Make the sphere follow the mouse
-        //     var vector = new THREE.Vector3(this.mouse.x, this.mouse.y, 0.5);
-        //     vector.unproject(this.camera.instance);
-        //     var dir = vector.sub(this.camera.instance.position).normalize();
-        //     var distance = -this.camera.instance.position.z / dir.z;
-        //     var pos = this.camera.instance.position
-        //         .clone()
-        //         .add(dir.multiplyScalar(distance));
-
-        //     console.log(pos);
-
-        //     cursor.position.copy(pos);
-        //     cursor.lookAt(this.camera.instance.position);
-        // });
-
         // add the cursor to the scene
         this.scene.add(cursor);
     }

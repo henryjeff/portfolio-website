@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import Application from '../Application';
 import Camera from '../camera/Camera';
+import Mouse from '../Utils/Mouse';
 
 const RENDER_WIREFRAME = false;
 
@@ -13,14 +14,14 @@ export default class Decor {
         };
     };
     camera: Camera;
-    mouse: THREE.Vector2;
+    mouse: Mouse;
     raycaster: THREE.Raycaster;
 
     constructor() {
         this.application = new Application();
         this.scene = this.application.scene;
         this.camera = this.application.camera;
-        this.mouse = new THREE.Vector2();
+        this.mouse = this.application.mouse;
         this.raycaster = new THREE.Raycaster();
 
         this.createRaycaster();
@@ -28,12 +29,6 @@ export default class Decor {
     }
 
     createRaycaster() {
-        window.addEventListener('mousemove', (event) => {
-            event.preventDefault();
-            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-        });
-
         window.addEventListener('click', (event) => {
             event.preventDefault();
             this.raycaster.setFromCamera(this.mouse, this.camera.instance);

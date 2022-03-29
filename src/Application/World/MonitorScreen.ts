@@ -67,6 +67,9 @@ export default class MonitorScreen extends EventEmitter {
                 if (!this.inComputer && this.prevInComputer) {
                     this.camera.trigger('leftMonitor');
                 }
+
+                this.application.mouse.trigger('mousemove', [event]);
+
                 this.prevInComputer = this.inComputer;
             },
             false
