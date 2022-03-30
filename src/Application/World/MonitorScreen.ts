@@ -101,17 +101,13 @@ export default class MonitorScreen extends EventEmitter {
                         cancelable: false,
                     });
                     var clRect = iframe.getBoundingClientRect();
-
                     const { top, left, width, height } = clRect;
-
                     const widthRatio = width / IFRAME_SIZE.w;
                     const heightRatio = height / IFRAME_SIZE.h;
-
                     // @ts-ignore
                     evt.clientX = Math.round(
                         event.data.clientX * widthRatio + left
                     );
-
                     //@ts-ignore
                     evt.clientY = Math.round(
                         event.data.clientY * heightRatio + top
@@ -125,9 +121,9 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // DEV
-        // iframe.src = 'http://localhost:3000/';
+        iframe.src = 'http://localhost:3000/';
         // PROD
-        iframe.src = 'https://portfolio-inner.vercel.app/';
+        // iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';

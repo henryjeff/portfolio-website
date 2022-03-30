@@ -32,7 +32,7 @@ export default class World {
             this.computerSetup = new ComputerSetup();
             this.monitorScreen = new MonitorScreen();
             this.coffeeSteam = new CoffeeSteam();
-            const hb = new Hitboxes();
+            // const hb = new Hitboxes();
             // this.cursor = new Cursor();
         });
     }

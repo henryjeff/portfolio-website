@@ -15,8 +15,10 @@ export default class Mouse extends EventEmitter {
 
         // Resize event
         this.on('mousemove', (event: any) => {
-            this.x = event.clientX;
-            this.y = event.clientY;
+            if (event.clientX && event.clientY) {
+                this.x = event.clientX;
+                this.y = event.clientY;
+            }
             this.inComputer = event.inComputer ? true : false;
         });
     }
