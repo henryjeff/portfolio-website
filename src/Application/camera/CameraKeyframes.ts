@@ -79,15 +79,15 @@ export class DeskKeyframe extends CameraKeyframeInstance {
 
     update() {
         this.targetFoc.x +=
-            (this.mouse.x - this.sizes.width / 2 - this.targetFoc.x) * 0.02;
+            (this.mouse.x - this.sizes.width / 2 - this.targetFoc.x) * 0.05;
         this.targetFoc.y +=
-            (-(this.mouse.y - this.sizes.height) - this.targetFoc.y) * 0.02;
+            (-(this.mouse.y - this.sizes.height) - this.targetFoc.y) * 0.05;
 
         this.targetPos.x +=
-            (this.mouse.x - this.sizes.width / 2 - this.targetPos.x) * 0.005;
+            (this.mouse.x - this.sizes.width / 2 - this.targetPos.x) * 0.025;
         this.targetPos.y +=
             (-(this.mouse.y - this.sizes.height * 2) - this.targetPos.y) *
-            0.005;
+            0.025;
 
         this.focalPoint.copy(this.targetFoc);
         this.position.copy(this.targetPos);

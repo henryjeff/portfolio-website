@@ -247,22 +247,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <p>
                             In the mean time urge you to use a different browser
                         </p>
-                        {/* <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Press start to begin{'\xa0'}</p>
-                        <span className="blinking-cursor" />
-                    </div> */}
-                        {/* <div
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            marginTop: '16px',
-                        }}
-                        >
-                        <div className="bios-start-button" onClick={start}>
-                        <p>START</p>
-                        </div>
-                    </div> */}
                     </div>
                 </div>
             )}
