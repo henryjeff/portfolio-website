@@ -13,6 +13,7 @@ import {
     IdleKeyframe,
     LoadingKeyframe,
     DeskKeyframe,
+    CoffeeKeyframe,
 } from './CameraKeyframes';
 
 export enum CameraKey {
@@ -20,6 +21,7 @@ export enum CameraKey {
     MONITOR = 'monitor',
     LOADING = 'loading',
     DESK = 'desk',
+    COFFEE = 'coffee',
 }
 export default class Camera extends EventEmitter {
     application: Application;
@@ -54,6 +56,7 @@ export default class Camera extends EventEmitter {
             monitor: new MonitorKeyframe(),
             loading: new LoadingKeyframe(),
             desk: new DeskKeyframe(),
+            coffee: new CoffeeKeyframe(),
         };
 
         document.addEventListener('mousedown', (event) => {

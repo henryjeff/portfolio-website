@@ -3,8 +3,6 @@ import eventBus from './EventBus';
 
 type LoadingProps = {};
 
-let resources = '';
-
 const LoadingScreen: React.FC<LoadingProps> = () => {
     const [progress, setProgress] = useState(0);
     const [toLoad, setToLoad] = useState(0);
@@ -12,17 +10,23 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [overlayOpacity, setLoadingOverlayOpacity] = useState(1);
     const [loadingTextOpacity, setLoadingTextOpacity] = useState(1);
     const [startPopupOpacity, setStartPopupOpacity] = useState(0);
+    const [firefoxPopupOpacity, setFirefoxPopupOpacity] = useState(0);
 
     const [showBiosInfo, setShowBiosInfo] = useState(false);
     const [showLoadingResources, setShowLoadingResources] = useState(false);
     const [doneLoading, setDoneLoading] = useState(false);
+    const [firefoxError, setFirefoxError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
 
     useEffect(() => {
-        setShowBiosInfo(true);
         // DEBUG OVERRIDE
         // start();
+        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+            setFirefoxError(true);
+        } else {
+            setShowBiosInfo(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -44,8 +48,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     }, [loaded]);
 
     useEffect(() => {
-        if (progress >= 1) {
+        if (progress >= 1 && !firefoxError) {
             setDoneLoading(true);
+
             setTimeout(() => {
                 setLoadingTextOpacity(0);
                 setTimeout(() => {
@@ -55,12 +60,19 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         }
     }, [progress]);
 
+    useEffect(() => {
+        if (firefoxError) {
+            setTimeout(() => {
+                setFirefoxPopupOpacity(1);
+            }, 500);
+        }
+    }, [firefoxError]);
+
     const start = useCallback(() => {
         setLoadingOverlayOpacity(0);
         eventBus.dispatch('loadingScreenDone', {});
         const ui = document.getElementById('ui');
         if (ui) {
-            console.log('OKKK');
             ui.style.pointerEvents = 'none';
         }
     }, []);
@@ -94,81 +106,83 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <span className="blinking-cursor" />
                 </div>
             )}
-            <div
-                style={Object.assign({}, styles.overlayText, {
-                    opacity: loadingTextOpacity,
-                })}
-            >
-                <div style={styles.header}>
-                    <div style={styles.logoContainer}>
-                        <div>
-                            <p style={styles.green}>
-                                <i>
-                                    <b>Heffernan,</b>{' '}
-                                </i>
-                            </p>
-                            <p style={styles.green}>
-                                <i>
-                                    <b>Henry Inc.</b>
-                                </i>
-                            </p>
+            {!firefoxError && (
+                <div
+                    style={Object.assign({}, styles.overlayText, {
+                        opacity: loadingTextOpacity,
+                    })}
+                >
+                    <div style={styles.header}>
+                        <div style={styles.logoContainer}>
+                            <div>
+                                <p style={styles.green}>
+                                    <i>
+                                        <b>Heffernan,</b>{' '}
+                                    </i>
+                                </p>
+                                <p style={styles.green}>
+                                    <i>
+                                        <b>Henry Inc.</b>
+                                    </i>
+                                </p>
+                            </div>
+                        </div>
+                        <div style={styles.headerInfo}>
+                            <p>Released: 01/13/2000</p>
+                            <p>HHBIOS (C)2000 Heffernan Henry Inc.,</p>
                         </div>
                     </div>
-                    <div style={styles.headerInfo}>
-                        <p>Released: 01/13/2000</p>
-                        <p>HHBIOS (C)2000 Heffernan Henry Inc.,</p>
-                    </div>
-                </div>
-                <div style={styles.body}>
-                    <p>HSP S13 2000-2022 Special UC131S</p>
-                    <div style={styles.spacer} />
-                    {showBiosInfo && (
-                        <>
-                            <p>HSP Showcase(tm) XX 113</p>
-                            <p>Checking RAM : {14000} OK</p>
-                            <div style={styles.spacer} />
-                            <div style={styles.spacer} />
-                            {showLoadingResources ? (
-                                progress == 1 ? (
-                                    <p>FINISHED LOADING RESOURCES</p>
+                    <div style={styles.body}>
+                        <p>HSP S13 2000-2022 Special UC131S</p>
+                        <div style={styles.spacer} />
+                        {showBiosInfo && (
+                            <>
+                                <p>HSP Showcase(tm) XX 113</p>
+                                <p>Checking RAM : {14000} OK</p>
+                                <div style={styles.spacer} />
+                                <div style={styles.spacer} />
+                                {showLoadingResources ? (
+                                    progress == 1 ? (
+                                        <p>FINISHED LOADING RESOURCES</p>
+                                    ) : (
+                                        <p className="loading">
+                                            LOADING RESOURCES ({loaded}/
+                                            {toLoad === 0 ? '-' : toLoad})
+                                        </p>
+                                    )
                                 ) : (
-                                    <p className="loading">
-                                        LOADING RESOURCES ({loaded}/
-                                        {toLoad === 0 ? '-' : toLoad})
-                                    </p>
-                                )
-                            ) : (
-                                <p className="loading">WAIT</p>
-                            )}
-                        </>
-                    )}
-                    <div style={styles.spacer} />
-                    <div style={styles.resourcesLoadingList}>
-                        {resources.map((sourceName) => (
-                            <p key={sourceName}>{sourceName}</p>
-                        ))}
+                                    <p className="loading">WAIT</p>
+                                )}
+                            </>
+                        )}
+                        <div style={styles.spacer} />
+                        <div style={styles.resourcesLoadingList}>
+                            {resources.map((sourceName) => (
+                                <p key={sourceName}>{sourceName}</p>
+                            ))}
+                        </div>
+                        <div style={styles.spacer} />
+                        {showLoadingResources && doneLoading && (
+                            <p>
+                                All Content Loaded, launching{' '}
+                                <b style={styles.green}>
+                                    'Henry Heffernan Portfolio Showcase'
+                                </b>{' '}
+                                V1.0
+                            </p>
+                        )}
+                        <div style={styles.spacer} />
+                        <span className="blinking-cursor" />
                     </div>
-                    <div style={styles.spacer} />
-                    {showLoadingResources && doneLoading && (
+                    <div style={styles.footer}>
                         <p>
-                            All Content Loaded, launching{' '}
-                            <b style={styles.green}>
-                                'Henry Heffernan Portfolio Showcase'
-                            </b>{' '}
-                            V1.0
+                            Press <b>DEL</b> to enter SETUP , <b>ESC</b> to skip
+                            memory test
                         </p>
-                    )}
-                    <div style={styles.spacer} />
-                    <span className="blinking-cursor" />
+                        <p>{getCurrentDate()}</p>
+                    </div>
                 </div>
-                <div style={styles.footer}>
-                    <p>
-                        Press <b>DEL</b> to enter SETUP , <b>ESC</b> to skip
-                        memory test
-                    </p>
-                    <p>{getCurrentDate()}</p>
-                </div>
-            </div>
+            )}
             <div
                 style={Object.assign({}, styles.popupContainer, {
                     opacity: startPopupOpacity,
@@ -194,6 +208,64 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     </div>
                 </div>
             </div>
+            {firefoxError && (
+                <div
+                    style={Object.assign({}, styles.popupContainer, {
+                        opacity: firefoxPopupOpacity,
+                    })}
+                >
+                    <div style={styles.startPopup}>
+                        <p>
+                            <b style={{ color: 'red' }}>CRITICAL ERROR:</b>{' '}
+                            Firefox Detected
+                        </p>
+                        <div style={styles.spacer} />
+                        <div style={styles.spacer} />
+                        <p>
+                            Due to a{' '}
+                            <a
+                                style={styles.link}
+                                href={
+                                    'https://bugzilla.mozilla.org/show_bug.cgi?id=1610093'
+                                }
+                            >
+                                bug in firefox
+                            </a>
+                            , this website is temporarily
+                        </p>
+                        <p>inaccessible for anyone using the browser.</p>
+                        <div style={styles.spacer} />
+                        <p>
+                            It pains me to have to make this screen, but as of
+                        </p>
+                        <p>right now the bug is so deeply rooted in firefox</p>
+                        <p>that it is not worth worth my time to invest the </p>
+                        <p>resources into developing a equally complicated</p>
+                        <p>workaround.</p>
+
+                        <div style={styles.spacer} />
+                        <p>
+                            In the mean time urge you to use a different browser
+                        </p>
+                        {/* <div style={{ display: 'flex', alignItems: 'flex-end' }}>
+                        <p>Press start to begin{'\xa0'}</p>
+                        <span className="blinking-cursor" />
+                    </div> */}
+                        {/* <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: '16px',
+                        }}
+                        >
+                        <div className="bios-start-button" onClick={start}>
+                        <p>START</p>
+                        </div>
+                    </div> */}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -265,6 +337,11 @@ const styles: StyleSheetCSS = {
     },
     green: {
         // color: '#00ff00',
+    },
+    link: {
+        // textDecoration: 'none',
+        color: '#4598ff',
+        cursor: 'pointer',
     },
     overlayText: {
         width: '100%',

@@ -27,12 +27,16 @@ const keys: { [key in CameraKey]: CameraKeyframe } = {
         focalPoint: new THREE.Vector3(0, 900, 0),
     },
     desk: {
-        position: new THREE.Vector3(0, 880, 5000),
-        focalPoint: new THREE.Vector3(0, 850, 0),
+        position: new THREE.Vector3(0, 1500, 5000),
+        focalPoint: new THREE.Vector3(0, 500, 0),
     },
     loading: {
         position: new THREE.Vector3(-30000, 30000, 30000),
         focalPoint: new THREE.Vector3(0, -5000, 0),
+    },
+    coffee: {
+        position: new THREE.Vector3(2000, 900, 2000),
+        focalPoint: new THREE.Vector3(1650, 0, 950),
     },
 };
 
@@ -59,7 +63,8 @@ export class DeskKeyframe extends CameraKeyframeInstance {
     application: Application;
     mouse: Mouse;
     sizes: Sizes;
-    target: THREE.Vector3;
+    targetFoc: THREE.Vector3;
+    targetPos: THREE.Vector3;
 
     constructor() {
         const keyframe = keys.desk;
@@ -68,18 +73,24 @@ export class DeskKeyframe extends CameraKeyframeInstance {
         this.mouse = this.application.mouse;
         this.sizes = this.application.sizes;
         // this.origin = new THREE.Vector3().copy(keyframe.position);
-        this.target = new THREE.Vector3().copy(keyframe.focalPoint);
+        this.targetFoc = new THREE.Vector3().copy(keyframe.focalPoint);
+        this.targetPos = new THREE.Vector3().copy(keyframe.position);
     }
 
     update() {
-        // this.position.x = this.origin.x + 0.01;
-        this.target.x +=
-            (this.mouse.x - this.sizes.width / 2 - this.target.x) * 0.02;
-        this.target.y +=
-            (-(this.mouse.y - this.sizes.height) - this.target.y) * 0.02;
-        this.target.z = this.focalPoint.z;
+        this.targetFoc.x +=
+            (this.mouse.x - this.sizes.width / 2 - this.targetFoc.x) * 0.02;
+        this.targetFoc.y +=
+            (-(this.mouse.y - this.sizes.height) - this.targetFoc.y) * 0.02;
 
-        this.focalPoint.copy(this.target);
+        this.targetPos.x +=
+            (this.mouse.x - this.sizes.width / 2 - this.targetPos.x) * 0.005;
+        this.targetPos.y +=
+            (-(this.mouse.y - this.sizes.height * 2) - this.targetPos.y) *
+            0.005;
+
+        this.focalPoint.copy(this.targetFoc);
+        this.position.copy(this.targetPos);
     }
 }
 
@@ -102,5 +113,41 @@ export class IdleKeyframe extends CameraKeyframeInstance {
         this.position.y =
             Math.sin(this.time.elapsed * 0.00002) * 4000 + this.origin.y - 3000;
         this.position.z = this.position.z;
+    }
+}
+
+export class CoffeeKeyframe extends CameraKeyframeInstance {
+    time: Time;
+    origin: THREE.Vector3;
+
+    constructor() {
+        const keyframe = keys.coffee;
+        super(keyframe);
+        this.origin = new THREE.Vector3().copy(keyframe.position);
+        this.time = new Time();
+    }
+
+    update() {
+        const s = Math.sin(this.time.elapsed * 0.002) * 1000;
+        const c = Math.cos(this.time.elapsed * 0.002) * 1000;
+
+        // let p = new THREE.Vector2();
+
+        // // translate point back to origin:
+        // p.x -= this.origin.x;
+        // p.y -= this.origin.z;
+
+        // // rotate point
+        // const xnew = p.x * c - p.y * s;
+        // const ynew = p.x * s + p.y * c;
+
+        // // translate point back:
+        // p.x = xnew + this.origin.x;
+        // p.y = ynew + this.origin.z;
+
+        this.position.x = s + this.origin.x / 2;
+        this.position.z = c + this.origin.z;
+        // this.position.z = s + this.origin.z;
+        // this.position.y = this.origin.y;
     }
 }
