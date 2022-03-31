@@ -226,7 +226,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <a
                                 style={styles.link}
                                 href={
-                                    'https://bugzilla.mozilla.org/show_bug.cgi?id=1610093'
+                                    'https://github.com/henryjeff/portfolio-website/issues/6'
                                 }
                             >
                                 bug in firefox
