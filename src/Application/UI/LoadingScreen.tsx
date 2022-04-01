@@ -189,6 +189,12 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 })}
             >
                 <div style={styles.startPopup}>
+                    <p style={styles.red}>
+                        <b>THIS SITE IS CURRENTLY A W.I.P.</b>
+                    </p>
+                    <p>But do enjoy what I have done so far :)</p>
+                    <div style={styles.spacer} />
+                    <div style={styles.spacer} />
                     <p>Henry Heffernan Portfolio Showcase 2022</p>
                     <div style={{ display: 'flex', alignItems: 'flex-end' }}>
                         <p>Press start to begin{'\xa0'}</p>
@@ -319,8 +325,8 @@ const styles: StyleSheetCSS = {
     headerInfo: {
         marginLeft: 64,
     },
-    green: {
-        // color: '#00ff00',
+    red: {
+        color: '#00ff00',
     },
     link: {
         // textDecoration: 'none',
