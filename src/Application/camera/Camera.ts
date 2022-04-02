@@ -119,13 +119,13 @@ export default class Camera extends EventEmitter {
 
     setEventListeners() {
         this.on('enterMonitor', () => {
-            const atDesk =
-                this.currentKeyframe === CameraKey.DESK ||
-                this.targetKeyframe === CameraKey.DESK;
-            const easing = atDesk
+            const idling =
+                this.currentKeyframe === CameraKey.IDLE ||
+                this.targetKeyframe === CameraKey.IDLE;
+            const easing = !idling
                 ? TWEEN.Easing.Exponential.Out
                 : TWEEN.Easing.Exponential.InOut;
-            const duration = atDesk ? 1000 : 1500;
+            const duration = !idling ? 1000 : 1500;
             this.transition(CameraKey.MONITOR, duration, easing);
         });
         this.on('leftMonitor', () => {
