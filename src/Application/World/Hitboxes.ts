@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Application from '../Application';
-import Camera from '../Cameras/Camera';
+import Camera from '../Camera/Camera';
 import Mouse from '../Utils/Mouse';
 
 const RENDER_WIREFRAME = false;

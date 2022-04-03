@@ -5,7 +5,7 @@ import Application from '../Application';
 import Debug from '../Utils/Debug';
 import Resources from '../Utils/Resources';
 import Sizes from '../Utils/Sizes';
-import Camera from '../Cameras/Camera';
+import Camera from '../Camera/Camera';
 import EventEmitter from '../Utils/EventEmitter';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
