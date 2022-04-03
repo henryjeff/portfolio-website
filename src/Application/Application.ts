@@ -33,7 +33,7 @@ export default class Application {
     mouse: Mouse;
     loading: Loading;
     ui: UI;
-    stats: any;
+    stats: Stats | undefined;
 
     constructor() {
         // Singleton
@@ -62,10 +62,13 @@ export default class Application {
 
         this.ui = new UI();
 
-        this.stats = new Stats();
-        this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('stats')) {
+            this.stats = new Stats();
+            this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 
-        document.body.appendChild(this.stats.dom);
+            document.body.appendChild(this.stats.dom);
+        }
 
         // Resize event
         this.sizes.on('resize', () => {
@@ -84,11 +87,11 @@ export default class Application {
     }
 
     update() {
-        this.stats.begin();
+        if (this.stats) this.stats.begin();
         this.camera.update();
         this.world.update();
         this.renderer.update();
-        this.stats.end();
+        if (this.stats) this.stats.end();
     }
 
     destroy() {
