@@ -7,6 +7,7 @@ import Resources from '../Utils/Resources';
 import Sizes from '../Utils/Sizes';
 import Camera from '../Camera/Camera';
 import EventEmitter from '../Utils/EventEmitter';
+import e from 'express';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
 const IFRAME_PADDING = 64;
@@ -74,6 +75,18 @@ export default class MonitorScreen extends EventEmitter {
             },
             false
         );
+        document.addEventListener(
+            'mousedown',
+            (event) => {
+                // @ts-ignore
+                this.inComputer = event.inComputer;
+
+                this.application.mouse.trigger('mousedown', [event]);
+
+                this.prevInComputer = this.inComputer;
+            },
+            false
+        );
     }
 
     /**
@@ -96,31 +109,30 @@ export default class MonitorScreen extends EventEmitter {
         iframe.onload = () => {
             if (iframe.contentWindow) {
                 window.addEventListener('message', (event) => {
-                    var evt = new CustomEvent('mousemove', {
+                    var evt = new CustomEvent(event.data.type, {
                         bubbles: true,
                         cancelable: false,
                     });
-                    var clRect = iframe.getBoundingClientRect();
-                    const { top, left, width, height } = clRect;
-                    const widthRatio = width / IFRAME_SIZE.w;
-                    const heightRatio = height / IFRAME_SIZE.h;
-
-                    // console.log(event.data.clientX, event.data.clientY);
-                    // print width ratio and height ratio and left and top
-
-                    // @ts-ignore
-                    evt.clientX = Math.round(
-                        event.data.clientX * widthRatio + left
-                    );
-                    //@ts-ignore
-                    evt.clientY = Math.round(
-                        event.data.clientY * heightRatio + top
-                    );
-
                     // @ts-ignore
                     evt.inComputer = true;
+                    if (event.data.type === 'mousemove') {
+                        var clRect = iframe.getBoundingClientRect();
+                        const { top, left, width, height } = clRect;
+                        const widthRatio = width / IFRAME_SIZE.w;
+                        const heightRatio = height / IFRAME_SIZE.h;
 
-                    // console.log(evt);
+                        // @ts-ignore
+                        evt.clientX = Math.round(
+                            event.data.clientX * widthRatio + left
+                        );
+                        //@ts-ignore
+                        evt.clientY = Math.round(
+                            event.data.clientY * heightRatio + top
+                        );
+                    } else if (event.data.type === 'keydown') {
+                        // @ts-ignore
+                        evt.keyCode = event.data.keyCode;
+                    }
 
                     iframe.dispatchEvent(evt);
                 });
@@ -129,9 +141,9 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // DEV
-        // iframe.src = 'http://localhost:3000/';
+        iframe.src = 'http://localhost:3000/';
         // PROD
-        iframe.src = 'https://portfolio-inner.vercel.app/';
+        // iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';
