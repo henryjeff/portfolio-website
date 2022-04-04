@@ -9,15 +9,15 @@ const app = express();
 const port = 8080;
 
 app.use(cors());
+
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../public')));
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-
-// console.log(process.env.FOLIO_EMAIL);
 
 // Handle GET requests to /api route
 app.post('/api/send-email', (req, res) => {
