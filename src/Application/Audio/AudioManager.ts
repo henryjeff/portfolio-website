@@ -1,31 +1,42 @@
 import * as THREE from 'three';
 import Application from '../Application';
-import { PeripheralAudio } from './AudioSources';
-
+import { ComputerAudio, RadioAudio } from './AudioSources';
+import UIEventBus from '../UI/EventBus';
 export default class Audio {
     application: Application;
     listener: THREE.AudioListener;
     context: AudioContext;
     loadedAudio: { [key in string]: LoadedAudio };
-    audioPool: { [key in string]: THREE.Audio };
+    audioPool: { [key in string]: THREE.PositionalAudio | THREE.Audio };
     audioSources: {
-        peripheral: PeripheralAudio;
+        computer: ComputerAudio;
+        radio: RadioAudio;
     };
+    scene: THREE.Scene;
 
     constructor() {
         this.application = new Application();
         this.listener = new THREE.AudioListener();
         this.application.camera.instance.add(this.listener);
         this.loadedAudio = this.application.resources.items.audio;
+        this.scene = this.application.scene;
         this.audioPool = {};
 
-        // @ts-ignore
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        this.context = new AudioContext();
-
         this.audioSources = {
-            peripheral: new PeripheralAudio(this),
+            computer: new ComputerAudio(this),
+            radio: new RadioAudio(this),
         };
+
+        UIEventBus.on('loadingScreenDone', () => {
+            // console.log('RESUMING CONTEXT');
+            setTimeout(() => {
+                const AudioContext =
+                    // @ts-ignore
+                    window.AudioContext || window.webkitAudioContext;
+                this.context = new AudioContext();
+                this.context.resume();
+            }, 100);
+        });
     }
 
     playAudio(
@@ -34,18 +45,38 @@ export default class Audio {
             volume?: number;
             randDetuneScale?: number;
             loop?: boolean;
+            position?: THREE.Vector3;
+            refDistance?: number;
         } = {}
     ) {
         // Resume context if it's suspended
-        this.context.resume();
+        if (this.context) this.context.resume();
 
         // Get the audio source
         sourceName = this.getRandomVariant(sourceName);
 
         // Setup
         const buffer = this.loadedAudio[sourceName];
-        const audio = new THREE.Audio(this.listener);
         const poolKey = sourceName + '_' + Object.keys(this.audioPool).length;
+
+        let audio: THREE.Audio<any> | THREE.PositionalAudio = new THREE.Audio(
+            this.listener
+        );
+
+        if (options.position) {
+            audio = new THREE.PositionalAudio(this.listener);
+
+            // @ts-ignore
+            audio.setRefDistance(options.refDistance || 1000);
+
+            const sphere = new THREE.SphereGeometry(100, 8, 8);
+            const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const mesh = new THREE.Mesh(sphere, material);
+
+            mesh.position.copy(options.position);
+            mesh.name = poolKey;
+            this.scene.add(mesh);
+        }
 
         // Set options
         audio.setBuffer(buffer);
@@ -64,6 +95,13 @@ export default class Audio {
         if (audio.source) {
             audio.source.onended = () => {
                 delete this.audioPool[poolKey];
+                if (options.position) {
+                    const positionalObject =
+                        this.scene.getObjectByName(poolKey);
+                    if (positionalObject) {
+                        this.scene.remove(positionalObject);
+                    }
+                }
             };
             this.audioPool[poolKey] = audio;
         }

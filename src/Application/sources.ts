@@ -40,9 +40,14 @@ const sources: Resource[] = [
         path: 'textures/monitor/layers/compressed/shadow-compressed.png',
     },
     {
-        name: 'mouseClick',
+        name: 'mouseDown',
         type: 'audio',
-        path: 'audio/mouse/mouse_click.mp3',
+        path: 'audio/mouse/mouse_down.mp3',
+    },
+    {
+        name: 'mouseUp',
+        type: 'audio',
+        path: 'audio/mouse/mouse_up.mp3',
     },
     {
         name: 'keyboardKeydown1',
@@ -73,6 +78,11 @@ const sources: Resource[] = [
         name: 'keyboardKeydown6',
         type: 'audio',
         path: 'audio/keyboard/key_6.mp3',
+    },
+    {
+        name: 'computerIdle',
+        type: 'audio',
+        path: 'audio/computer/idle_2.wav',
     },
 ];
 
