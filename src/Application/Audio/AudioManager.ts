@@ -67,10 +67,14 @@ export default class Audio {
             audio = new THREE.PositionalAudio(this.listener);
 
             // @ts-ignore
-            audio.setRefDistance(options.refDistance || 1000);
+            audio.setRefDistance(options.refDistance || 2000);
 
             const sphere = new THREE.SphereGeometry(100, 8, 8);
-            const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+            const material = new THREE.MeshBasicMaterial({
+                color: 0xff0000,
+                transparent: true,
+                opacity: 0,
+            });
             const mesh = new THREE.Mesh(sphere, material);
 
             mesh.position.copy(options.position);
