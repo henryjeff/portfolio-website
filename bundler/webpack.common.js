@@ -60,7 +60,14 @@ module.exports = {
                     filename: 'assets/images/[hash][ext]',
                 },
             },
-
+            // Audio
+            {
+                test: /\.mp3$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[path][name].[ext]',
+                },
+            },
             // Fonts
             {
                 test: /\.(ttf|eot|woff|woff2)$/,

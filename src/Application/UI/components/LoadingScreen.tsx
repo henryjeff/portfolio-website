@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import eventBus from './EventBus';
+import eventBus from '../EventBus';
 
 type LoadingProps = {};
 
@@ -39,6 +39,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     data.sourceName
                 )} ... ${Math.round(data.progress * 100)}%`
             );
+            if (resources.length > 8) {
+                resources.shift();
+            }
         });
     }, []);
 

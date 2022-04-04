@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from './components/LoadingScreen';
 import './style.css';
-import eventBus from './EventBus';
 
 const App = () => (
     <div id="ui-app">
