@@ -7,7 +7,6 @@ import Resources from '../Utils/Resources';
 import Sizes from '../Utils/Sizes';
 import Camera from '../Camera/Camera';
 import EventEmitter from '../Utils/EventEmitter';
-import e from 'express';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
 const IFRAME_PADDING = 64;
@@ -141,9 +140,9 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // DEV
-        iframe.src = 'http://localhost:3000/';
+        // iframe.src = 'http://localhost:3000/';
         // PROD
-        // iframe.src = 'https://portfolio-inner.vercel.app/';
+        iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';
