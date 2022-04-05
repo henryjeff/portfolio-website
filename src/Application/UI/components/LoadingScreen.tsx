@@ -115,7 +115,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         opacity: loadingTextOpacity,
                     })}
                 >
-                    <div style={styles.header}>
+                    <div
+                        style={styles.header}
+                        className="loading-screen-header"
+                    >
                         <div style={styles.logoContainer}>
                             <div>
                                 <p style={styles.green}>
@@ -135,7 +138,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             <p>HHBIOS (C)2000 Heffernan Henry Inc.,</p>
                         </div>
                     </div>
-                    <div style={styles.body}>
+                    <div style={styles.body} className="loading-screen-body">
                         <p>HSP S13 2000-2022 Special UC131S</p>
                         <div style={styles.spacer} />
                         {showBiosInfo && (
@@ -177,7 +180,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.spacer} />
                         <span className="blinking-cursor" />
                     </div>
-                    <div style={styles.footer}>
+                    <div
+                        style={styles.footer}
+                        className="loading-screen-footer"
+                    >
                         <p>
                             Press <b>DEL</b> to enter SETUP , <b>ESC</b> to skip
                             memory test
@@ -292,7 +298,6 @@ const styles: StyleSheetCSS = {
     header: {
         width: '100%',
         boxSizing: 'border-box',
-        padding: 48,
         display: 'flex',
         flexDirection: 'row',
     },
@@ -349,8 +354,6 @@ const styles: StyleSheetCSS = {
         width: '100%',
         boxSizing: 'border-box',
         flexDirection: 'column',
-        paddingLeft: 48,
-        paddingRight: 48,
     },
     logoContainer: {
         display: 'flex',
@@ -369,8 +372,6 @@ const styles: StyleSheetCSS = {
         marginRight: 16,
     },
     footer: {
-        padding: 48,
-        paddingBottom: 64,
         boxSizing: 'border-box',
         width: '100%',
     },

@@ -74,7 +74,7 @@ export default class Audio {
             // @ts-ignore
             // audio.setDistanceModel('linear');
 
-            const extraMaterialOptions = POS_DEBUG
+            const extraMaterialOptions = !POS_DEBUG
                 ? {
                       transparent: true,
                       opacity: 0,
