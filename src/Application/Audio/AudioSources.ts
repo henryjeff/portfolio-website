@@ -34,9 +34,10 @@ export class ComputerAudio {
         });
         UIEventBus.on('loadingScreenDone', () => {
             audio.playAudio('computerIdle', {
-                volume: 1,
+                volume: 0.1,
                 position: new THREE.Vector3(0, -500, 0),
                 loop: true,
+                randDetuneScale: 0,
             });
         });
     }

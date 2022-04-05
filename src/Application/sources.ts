@@ -82,7 +82,7 @@ const sources: Resource[] = [
     {
         name: 'computerIdle',
         type: 'audio',
-        path: 'audio/computer/idle_2.wav',
+        path: 'audio/computer/idle.wav',
     },
 ];
 

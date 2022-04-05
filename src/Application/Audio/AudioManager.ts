@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import Application from '../Application';
 import { ComputerAudio, RadioAudio } from './AudioSources';
 import UIEventBus from '../UI/EventBus';
+
+const POS_DEBUG = false;
+const DEFAULT_REF_DISTANCE = 10000;
 export default class Audio {
     application: Application;
     listener: THREE.AudioListener;
@@ -67,13 +70,21 @@ export default class Audio {
             audio = new THREE.PositionalAudio(this.listener);
 
             // @ts-ignore
-            audio.setRefDistance(options.refDistance || 2000);
+            audio.setRefDistance(options.refDistance || DEFAULT_REF_DISTANCE);
+            // @ts-ignore
+            // audio.setDistanceModel('linear');
+
+            const extraMaterialOptions = POS_DEBUG
+                ? {
+                      transparent: true,
+                      opacity: 0,
+                  }
+                : {};
 
             const sphere = new THREE.SphereGeometry(100, 8, 8);
             const material = new THREE.MeshBasicMaterial({
                 color: 0xff0000,
-                transparent: true,
-                opacity: 0,
+                ...extraMaterialOptions,
             });
             const mesh = new THREE.Mesh(sphere, material);
 
