@@ -13,7 +13,8 @@ import {
     IdleKeyframe,
     LoadingKeyframe,
     DeskKeyframe,
-    CoffeeKeyframe,
+    CreditsKeyframe,
+    MonitorProfileKeyframe,
 } from './CameraKeyframes';
 
 export enum CameraKey {
@@ -21,7 +22,9 @@ export enum CameraKey {
     MONITOR = 'monitor',
     LOADING = 'loading',
     DESK = 'desk',
-    COFFEE = 'coffee',
+    CREDITS = 'credits',
+    MONITOR_PROFILE = 'monitorProfile',
+    // COFFEE = 'coffee',
 }
 export default class Camera extends EventEmitter {
     application: Application;
@@ -56,7 +59,8 @@ export default class Camera extends EventEmitter {
             monitor: new MonitorKeyframe(),
             loading: new LoadingKeyframe(),
             desk: new DeskKeyframe(),
-            coffee: new CoffeeKeyframe(),
+            credits: new CreditsKeyframe(),
+            monitorProfile: new MonitorProfileKeyframe(),
         };
 
         document.addEventListener('mousedown', (event) => {
@@ -136,12 +140,30 @@ export default class Camera extends EventEmitter {
     setPostLoadTransition() {
         UIEventBus.on('loadingScreenDone', () => {
             this.transition(CameraKey.IDLE, 2500, TWEEN.Easing.Exponential.Out);
+            // this.transition(
+            //     CameraKey.CREDITS,
+            //     100,
+            //     TWEEN.Easing.Exponential.Out
+            // );
         });
     }
 
     resize() {
         this.instance.aspect = this.sizes.width / this.sizes.height;
         this.instance.updateProjectionMatrix();
+    }
+
+    addHelpers() {
+        // create a sphere to indicate the focal point
+        const sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(100, 32, 32),
+            new THREE.MeshBasicMaterial({
+                color: 0xffffff,
+            })
+        );
+        sphere.position.copy(this.keyframes.credits.focalPoint);
+        // add sphere
+        // this.scene.add(sphere);
     }
 
     update() {
