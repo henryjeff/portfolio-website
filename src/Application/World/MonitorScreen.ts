@@ -145,6 +145,9 @@ export default class MonitorScreen extends EventEmitter {
                     } else if (event.data.type === 'keydown') {
                         // @ts-ignore
                         evt.keyCode = event.data.keyCode;
+                    } else if (event.data.type === 'keyup') {
+                        // @ts-ignore
+                        evt.keyCode = event.data.keyCode;
                     }
 
                     iframe.dispatchEvent(evt);
@@ -154,9 +157,9 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // DEV
-        // iframe.src = 'http://localhost:3000/';
+        iframe.src = 'http://localhost:3000/';
         // PROD
-        iframe.src = 'https://portfolio-inner.vercel.app/';
+        // iframe.src = 'https://portfolio-inner.vercel.app/';
         iframe.style.width = IFRAME_SIZE.w + 'px';
         iframe.style.height = IFRAME_SIZE.h + 'px';
         iframe.style.opacity = '1';

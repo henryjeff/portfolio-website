@@ -2,7 +2,11 @@ import AudioManager from './AudioManager';
 import * as THREE from 'three';
 import UIEventBus from '../UI/EventBus';
 export class ComputerAudio {
+    keyAllowed: boolean;
+
     constructor(audio: AudioManager) {
+        this.keyAllowed = true;
+
         document.addEventListener('mousedown', (event) => {
             // @ts-ignore
             if (event.inComputer) {
@@ -23,7 +27,18 @@ export class ComputerAudio {
             }
         });
 
+        document.addEventListener('keyup', (event) => {
+            // @ts-ignore
+            if (event.inComputer) {
+                this.keyAllowed = true;
+            }
+        });
+
         document.addEventListener('keydown', (event) => {
+            console.log(this.keyAllowed);
+            if (!this.keyAllowed) return;
+            this.keyAllowed = false;
+
             // @ts-ignore
             if (event.inComputer) {
                 audio.playAudio('keyboardKeydown', {
@@ -32,6 +47,7 @@ export class ComputerAudio {
                 });
             }
         });
+
         UIEventBus.on('loadingScreenDone', () => {
             audio.playAudio('computerIdle', {
                 volume: 0.1,
