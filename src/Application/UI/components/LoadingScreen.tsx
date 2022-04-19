@@ -11,11 +11,13 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [loadingTextOpacity, setLoadingTextOpacity] = useState(1);
     const [startPopupOpacity, setStartPopupOpacity] = useState(0);
     const [firefoxPopupOpacity, setFirefoxPopupOpacity] = useState(0);
+    const [webGLErrorOpacity, setWebGLErrorOpacity] = useState(0);
 
     const [showBiosInfo, setShowBiosInfo] = useState(false);
     const [showLoadingResources, setShowLoadingResources] = useState(false);
     const [doneLoading, setDoneLoading] = useState(false);
     const [firefoxError, setFirefoxError] = useState(false);
+    const [webGLError, setWebGLError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
 
@@ -24,6 +26,8 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         // start();
         if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             setFirefoxError(true);
+        } else if (!detectWebGLContext()) {
+            setWebGLError(true);
         } else {
             setShowBiosInfo(true);
         }
@@ -51,7 +55,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     }, [loaded]);
 
     useEffect(() => {
-        if (progress >= 1 && !firefoxError) {
+        if (progress >= 1 && !firefoxError && !webGLError) {
             setDoneLoading(true);
 
             setTimeout(() => {
@@ -70,6 +74,14 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             }, 500);
         }
     }, [firefoxError]);
+
+    useEffect(() => {
+        if (webGLError) {
+            setTimeout(() => {
+                setWebGLErrorOpacity(1);
+            }, 500);
+        }
+    }, [webGLError]);
 
     const start = useCallback(() => {
         setLoadingOverlayOpacity(0);
@@ -97,6 +109,20 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         return `${monthFormatted}/${dayFormatted}/${year}`;
     };
 
+    const detectWebGLContext = () => {
+        var canvas = document.createElement('canvas');
+
+        // Get WebGLRenderingContext from canvas element.
+        var gl =
+            canvas.getContext('webgl') ||
+            canvas.getContext('experimental-webgl');
+        // Report the result.
+        if (gl && gl instanceof WebGLRenderingContext) {
+            return true;
+        }
+        return false;
+    };
+
     return (
         <div
             style={Object.assign({}, styles.overlay, {
@@ -109,7 +135,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <span className="blinking-cursor" />
                 </div>
             )}
-            {!firefoxError && (
+            {!firefoxError && !webGLError && (
                 <div
                     style={Object.assign({}, styles.overlayText, {
                         opacity: loadingTextOpacity,
@@ -261,6 +287,28 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <div style={styles.spacer} />
                         <p>
                             In the mean time urge you to use a different browser
+                        </p>
+                    </div>
+                </div>
+            )}
+            {webGLError && (
+                <div
+                    style={Object.assign({}, styles.popupContainer, {
+                        opacity: webGLErrorOpacity,
+                    })}
+                >
+                    <div style={styles.startPopup}>
+                        <p>
+                            <b style={{ color: 'red' }}>CRITICAL ERROR:</b> No
+                            WebGL Detected
+                        </p>
+                        <div style={styles.spacer} />
+                        <div style={styles.spacer} />
+
+                        <p>WebGL is required to run this site.</p>
+                        <p>
+                            Please enable it or switch to a browser which
+                            supports WebGL
                         </p>
                     </div>
                 </div>
