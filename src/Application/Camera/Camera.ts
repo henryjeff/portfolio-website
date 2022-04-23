@@ -7,6 +7,7 @@ import Renderer from '../Renderer';
 import Resources from '../Utils/Resources';
 import UIEventBus from '../UI/EventBus';
 import Time from '../Utils/Time';
+import BezierEasing from 'bezier-easing';
 import {
     CameraKeyframeInstance,
     MonitorKeyframe,
@@ -120,17 +121,13 @@ export default class Camera extends EventEmitter {
 
         this.scene.add(this.instance);
     }
-
     setEventListeners() {
         this.on('enterMonitor', () => {
-            const idling =
-                this.currentKeyframe === CameraKey.IDLE ||
-                this.targetKeyframe === CameraKey.IDLE;
-            const easing = !idling
-                ? TWEEN.Easing.Exponential.Out
-                : TWEEN.Easing.Exponential.InOut;
-            const duration = !idling ? 1000 : 1500;
-            this.transition(CameraKey.MONITOR, duration, easing);
+            this.transition(
+                CameraKey.MONITOR,
+                2000,
+                BezierEasing(0.13, 0.99, 0, 1)
+            );
         });
         this.on('leftMonitor', () => {
             this.transition(CameraKey.DESK);

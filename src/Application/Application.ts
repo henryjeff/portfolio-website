@@ -26,6 +26,7 @@ export default class Application {
     time: Time;
     scene: THREE.Scene;
     cssScene: THREE.Scene;
+    overlayScene: THREE.Scene;
     resources: Resources;
     camera: Camera;
     renderer: Renderer;
@@ -55,6 +56,7 @@ export default class Application {
         this.time = new Time();
         this.scene = new THREE.Scene();
         this.cssScene = new THREE.Scene();
+        this.overlayScene = new THREE.Scene();
         this.resources = new Resources(sources);
         this.camera = new Camera();
         this.renderer = new Renderer();
