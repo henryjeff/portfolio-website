@@ -144,10 +144,10 @@ export default class MonitorScreen extends EventEmitter {
                         );
                     } else if (event.data.type === 'keydown') {
                         // @ts-ignore
-                        evt.keyCode = event.data.keyCode;
+                        evt.key = event.data.key;
                     } else if (event.data.type === 'keyup') {
                         // @ts-ignore
-                        evt.keyCode = event.data.keyCode;
+                        evt.key = event.data.key;
                     }
 
                     iframe.dispatchEvent(evt);

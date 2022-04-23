@@ -2,11 +2,9 @@ import AudioManager from './AudioManager';
 import * as THREE from 'three';
 import UIEventBus from '../UI/EventBus';
 export class ComputerAudio {
-    keyAllowed: boolean;
+    lastKey: string;
 
     constructor(audio: AudioManager) {
-        this.keyAllowed = true;
-
         document.addEventListener('mousedown', (event) => {
             // @ts-ignore
             if (event.inComputer) {
@@ -30,14 +28,13 @@ export class ComputerAudio {
         document.addEventListener('keyup', (event) => {
             // @ts-ignore
             if (event.inComputer) {
-                this.keyAllowed = true;
+                this.lastKey = '';
             }
         });
 
         document.addEventListener('keydown', (event) => {
-            console.log(this.keyAllowed);
-            if (!this.keyAllowed) return;
-            this.keyAllowed = false;
+            if (this.lastKey === event.key) return;
+            this.lastKey = event.key;
 
             // @ts-ignore
             if (event.inComputer) {
