@@ -9,7 +9,7 @@ export class ComputerAudio {
             // @ts-ignore
             if (event.inComputer) {
                 audio.playAudio('mouseDown', {
-                    volume: 0.5,
+                    volume: 0.8,
                     position: new THREE.Vector3(800, -300, 1200),
                 });
             }
@@ -19,7 +19,7 @@ export class ComputerAudio {
             // @ts-ignore
             if (event.inComputer) {
                 audio.playAudio('mouseUp', {
-                    volume: 0.5,
+                    volume: 0.8,
                     position: new THREE.Vector3(800, -300, 1200),
                 });
             }
@@ -39,7 +39,7 @@ export class ComputerAudio {
             // @ts-ignore
             if (event.inComputer) {
                 audio.playAudio('keyboardKeydown', {
-                    volume: 0.5,
+                    volume: 0.8,
                     position: new THREE.Vector3(-300, -400, 1200),
                 });
             }

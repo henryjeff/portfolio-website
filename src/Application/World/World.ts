@@ -35,7 +35,7 @@ export default class World {
             this.monitorScreen = new MonitorScreen();
             this.coffeeSteam = new CoffeeSteam();
             this.audioManager = new AudioManager();
-            const hb = new Hitboxes();
+            // const hb = new Hitboxes();
             // this.cursor = new Cursor();
         });
     }

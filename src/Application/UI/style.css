@@ -39,30 +39,30 @@ br {
 
 @keyframes dotty {
     0% {
-        content: '';
+        content: '   ';
     }
     25% {
-        content: '.';
+        content: '. ';
     }
     50% {
-        content: '..';
+        content: '.. ';
     }
     75% {
         content: '...';
     }
     100% {
-        content: '';
+        content: '   ';
     }
 }
 .blinking-cursor {
     background-color: #fff;
-    width: 1em;
+    width: 0.8em;
     height: 0.15em;
-    -webkit-animation: 0.5s blink step-end infinite;
-    -moz-animation: 0.5s blink step-end infinite;
-    -ms-animation: 0.5s blink step-end infinite;
-    -o-animation: 0.5s blink step-end infinite;
-    animation: 0.5s blink step-end infinite;
+    -webkit-animation: 0.65s blink step-end infinite;
+    -moz-animation: 0.65s blink step-end infinite;
+    -ms-animation: 0.65s blink step-end infinite;
+    -o-animation: 0.65s blink step-end infinite;
+    animation: 0.65s blink step-end infinite;
 }
 
 @keyframes blink {
