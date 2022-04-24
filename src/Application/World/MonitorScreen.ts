@@ -10,7 +10,7 @@ import EventEmitter from '../Utils/EventEmitter';
 import e from 'express';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
-const IFRAME_PADDING = 64;
+const IFRAME_PADDING = 32;
 const IFRAME_SIZE = {
     w: SCREEN_SIZE.w - IFRAME_PADDING,
     h: SCREEN_SIZE.h - IFRAME_PADDING,
@@ -109,10 +109,16 @@ export default class MonitorScreen extends EventEmitter {
         const container = document.createElement('div');
         container.style.width = this.screenSize.width + 'px';
         container.style.height = this.screenSize.height + 'px';
-        container.style.paddingTop = IFRAME_PADDING + 'px';
-        container.style.paddingLeft = IFRAME_PADDING + 'px';
         container.style.opacity = '1';
         container.style.background = '#1d2e2f';
+
+        // container.addEventListener('mousemove', (event) => {
+        //     var evt = new CustomEvent('mousemoveContainer', {
+        //         bubbles: true,
+        //         cancelable: false,
+        //     });
+        //     document.dispatchEvent(evt);
+        // });
 
         // Create iframe
         const iframe = document.createElement('iframe');
@@ -160,8 +166,10 @@ export default class MonitorScreen extends EventEmitter {
         // iframe.src = 'http://localhost:3000/';
         // PROD
         iframe.src = 'https://portfolio-inner.vercel.app/';
-        iframe.style.width = IFRAME_SIZE.w + 'px';
-        iframe.style.height = IFRAME_SIZE.h + 'px';
+        iframe.style.width = this.screenSize.width + 'px';
+        iframe.style.height = this.screenSize.height + 'px';
+        iframe.style.padding = IFRAME_PADDING + 'px';
+        iframe.style.boxSizing = 'border-box';
         iframe.style.opacity = '1';
         iframe.className = 'jitter';
         iframe.frameBorder = '0';
