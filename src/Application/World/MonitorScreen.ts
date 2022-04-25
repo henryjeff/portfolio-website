@@ -8,6 +8,7 @@ import Sizes from '../Utils/Sizes';
 import Camera from '../Camera/Camera';
 import EventEmitter from '../Utils/EventEmitter';
 import e from 'express';
+import { BooleanKeyframeTrack } from 'three';
 
 const SCREEN_SIZE = { w: 1280, h: 1024 };
 const IFRAME_PADDING = 32;
@@ -29,7 +30,9 @@ export default class MonitorScreen extends EventEmitter {
     rotation: THREE.Euler;
     camera: Camera;
     prevInComputer: boolean;
+    shouldLeaveMonitor: boolean;
     inComputer: boolean;
+    mouseClickInProgress: boolean;
     dimmingPlane: THREE.Mesh;
     videoTextures: { [key in string]: THREE.VideoTexture };
 
@@ -45,6 +48,8 @@ export default class MonitorScreen extends EventEmitter {
         this.position = new THREE.Vector3(0, 950, 255);
         this.rotation = new THREE.Euler(-3 * THREE.MathUtils.DEG2RAD, 0, 0);
         this.videoTextures = {};
+        this.mouseClickInProgress = false;
+        this.shouldLeaveMonitor = false;
 
         // Create screen
         this.initializeScreenEvents();
@@ -65,8 +70,22 @@ export default class MonitorScreen extends EventEmitter {
                     this.camera.trigger('enterMonitor');
                 }
 
-                if (!this.inComputer && this.prevInComputer) {
+                if (
+                    !this.inComputer &&
+                    this.prevInComputer &&
+                    !this.mouseClickInProgress
+                ) {
                     this.camera.trigger('leftMonitor');
+                }
+
+                if (
+                    !this.inComputer &&
+                    this.mouseClickInProgress &&
+                    this.prevInComputer
+                ) {
+                    this.shouldLeaveMonitor = true;
+                } else {
+                    this.shouldLeaveMonitor = false;
                 }
 
                 this.application.mouse.trigger('mousemove', [event]);
@@ -80,9 +99,9 @@ export default class MonitorScreen extends EventEmitter {
             (event) => {
                 // @ts-ignore
                 this.inComputer = event.inComputer;
-
                 this.application.mouse.trigger('mousedown', [event]);
 
+                this.mouseClickInProgress = true;
                 this.prevInComputer = this.inComputer;
             },
             false
@@ -92,9 +111,14 @@ export default class MonitorScreen extends EventEmitter {
             (event) => {
                 // @ts-ignore
                 this.inComputer = event.inComputer;
-
                 this.application.mouse.trigger('mouseup', [event]);
 
+                if (this.shouldLeaveMonitor) {
+                    this.camera.trigger('leftMonitor');
+                    this.shouldLeaveMonitor = false;
+                }
+
+                this.mouseClickInProgress = false;
                 this.prevInComputer = this.inComputer;
             },
             false

@@ -33,6 +33,18 @@ export class ComputerAudio {
         });
 
         document.addEventListener('keydown', (event) => {
+            if (event.key.includes('_AUTO_')) {
+                // audio.playAudio('keyboardKeydown', {
+                //     volume: 0.2,
+                //     pitch: -5,
+                // });
+                audio.playAudio('ccType', {
+                    volume: 0.02,
+                    randDetuneScale: 0,
+                    pitch: 20,
+                });
+                return;
+            }
             if (this.lastKey === event.key) return;
             this.lastKey = event.key;
 
@@ -47,7 +59,7 @@ export class ComputerAudio {
 
         UIEventBus.on('loadingScreenDone', () => {
             audio.playAudio('computerIdle', {
-                volume: 0.1,
+                volume: 0.03,
                 position: new THREE.Vector3(0, -500, 0),
                 loop: true,
                 randDetuneScale: 0,

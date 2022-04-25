@@ -50,6 +50,7 @@ export default class Audio {
             loop?: boolean;
             position?: THREE.Vector3;
             refDistance?: number;
+            pitch?: number;
         } = {}
     ) {
         // Resume context if it's suspended
@@ -101,10 +102,15 @@ export default class Audio {
 
         // Calculate detune
         const detuneAmount =
-            (Math.random() * 200 - 100) * (options.randDetuneScale || 1);
+            (Math.random() * 200 - 100) *
+            (options.randDetuneScale ? options.randDetuneScale : 0);
 
         // Set detune after .play is called
         audio.setDetune(detuneAmount);
+
+        if (options.pitch) {
+            audio.setDetune(options.pitch * 100);
+        }
 
         // Add to pool
         if (audio.source) {

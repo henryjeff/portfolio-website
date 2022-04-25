@@ -84,6 +84,11 @@ const sources: Resource[] = [
         type: 'audio',
         path: 'audio/computer/idle.wav',
     },
+    {
+        name: 'ccType',
+        type: 'audio',
+        path: 'audio/cc/type.mp3',
+    },
 ];
 
 export default sources;

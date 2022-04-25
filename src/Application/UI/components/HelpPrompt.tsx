@@ -14,14 +14,16 @@ const HelpPrompt: React.FC<HelpPromptProps> = () => {
         (i: number, curText) => {
             if (i < HELP_TEXT.length && helpVisible) {
                 return setTimeout(() => {
-                    setHelpText(curText + HELP_TEXT[i]);
-                    if (helpVisible)
+                    if (helpVisible) {
                         window.postMessage(
-                            { type: 'keydown', key: HELP_TEXT[i] },
+                            { type: 'keydown', key: `_AUTO_${HELP_TEXT[i]}` },
                             '*'
                         );
-                    typeHelpText(i + 1, curText + HELP_TEXT[i]);
-                }, 75 + Math.random() * 75);
+
+                        setHelpText(curText + HELP_TEXT[i]);
+                        typeHelpText(i + 1, curText + HELP_TEXT[i]);
+                    }
+                }, Math.random() * 120 + 50);
             }
         },
         [helpText, helpVisible]
@@ -30,7 +32,9 @@ const HelpPrompt: React.FC<HelpPromptProps> = () => {
     // make a document listener to listen to clicks
 
     useEffect(() => {
-        typeHelpText(0, '');
+        setTimeout(() => {
+            typeHelpText(0, '');
+        }, 500);
         document.addEventListener('mousedown', () => {
             setHelpVisible(false);
         });

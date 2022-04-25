@@ -57,10 +57,10 @@ export class MonitorKeyframe extends CameraKeyframeInstance {
     constructor() {
         const keyframe = keys.monitor;
         super(keyframe);
-        // this.application = new Application();
-        // this.sizes = this.application.sizes;
-        // this.origin = new THREE.Vector3().copy(keyframe.position);
-        // this.targetPos = new THREE.Vector3().copy(keyframe.position);
+        this.application = new Application();
+        this.sizes = this.application.sizes;
+        this.origin = new THREE.Vector3().copy(keyframe.position);
+        this.targetPos = new THREE.Vector3().copy(keyframe.position);
     }
 
     update() {
@@ -68,9 +68,9 @@ export class MonitorKeyframe extends CameraKeyframeInstance {
         // console.log(this.sizes.width, this.sizes.height);
         // console.log('aspect1: ' + this.sizes.width / this.sizes.height);
         // console.log('aspect2: ' + this.sizes.height / this.sizes.width);
-        // const aspect = this.sizes.height / this.sizes.width;
-        // this.targetPos.z = this.origin.z + aspect * 1200 - 600;
-        // this.position.copy(this.targetPos);
+        const aspect = this.sizes.height / this.sizes.width;
+        this.targetPos.z = this.origin.z + aspect * 1200 - 600;
+        this.position.copy(this.targetPos);
     }
 }
 
@@ -188,10 +188,10 @@ export class IdleKeyframe extends CameraKeyframeInstance {
     update() {
         this.position.x =
             // Offset with the 1000000
-            Math.sin((this.time.elapsed + 1000000) * 0.00004) * this.origin.x;
+            Math.sin((this.time.elapsed + 1000000) * 0.00008) * this.origin.x;
         this.position.x = this.position.x;
         this.position.y =
-            Math.sin(this.time.elapsed * 0.00002) * 4000 + this.origin.y - 3000;
+            Math.sin(this.time.elapsed * 0.00004) * 4000 + this.origin.y - 3000;
         this.position.z = this.position.z;
     }
 }
