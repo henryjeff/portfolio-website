@@ -37,18 +37,18 @@ export default class CoffeeSteam {
             fragmentShader,
             uniforms: {
                 uTime: { value: 0 },
-                uTimeFrequency: { value: 0.0007 },
-                uUvFrequency: { value: new THREE.Vector2(4, 5) },
+                uTimeFrequency: { value: 0.001 },
+                uUvFrequency: { value: new THREE.Vector2(3, 5) },
                 uColor: { value: new THREE.Color(this.model.color) },
             },
         });
 
         this.model.mesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(400, 1000),
+            new THREE.PlaneGeometry(280, 700),
             this.model.material
         );
 
-        this.model.mesh.position.copy(new THREE.Vector3(1650, 400, 900));
+        this.model.mesh.position.copy(new THREE.Vector3(1670, 200, 900));
 
         this.scene.add(this.model.mesh);
     }
