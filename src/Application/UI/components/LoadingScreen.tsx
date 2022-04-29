@@ -20,6 +20,15 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [webGLError, setWebGLError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
+    const [mobileWarning, setMobileWarning] = useState(false);
+
+    useEffect(() => {
+        if (window.innerWidth < 600) {
+            setMobileWarning(true);
+        } else {
+            setMobileWarning(false);
+        }
+    }, [window.innerWidth]);
 
     useEffect(() => {
         // DEBUG OVERRIDE
@@ -227,8 +236,22 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <div style={styles.spacer} />
                     <div style={styles.spacer} /> */}
                     <p>Henry Heffernan Portfolio Showcase 2022</p>
+                    {mobileWarning && (
+                        <>
+                            <br />
+                            <b>
+                                <p style={styles.warning}>
+                                    WARNING: This experience is best viewed on
+                                </p>
+                                <p style={styles.warning}>
+                                    a desktop or laptop computer.
+                                </p>
+                            </b>
+                            <br />
+                        </>
+                    )}
                     <div style={{ display: 'flex', alignItems: 'flex-end' }}>
-                        <p>Press start to begin{'\xa0'}</p>
+                        <p>Click start to begin{'\xa0'}</p>
                         <span className="blinking-cursor" />
                     </div>
                     <div
@@ -354,6 +377,9 @@ const styles: StyleSheetCSS = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    warning: {
+        color: 'yellow',
     },
     blinkingContainer: {
         position: 'absolute',
