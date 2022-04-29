@@ -79,11 +79,11 @@ const sources: Resource[] = [
         type: 'audio',
         path: 'audio/keyboard/key_6.mp3',
     },
-    {
-        name: 'computerIdle',
-        type: 'audio',
-        path: 'audio/computer/idle.wav',
-    },
+    // {
+    //     name: 'computerIdle',
+    //     type: 'audio',
+    //     path: 'audio/computer/idle.wav',
+    // },
     {
         name: 'ccType',
         type: 'audio',
