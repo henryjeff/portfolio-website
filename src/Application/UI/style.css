@@ -14,7 +14,7 @@ p {
 }
 
 /* if on mobile */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     h1,
     h2,
     h3,
@@ -147,7 +147,7 @@ br {
 }
 
 /* if on mobile make all loading screen elements have a padding of 16 */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     .loading-screen-header {
         padding: 16px;
     }

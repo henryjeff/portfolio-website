@@ -20,15 +20,17 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [webGLError, setWebGLError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
-    const [mobileWarning, setMobileWarning] = useState(false);
+    const [mobileWarning, setMobileWarning] = useState(window.innerWidth < 768);
 
-    useEffect(() => {
-        if (window.innerWidth < 600) {
+    const onResize = () => {
+        if (window.innerWidth < 768) {
             setMobileWarning(true);
         } else {
             setMobileWarning(false);
         }
-    }, [window.innerWidth]);
+    };
+
+    window.addEventListener('resize', onResize);
 
     useEffect(() => {
         // DEBUG OVERRIDE

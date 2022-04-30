@@ -188,10 +188,11 @@ export class IdleKeyframe extends CameraKeyframeInstance {
     update() {
         this.position.x =
             // Offset with the 1000000
-            Math.sin((this.time.elapsed + 1000000) * 0.00008) * this.origin.x;
-        this.position.x = this.position.x;
+            Math.sin((this.time.elapsed + 19000) * 0.00008) * this.origin.x;
         this.position.y =
-            Math.sin(this.time.elapsed * 0.00004) * 4000 + this.origin.y - 3000;
+            Math.sin((this.time.elapsed + 1000) * 0.000004) * 4000 +
+            this.origin.y -
+            3000;
         this.position.z = this.position.z;
     }
 }
