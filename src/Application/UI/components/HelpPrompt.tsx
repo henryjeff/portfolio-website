@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
 // import eventBus from '../EventBus';
 import { motion } from 'framer-motion';
+import UIEventBus from '../EventBus';
 
 const HELP_TEXT = 'Click anywhere to begin';
 
-type HelpPromptProps = {};
+type HelpPromptProps = { onVisibleChange: (visible: boolean) => void };
 
-const HelpPrompt: React.FC<HelpPromptProps> = () => {
+const HelpPrompt: React.FC<HelpPromptProps> = ({ onVisibleChange }) => {
     const [helpText, setHelpText] = useState('');
-    const [helpVisible, setHelpVisible] = useState(true);
+    const [visible, setVisible] = useState(true);
 
     const typeHelpText = useCallback(
         (i: number, curText) => {
-            if (i < HELP_TEXT.length && helpVisible) {
+            if (i < HELP_TEXT.length && visible) {
                 return setTimeout(() => {
-                    if (helpVisible) {
+                    if (visible) {
                         window.postMessage(
                             { type: 'keydown', key: `_AUTO_${HELP_TEXT[i]}` },
                             '*'
@@ -26,7 +27,7 @@ const HelpPrompt: React.FC<HelpPromptProps> = () => {
                 }, Math.random() * 120 + 50);
             }
         },
-        [helpText, helpVisible]
+        [helpText, visible]
     );
 
     // make a document listener to listen to clicks
@@ -36,14 +37,21 @@ const HelpPrompt: React.FC<HelpPromptProps> = () => {
             typeHelpText(0, '');
         }, 500);
         document.addEventListener('mousedown', () => {
-            setHelpVisible(false);
+            setVisible(false);
+        });
+        UIEventBus.on('enterMonitor', () => {
+            setVisible(false);
         });
     }, []);
+
+    useEffect(() => {
+        onVisibleChange(visible);
+    }, [visible]);
 
     return helpText.length > 0 ? (
         <motion.div
             variants={vars}
-            animate={helpVisible ? 'visible' : 'hide'}
+            animate={visible ? 'visible' : 'hide'}
             style={styles.container}
         >
             <p>{helpText}</p>

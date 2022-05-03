@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import Application from '../Application';
-import { ComputerAudio, RadioAudio } from './AudioSources';
+import { AmbienceAudio, ComputerAudio } from './AudioSources';
 import UIEventBus from '../UI/EventBus';
 
 const POS_DEBUG = false;
@@ -13,7 +13,7 @@ export default class Audio {
     audioPool: { [key in string]: THREE.PositionalAudio | THREE.Audio };
     audioSources: {
         computer: ComputerAudio;
-        radio: RadioAudio;
+        ambience: AmbienceAudio;
     };
     scene: THREE.Scene;
 
@@ -27,7 +27,7 @@ export default class Audio {
 
         this.audioSources = {
             computer: new ComputerAudio(this),
-            radio: new RadioAudio(this),
+            ambience: new AmbienceAudio(this),
         };
 
         UIEventBus.on('loadingScreenDone', () => {
@@ -48,6 +48,10 @@ export default class Audio {
             volume?: number;
             randDetuneScale?: number;
             loop?: boolean;
+            filter?: {
+                type: BiquadFilterType;
+                frequency: number;
+            };
             position?: THREE.Vector3;
             refDistance?: number;
             pitch?: number;
@@ -93,12 +97,28 @@ export default class Audio {
             mesh.name = poolKey;
             this.scene.add(mesh);
         }
+        audio.setBuffer(buffer);
+
+        if (options.filter) {
+            const ac = audio.context;
+            const filter = ac.createBiquadFilter();
+            filter.type = options.filter.type; // Low pass filter
+            filter.frequency.setValueAtTime(
+                options.filter.frequency,
+                ac.currentTime
+            );
+            // filter.frequency.linearRampToValueAtTime(2400, ac.currentTime + 2);
+
+            audio.setFilter(filter);
+        }
 
         // Set options
-        audio.setBuffer(buffer);
         audio.setLoop(options.loop ? true : false);
         audio.setVolume(options.volume || 1);
+
         audio.play();
+
+        // add a filter to the audio
 
         // Calculate detune
         const detuneAmount =
@@ -126,6 +146,18 @@ export default class Audio {
             };
             this.audioPool[poolKey] = audio;
         }
+        return poolKey;
+    }
+
+    setAudioFilterFrequency(audio: string, frequency: number) {
+        console.log(this.audioPool);
+        const a = this.audioPool[audio];
+        console.log(a);
+        if (a) {
+            const ac = a.context;
+            const filter = a.getFilter() as BiquadFilterNode;
+            filter.frequency.setValueAtTime(frequency, ac.currentTime);
+        }
     }
 
     getRandomVariant(sourceName: string) {
@@ -136,5 +168,12 @@ export default class Audio {
             }
         }
         return variants[Math.floor(Math.random() * variants.length)];
+    }
+
+    update() {
+        for (const key in this.audioSources) {
+            const _key = key as keyof typeof this.audioSources;
+            this.audioSources[_key].update();
+        }
     }
 }

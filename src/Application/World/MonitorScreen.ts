@@ -186,10 +186,10 @@ export default class MonitorScreen extends EventEmitter {
         };
 
         // Set iframe attributes
-        // DEV
-        // iframe.src = 'http://localhost:3000/';
         // PROD
         iframe.src = 'https://henryheffernan.vercel.app/';
+        // DEV
+        iframe.src = 'http://localhost:3000/';
         iframe.style.width = this.screenSize.width + 'px';
         iframe.style.height = this.screenSize.height + 'px';
         iframe.style.padding = IFRAME_PADDING + 'px';
@@ -508,9 +508,11 @@ export default class MonitorScreen extends EventEmitter {
 
             const opacity = 1 / (distance / 10000);
 
+            const DIM_FACTOR = 0.7;
+
             // @ts-ignore
             this.dimmingPlane.material.opacity =
-                (1 - opacity) * 0.7 + (1 - dot) * 0.7;
+                (1 - opacity) * DIM_FACTOR + (1 - dot) * DIM_FACTOR;
         }
     }
 }

@@ -85,6 +85,11 @@ const sources: Resource[] = [
     //     path: 'audio/computer/idle.wav',
     // },
     {
+        name: 'amb',
+        type: 'audio',
+        path: 'audio/radio/fire.mp3',
+    },
+    {
         name: 'ccType',
         type: 'audio',
         path: 'audio/cc/type.mp3',

@@ -128,9 +128,11 @@ export default class Camera extends EventEmitter {
                 2000,
                 BezierEasing(0.13, 0.99, 0, 1)
             );
+            UIEventBus.dispatch('enterMonitor', {});
         });
         this.on('leftMonitor', () => {
             this.transition(CameraKey.DESK);
+            UIEventBus.dispatch('leftMonitor', {});
         });
     }
 

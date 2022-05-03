@@ -44,5 +44,6 @@ export default class World {
         if (this.monitorScreen) this.monitorScreen.update();
         if (this.environment) this.environment.update();
         if (this.coffeeSteam) this.coffeeSteam.update();
+        if (this.audioManager) this.audioManager.update();
     }
 }
