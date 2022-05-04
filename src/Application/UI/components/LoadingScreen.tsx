@@ -33,8 +33,10 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     window.addEventListener('resize', onResize);
 
     useEffect(() => {
-        // DEBUG OVERRIDE
-        // start();
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('debug')) {
+            start();
+        }
         if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
             setFirefoxError(true);
         } else if (!detectWebGLContext()) {
