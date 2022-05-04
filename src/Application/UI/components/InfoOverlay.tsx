@@ -1,14 +1,42 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import UIEventBus from '../EventBus';
 import { Easing } from '../Animation';
 
 interface InfoOverlayProps {
-    visibleOverride?: boolean;
+    visibleOverride: boolean;
 }
 
+const NAME_TEXT = 'Henry Heffernan';
+const TITLE_TEXT = 'Software Engineer and Creative Developer';
+
 const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
+    const visRef = useRef(visible);
+    const [nameText, setNameText] = useState('');
+    const [titleText, setTitleText] = useState('');
+
+    const typeText = (
+        i: number,
+        curText: string,
+        text: string,
+        setText: React.Dispatch<React.SetStateAction<string>>,
+        callback: () => void
+    ) => {
+        if (i < text.length) {
+            setTimeout(() => {
+                window.postMessage(
+                    { type: 'keydown', key: `_AUTO_${text[i]}` },
+                    '*'
+                );
+
+                setText(curText + text[i]);
+                typeText(i + 1, curText + text[i], text, setText, callback);
+            }, Math.random() * 100 + 50);
+        } else {
+            callback();
+        }
+    };
 
     useEffect(() => {
         UIEventBus.on('enterMonitor', () => {
@@ -19,19 +47,38 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
         });
     }, []);
 
+    useEffect(() => {
+        if (visible && nameText == '') {
+            setTimeout(() => {
+                typeText(0, '', NAME_TEXT, setNameText, () => {
+                    typeText(0, '', TITLE_TEXT, setTitleText, () => {});
+                });
+            }, 400);
+        }
+        visRef.current = visible;
+    }, [visible]);
+
+    useEffect(() => {
+        setVisible(visibleOverride);
+    }, [visibleOverride]);
+
     return (
         <motion.div
             variants={vars}
             initial="hide"
-            animate={!visibleOverride ? 'hide' : visible ? 'visible' : 'hide'}
+            animate={visible ? 'visible' : 'hide'}
             style={styles.wrapper}
         >
-            <div style={styles.container}>
-                <p>Henry Heffernan</p>
-            </div>
-            <div style={styles.container}>
-                <p>Software Engineer and Creative Developer</p>
-            </div>
+            {nameText !== '' && (
+                <div style={styles.container}>
+                    <p>{nameText}</p>
+                </div>
+            )}
+            {titleText !== '' && (
+                <div style={styles.container}>
+                    <p>{titleText}</p>
+                </div>
+            )}
         </motion.div>
     );
 };
@@ -50,7 +97,7 @@ const vars = {
         x: -32,
         opacity: 0,
         transition: {
-            duration: 0.5,
+            duration: 0.3,
             ease: 'easeOut',
         },
     },
