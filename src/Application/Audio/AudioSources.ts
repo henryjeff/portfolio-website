@@ -82,8 +82,8 @@ export class AmbienceAudio extends AudioSource {
     constructor(manager: AudioManager) {
         super(manager);
         UIEventBus.on('loadingScreenDone', () => {
-            this.poolKey = this.manager.playAudio('amb', {
-                volume: 0.5,
+            this.poolKey = this.manager.playAudio('office', {
+                volume: 0.1,
                 loop: true,
                 randDetuneScale: 0,
                 filter: {
@@ -114,7 +114,7 @@ export class AmbienceAudio extends AudioSource {
             ((output_end - output_start) / (input_end - input_start)) *
                 (distance - input_start);
 
-        const freq = output - 1900;
+        const freq = output - 1000;
         this.manager.setAudioFilterFrequency(this.poolKey, freq);
     }
 }
