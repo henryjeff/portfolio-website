@@ -64,10 +64,6 @@ export class MonitorKeyframe extends CameraKeyframeInstance {
     }
 
     update() {
-        // if sizes width is greater than the height
-        // console.log(this.sizes.width, this.sizes.height);
-        // console.log('aspect1: ' + this.sizes.width / this.sizes.height);
-        // console.log('aspect2: ' + this.sizes.height / this.sizes.width);
         const aspect = this.sizes.height / this.sizes.width;
         this.targetPos.z = this.origin.z + aspect * 1200 - 600;
         this.position.copy(this.targetPos);
@@ -152,7 +148,7 @@ export class DeskKeyframe extends CameraKeyframeInstance {
         this.application = new Application();
         this.mouse = this.application.mouse;
         this.sizes = this.application.sizes;
-        // this.origin = new THREE.Vector3().copy(keyframe.position);
+        this.origin = new THREE.Vector3().copy(keyframe.position);
         this.targetFoc = new THREE.Vector3().copy(keyframe.focalPoint);
         this.targetPos = new THREE.Vector3().copy(keyframe.position);
     }
@@ -168,6 +164,9 @@ export class DeskKeyframe extends CameraKeyframeInstance {
         this.targetPos.y +=
             (-(this.mouse.y - this.sizes.height * 2) - this.targetPos.y) *
             0.025;
+
+        const aspect = this.sizes.height / this.sizes.width;
+        this.targetPos.z = this.origin.z + aspect * 3000 - 1800;
 
         this.focalPoint.copy(this.targetFoc);
         this.position.copy(this.targetPos);
