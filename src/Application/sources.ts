@@ -85,9 +85,9 @@ const sources: Resource[] = [
     //     path: 'audio/computer/idle.wav',
     // },
     {
-        name: 'amb',
+        name: 'office',
         type: 'audio',
-        path: 'audio/radio/fire.mp3',
+        path: 'audio/atmosphere/office2.mp3',
     },
     {
         name: 'ccType',
