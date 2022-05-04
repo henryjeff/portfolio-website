@@ -139,11 +139,6 @@ export default class Camera extends EventEmitter {
     setPostLoadTransition() {
         UIEventBus.on('loadingScreenDone', () => {
             this.transition(CameraKey.IDLE, 2500, TWEEN.Easing.Exponential.Out);
-            // this.transition(
-            //     CameraKey.CREDITS,
-            //     100,
-            //     TWEEN.Easing.Exponential.Out
-            // );
         });
     }
 

@@ -114,7 +114,7 @@ export class AmbienceAudio extends AudioSource {
             ((output_end - output_start) / (input_end - input_start)) *
                 (distance - input_start);
 
-        const freq = (output - 900) / 2;
+        const freq = (output - 1500) / 2;
         // const normalizedDistance = distance / 30000;
         // // map normalized distance to [200, 1000]
         // const normalizedDistanceMapped =

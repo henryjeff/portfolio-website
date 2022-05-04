@@ -150,13 +150,15 @@ export default class Audio {
     }
 
     setAudioFilterFrequency(audio: string, frequency: number) {
-        console.log(this.audioPool);
         const a = this.audioPool[audio];
-        console.log(a);
+
         if (a) {
             const ac = a.context;
             const filter = a.getFilter() as BiquadFilterNode;
-            filter.frequency.setValueAtTime(frequency, ac.currentTime);
+            // clamp the frequency between 0 and 22500
+            const f = Math.max(0, Math.min(22500, frequency));
+
+            filter.frequency.setValueAtTime(f, ac.currentTime);
         }
     }
 

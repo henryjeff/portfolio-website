@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import UIEventBus from '../EventBus';
 import { Easing } from '../Animation';
 
-interface NameProps {
+interface InfoOverlayProps {
     visibleOverride?: boolean;
 }
 
-const Name: React.FC<NameProps> = ({ visibleOverride }) => {
+const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
     const [visible, setVisible] = useState(true);
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Name: React.FC<NameProps> = ({ visibleOverride }) => {
             style={styles.wrapper}
         >
             <div style={styles.container}>
-                <p>Henry Heffernan</p>
+                <p>Henry Heffernan OKK</p>
             </div>
             <div style={styles.container}>
                 <p>Software Engineer and Creative Developer</p>
@@ -93,4 +93,4 @@ const styles: StyleSheetCSS = {
     },
 };
 
-export default Name;
+export default InfoOverlay;
