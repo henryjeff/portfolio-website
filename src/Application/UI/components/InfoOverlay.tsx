@@ -67,8 +67,8 @@ const styles: StyleSheetCSS = {
     container: {
         background: 'black',
         padding: 4,
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingLeft: 16,
+        paddingRight: 16,
         textAlign: 'center',
         display: 'flex',
         margin: 4,
