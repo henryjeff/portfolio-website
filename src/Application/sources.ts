@@ -87,7 +87,7 @@ const sources: Resource[] = [
     {
         name: 'office',
         type: 'audio',
-        path: 'audio/atmosphere/office.mp3',
+        path: 'audio/atmosphere/office.ogg',
     },
     {
         name: 'ccType',
