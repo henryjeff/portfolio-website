@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 // import eventBus from '../EventBus';
 import { motion } from 'framer-motion';
 import UIEventBus from '../EventBus';
@@ -10,25 +10,21 @@ type HelpPromptProps = { onVisibleChange: (visible: boolean) => void };
 const HelpPrompt: React.FC<HelpPromptProps> = ({ onVisibleChange }) => {
     const [helpText, setHelpText] = useState('');
     const [visible, setVisible] = useState(true);
+    const visRef = useRef(visible);
 
-    const typeHelpText = useCallback(
-        (i: number, curText) => {
-            if (i < HELP_TEXT.length && visible) {
-                return setTimeout(() => {
-                    if (visible) {
-                        window.postMessage(
-                            { type: 'keydown', key: `_AUTO_${HELP_TEXT[i]}` },
-                            '*'
-                        );
+    const typeHelpText = (i: number, curText: string) => {
+        if (i < HELP_TEXT.length && visRef.current) {
+            setTimeout(() => {
+                window.postMessage(
+                    { type: 'keydown', key: `_AUTO_${HELP_TEXT[i]}` },
+                    '*'
+                );
 
-                        setHelpText(curText + HELP_TEXT[i]);
-                        typeHelpText(i + 1, curText + HELP_TEXT[i]);
-                    }
-                }, Math.random() * 120 + 50);
-            }
-        },
-        [helpText, visible]
-    );
+                setHelpText(curText + HELP_TEXT[i]);
+                typeHelpText(i + 1, curText + HELP_TEXT[i]);
+            }, Math.random() * 120 + 50);
+        }
+    };
 
     // make a document listener to listen to clicks
 
@@ -46,6 +42,7 @@ const HelpPrompt: React.FC<HelpPromptProps> = ({ onVisibleChange }) => {
 
     useEffect(() => {
         onVisibleChange(visible);
+        visRef.current = visible;
     }, [visible]);
 
     return helpText.length > 0 ? (
