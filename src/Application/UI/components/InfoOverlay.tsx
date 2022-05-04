@@ -21,8 +21,12 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
         curText: string,
         text: string,
         setText: React.Dispatch<React.SetStateAction<string>>,
-        callback: () => void
+        callback: () => void,
+        refOverride?: React.MutableRefObject<string>
     ) => {
+        if (refOverride) {
+            text = refOverride.current;
+        }
         if (i < text.length) {
             setTimeout(() => {
                 window.postMessage(
@@ -31,8 +35,15 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
                 );
 
                 setText(curText + text[i]);
-                typeText(i + 1, curText + text[i], text, setText, callback);
-            }, Math.random() * 100 + 50);
+                typeText(
+                    i + 1,
+                    curText + text[i],
+                    text,
+                    setText,
+                    callback,
+                    refOverride
+                );
+            }, Math.random() * 50 + 50);
         } else {
             callback();
         }
@@ -51,7 +62,18 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
         if (visible && nameText == '') {
             setTimeout(() => {
                 typeText(0, '', NAME_TEXT, setNameText, () => {
-                    typeText(0, '', TITLE_TEXT, setTitleText, () => {});
+                    typeText(0, '', TITLE_TEXT, setTitleText, () => {
+                        typeText(
+                            0,
+                            '',
+                            time,
+                            setTimeText,
+                            () => {
+                                setTextDone(true);
+                            },
+                            timeRef
+                        );
+                    });
                 });
             }, 400);
         }
@@ -61,6 +83,23 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
     useEffect(() => {
         setVisible(visibleOverride);
     }, [visibleOverride]);
+
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
+    const timeRef = useRef(time);
+    const [timeText, setTimeText] = useState('');
+    const [textDone, setTextDone] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(new Date().toLocaleTimeString());
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        timeRef.current = time;
+        textDone && setTimeText(time);
+    }, [time]);
 
     return (
         <motion.div
@@ -77,6 +116,11 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
             {titleText !== '' && (
                 <div style={styles.container}>
                     <p>{titleText}</p>
+                </div>
+            )}
+            {timeText !== '' && (
+                <div style={styles.container}>
+                    <p>{timeText}</p>
                 </div>
             )}
         </motion.div>
