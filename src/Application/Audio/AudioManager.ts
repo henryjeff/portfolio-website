@@ -156,9 +156,16 @@ export default class Audio {
             const ac = a.context;
             const filter = a.getFilter() as BiquadFilterNode;
             // clamp the frequency between 0 and 22500
-            const f = Math.max(0, Math.min(22500, frequency));
+            const f = Math.max(0, Math.min(22050, frequency));
 
             filter.frequency.setValueAtTime(f, ac.currentTime);
+        }
+    }
+
+    setAudioVolume(audio: string, volume: number) {
+        const a = this.audioPool[audio];
+        if (a) {
+            a.setVolume(volume);
         }
     }
 
