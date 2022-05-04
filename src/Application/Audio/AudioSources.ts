@@ -82,15 +82,15 @@ export class AmbienceAudio extends AudioSource {
     constructor(manager: AudioManager) {
         super(manager);
         UIEventBus.on('loadingScreenDone', () => {
-            this.poolKey = this.manager.playAudio('amb', {
-                volume: 0.5,
-                loop: true,
-                randDetuneScale: 0,
-                filter: {
-                    type: 'lowpass',
-                    frequency: 1000,
-                },
-            });
+            // this.poolKey = this.manager.playAudio('amb', {
+            //     volume: 0.5,
+            //     loop: true,
+            //     randDetuneScale: 0,
+            //     filter: {
+            //         type: 'lowpass',
+            //         frequency: 1000,
+            //     },
+            // });
         });
     }
     update() {

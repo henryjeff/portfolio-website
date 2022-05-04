@@ -27,7 +27,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
             style={styles.wrapper}
         >
             <div style={styles.container}>
-                <p>Henry Heffernan OKK</p>
+                <p>Henry Heffernan</p>
             </div>
             <div style={styles.container}>
                 <p>Software Engineer and Creative Developer</p>
