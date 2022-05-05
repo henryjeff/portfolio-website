@@ -74,8 +74,10 @@ const VolumeInterface: React.FC<VolumeInterfaceProps> = ({}) => {
             onMouseDown={onMouseDownHandler}
             onMouseUp={onMouseUpHandler}
             className="volume-interface"
+            id="prevent-click"
         >
             <motion.img
+                id="prevent-click"
                 src={muted ? volumeOff : volumeOn}
                 style={{ opacity: isActive ? 0.2 : isHovering ? 0.8 : 1 }}
                 width={12}
