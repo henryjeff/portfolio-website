@@ -3,7 +3,7 @@ import Application from '../Application';
 import Camera from '../Camera/Camera';
 import Mouse from '../Utils/Mouse';
 
-const RENDER_WIREFRAME = false;
+const RENDER_WIREFRAME = true;
 
 export default class Decor {
     application: Application;
@@ -29,18 +29,29 @@ export default class Decor {
     }
 
     createRaycaster() {
-        window.addEventListener('click', (event) => {
+        window.addEventListener('mousedown', (event) => {
             event.preventDefault();
-            this.raycaster.setFromCamera(this.mouse, this.camera.instance);
-            const intersects = this.raycaster.intersectObjects(
-                this.scene.children
+            console.log(this.camera.instance.position);
+
+            console.log(this.mouse);
+            const ray = new THREE.Raycaster();
+            ray.setFromCamera(
+                { x: this.mouse.x, y: this.mouse.y },
+                this.camera.instance
             );
-            if (intersects.length > 0) {
-                const hb = this.hitboxes[intersects[0].object.name];
-                if (hb) {
-                    hb.action();
-                }
-            }
+            console.log(ray);
+            const intersects = ray.intersectObjects(this.scene.children);
+            console.log(intersects);
+            // this.raycaster.setFromCamera(this.mouse, this.camera.instance);
+            // const intersects = this.raycaster.intersectObjects(
+            //     this.scene.children
+            // );
+            // if (intersects.length > 0) {
+            //     const hb = this.hitboxes[intersects[0].object.name];
+            //     if (hb) {
+            //         hb.action();
+            //     }
+            // }
         });
     }
 
@@ -48,6 +59,7 @@ export default class Decor {
         this.createHitbox(
             'computerHitbox',
             () => {
+                console.log('PENIS');
                 // this.camera.focusOnMonitor();
             },
             new THREE.Vector3(0, 650, 0),
@@ -63,8 +75,8 @@ export default class Decor {
     ) {
         const wireframeOptions = RENDER_WIREFRAME
             ? {
-                  wireframe: true,
-                  wireframeLinewidth: 50,
+                  //   wireframe: true,
+                  //   wireframeLinewidth: 50,
                   opacity: 1,
               }
             : {};

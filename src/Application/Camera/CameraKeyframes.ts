@@ -31,7 +31,7 @@ const keys: { [key in CameraKey]: CameraKeyframe } = {
         focalPoint: new THREE.Vector3(0, 500, 0),
     },
     loading: {
-        position: new THREE.Vector3(-30000, 30000, 30000),
+        position: new THREE.Vector3(-35000, 35000, 35000),
         focalPoint: new THREE.Vector3(0, -5000, 0),
     },
     credits: {
@@ -186,7 +186,6 @@ export class IdleKeyframe extends CameraKeyframeInstance {
 
     update() {
         this.position.x =
-            // Offset with the 1000000
             Math.sin((this.time.elapsed + 19000) * 0.00008) * this.origin.x;
         this.position.y =
             Math.sin((this.time.elapsed + 1000) * 0.000004) * 4000 +
