@@ -1,7 +1,8 @@
-import createUI from './App';
+import { createUI, createVolumeUI } from './App';
 
 export default class UI {
     constructor() {
         createUI();
+        createVolumeUI();
     }
 }

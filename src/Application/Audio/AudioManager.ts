@@ -40,6 +40,10 @@ export default class Audio {
                 this.context.resume();
             }, 100);
         });
+
+        UIEventBus.on('muteToggle', (mute: boolean) => {
+            this.listener.setMasterVolume(mute ? 0 : 1);
+        });
     }
 
     playAudio(

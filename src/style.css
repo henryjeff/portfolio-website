@@ -24,6 +24,18 @@ body {
     z-index: -10;
 }
 
+.volume-interface {
+    bottom: 64px;
+    left: 64px;
+}
+
+@media only screen and (max-width: 768px) {
+    .volume-interface {
+        bottom: 16px;
+        left: 16px;
+    }
+}
+
 @keyframes jittery {
     10% {
         transform: translate(-0.1px, -0.15px) scale(1, 1);

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import LoadingScreen from './components/LoadingScreen';
 import HelpPrompt from './components/HelpPrompt';
 import InfoOverlay from './components/InfoOverlay';
+import VolumeInterface from './components/VolumeInterface';
 import eventBus from './EventBus';
 import './style.css';
 
@@ -31,4 +32,11 @@ const createUI = () => {
     ReactDOM.render(<App />, document.getElementById('ui'));
 };
 
-export default createUI;
+const createVolumeUI = () => {
+    ReactDOM.render(
+        <VolumeInterface />,
+        document.getElementById('volume-controls')
+    );
+};
+
+export { createUI, createVolumeUI };
