@@ -65,15 +65,6 @@ export class ComputerAudio extends AudioSource {
                 });
             }
         });
-
-        // UIEventBus.on('loadingScreenDone', () => {
-        //     manager.playAudio('amb', {
-        //         volume: 0.5,
-        //         // position: new THREE.Vector3(0, -500, 0),
-        //         loop: true,
-        //         randDetuneScale: 0,
-        //     });
-        // });
     }
 }
 
@@ -98,6 +89,21 @@ export class AmbienceAudio extends AudioSource {
             });
         });
     }
+
+    mapValues(
+        input: number,
+        input_start: number,
+        input_end: number,
+        output_start: number,
+        output_end: number
+    ) {
+        return (
+            output_start +
+            ((output_end - output_start) / (input_end - input_start)) *
+                (input - input_start)
+        );
+    }
+
     update() {
         const cameraPosition =
             this.manager.application.camera.instance.position;
@@ -108,18 +114,12 @@ export class AmbienceAudio extends AudioSource {
         // calculate distance to origin
         const distance = Math.sqrt(x * x + y * y + z * z);
 
-        const output_start = 100;
-        const output_end = 22000;
+        const freq = this.mapValues(distance, 0, 10000, 100, 22000);
 
-        const input_start = 0;
-        const input_end = 30000;
+        const volume = this.mapValues(distance, 1200, 10000, 0, 0.5);
+        const volumeClamped = Math.min(Math.max(volume, 0.15), 0.45);
 
-        const output =
-            output_start +
-            ((output_end - output_start) / (input_end - input_start)) *
-                (distance - input_start);
-
-        const freq = output - 1000;
-        this.manager.setAudioFilterFrequency(this.poolKey, freq);
+        this.manager.setAudioFilterFrequency(this.poolKey, freq - 3000);
+        this.manager.setAudioVolume(this.poolKey, volumeClamped);
     }
 }
