@@ -146,12 +146,33 @@ br {
     padding-bottom: 64px;
 }
 
+.info-wrapper {
+    top: 64px;
+    left: 64px;
+}
+
 /* if on mobile make all loading screen elements have a padding of 16 */
 @media only screen and (max-width: 768px) {
     .loading-screen-header {
         padding: 16px;
     }
 
+    .info-wrapper {
+        top: 16px;
+        left: 16px;
+    }
+
+    .blinking-cursor {
+        background-color: #fff;
+        width: 0.4em;
+        height: 0.08em;
+        -webkit-animation: 0.65s blink step-end infinite;
+        -moz-animation: 0.65s blink step-end infinite;
+        -ms-animation: 0.65s blink step-end infinite;
+        -o-animation: 0.65s blink step-end infinite;
+        animation: 0.65s blink step-end infinite;
+    }
+    
     .loading-screen-body {
         padding-left: 16px;
         padding-right: 16px;

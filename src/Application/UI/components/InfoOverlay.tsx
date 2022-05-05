@@ -106,6 +106,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
             variants={vars}
             initial="hide"
             animate={visible ? 'visible' : 'hide'}
+            className={'info-wrapper'}
             style={styles.wrapper}
         >
             {nameText !== '' && (
@@ -167,8 +168,6 @@ const styles: StyleSheetCSS = {
     },
     wrapper: {
         position: 'absolute',
-        top: 64,
-        left: 64,
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
