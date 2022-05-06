@@ -75,7 +75,7 @@ const MuteToggle: React.FC<MuteToggleProps> = ({}) => {
                     variants={iconVars}
                 />
             </div>
-            <motion.div
+            {/* <motion.div
                 initial="hidden"
                 animate={freeCamActive ? 'active' : 'hidden'}
                 variants={indicatorVars}
@@ -91,7 +91,7 @@ const MuteToggle: React.FC<MuteToggleProps> = ({}) => {
                 >
                     Free Cam Enabled
                 </p>
-            </motion.div>
+            </motion.div> */}
         </div>
     );
 };
