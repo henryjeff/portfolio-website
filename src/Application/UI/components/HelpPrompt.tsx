@@ -5,9 +5,9 @@ import UIEventBus from '../EventBus';
 
 const HELP_TEXT = 'Click anywhere to begin';
 
-type HelpPromptProps = { onVisibleChange: (visible: boolean) => void };
+type HelpPromptProps = {};
 
-const HelpPrompt: React.FC<HelpPromptProps> = ({ onVisibleChange }) => {
+const HelpPrompt: React.FC<HelpPromptProps> = () => {
     const [helpText, setHelpText] = useState('');
     const [visible, setVisible] = useState(true);
     const visRef = useRef(visible);
@@ -41,7 +41,9 @@ const HelpPrompt: React.FC<HelpPromptProps> = ({ onVisibleChange }) => {
     }, []);
 
     useEffect(() => {
-        onVisibleChange(visible);
+        if (visible == false) {
+            window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
+        }
         visRef.current = visible;
     }, [visible]);
 

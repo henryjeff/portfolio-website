@@ -34,17 +34,9 @@ const keys: { [key in CameraKey]: CameraKeyframe } = {
         position: new THREE.Vector3(-35000, 35000, 35000),
         focalPoint: new THREE.Vector3(0, -5000, 0),
     },
-    credits: {
-        position: new THREE.Vector3(-1550, 900, 1690),
-        focalPoint: new THREE.Vector3(-2050, -500, 950),
-    },
-    // coffee: {
-    //     position: new THREE.Vector3(2000, 900, 2000),
-    //     focalPoint: new THREE.Vector3(1650, 0, 950),
-    // },
-    monitorProfile: {
-        position: new THREE.Vector3(-3000, 1000, 2000),
-        focalPoint: new THREE.Vector3(0, 500, 0),
+    orbitControlsStart: {
+        position: new THREE.Vector3(-15000, 10000, 15000),
+        focalPoint: new THREE.Vector3(-100, 350, 0),
     },
 };
 
@@ -67,61 +59,6 @@ export class MonitorKeyframe extends CameraKeyframeInstance {
         const aspect = this.sizes.height / this.sizes.width;
         this.targetPos.z = this.origin.z + aspect * 1200 - 600;
         this.position.copy(this.targetPos);
-    }
-}
-
-export class MonitorProfileKeyframe extends CameraKeyframeInstance {
-    constructor() {
-        const keyframe = keys.monitorProfile;
-        super(keyframe);
-    }
-
-    update() {}
-}
-
-export class CreditsKeyframe extends CameraKeyframeInstance {
-    origin: THREE.Vector3;
-    application: Application;
-    mouse: Mouse;
-    sizes: Sizes;
-    targetFoc: THREE.Vector3;
-    targetPos: THREE.Vector3;
-    added: boolean;
-
-    constructor() {
-        const keyframe = keys.credits;
-        super(keyframe);
-        this.added = false;
-
-        // create a sphere to indicate the focal point
-        // const sphere = new THREE.Mesh(
-        //     new THREE.SphereGeometry(100, 32, 32),
-        //     new THREE.MeshBasicMaterial({
-        //         color: 0xffffff,
-        //         wireframe: true,
-        //     })
-        // );
-        // sphere.position.copy(keyframe.focalPoint);
-
-        // this.application = new Application();
-        // this.mouse = this.application.mouse;
-        // this.sizes = this.application.sizes;
-        // this.targetFoc = new THREE.Vector3().copy(keyframe.focalPoint);
-    }
-
-    update() {
-        // const sphere = new THREE.Mesh(
-        //     new THREE.SphereGeometry(100, 32, 32),
-        //     new THREE.MeshBasicMaterial({
-        //         color: 0xffffff,
-        //         wireframe: true,
-        //     })
-        // );
-        // sphere.position.copy(keys.credits.focalPoint);
-        // this.application.renderer.scene.add(sphere);
-        // this.added = true;
-        // this.targetFoc.x += (this.mouse.x - this.targetFoc.x) * 0.1;
-        // this.focalPoint.copy(this.targetFoc);
     }
 }
 
@@ -195,38 +132,11 @@ export class IdleKeyframe extends CameraKeyframeInstance {
     }
 }
 
-// export class CoffeeKeyframe extends CameraKeyframeInstance {
-//     time: Time;
-//     origin: THREE.Vector3;
+export class OrbitControlsStart extends CameraKeyframeInstance {
+    constructor() {
+        const keyframe = keys.orbitControlsStart;
+        super(keyframe);
+    }
 
-//     constructor() {
-//         const keyframe = keys.coffee;
-//         super(keyframe);
-//         this.origin = new THREE.Vector3().copy(keyframe.position);
-//         this.time = new Time();
-//     }
-
-//     update() {
-//         const s = Math.sin(this.time.elapsed * 0.002) * 1000;
-//         const c = Math.cos(this.time.elapsed * 0.002) * 1000;
-
-//         // let p = new THREE.Vector2();
-
-//         // // translate point back to origin:
-//         // p.x -= this.origin.x;
-//         // p.y -= this.origin.z;
-
-//         // // rotate point
-//         // const xnew = p.x * c - p.y * s;
-//         // const ynew = p.x * s + p.y * c;
-
-//         // // translate point back:
-//         // p.x = xnew + this.origin.x;
-//         // p.y = ynew + this.origin.z;
-
-//         this.position.x = s + this.origin.x / 2;
-//         this.position.z = c + this.origin.z;
-//         // this.position.z = s + this.origin.z;
-//         // this.position.y = this.origin.y;
-//     }
-// }
+    update() {}
+}

@@ -7,12 +7,9 @@ import volumeOn from '../../../../static/textures/UI/volume_on.svg';
 // @ts-ignore
 import volumeOff from '../../../../static/textures/UI/volume_off.svg';
 
-interface VolumeInterfaceProps {}
+interface MuteToggleProps {}
 
-const VolumeInterface: React.FC<VolumeInterfaceProps> = ({}) => {
-    const [initLoad, setInitLoad] = useState(true);
-    const [visible, setVisible] = useState(false);
-    const [loading, setLoading] = useState(true);
+const MuteToggle: React.FC<MuteToggleProps> = ({}) => {
     const [isHovering, setIsHovering] = useState(false);
     const [isActive, setIsActive] = useState(false);
     const [muted, setMuted] = useState(false);
@@ -32,63 +29,30 @@ const VolumeInterface: React.FC<VolumeInterfaceProps> = ({}) => {
 
     useEffect(() => {
         UIEventBus.dispatch('muteToggle', muted);
+        window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
     }, [muted]);
 
-    useEffect(() => {
-        UIEventBus.on('loadingScreenDone', () => {
-            setLoading(false);
-        });
-    }, []);
-
-    const initMouseDownHandler = () => {
-        setVisible(true);
-        setInitLoad(false);
-    };
-
-    useEffect(() => {
-        if (!loading && initLoad) {
-            document.addEventListener('mousedown', initMouseDownHandler);
-            return () => {
-                document.removeEventListener('mousedown', initMouseDownHandler);
-            };
-        }
-    }, [loading, initLoad]);
-
-    useEffect(() => {
-        UIEventBus.on('enterMonitor', () => {
-            setVisible(false);
-        });
-        UIEventBus.on('leftMonitor', () => {
-            setVisible(true);
-        });
-    }, []);
-
-    return !loading ? (
-        <motion.div
-            initial="hide"
-            variants={vars}
-            animate={visible ? 'visible' : 'hide'}
+    return (
+        <div
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             style={styles.container}
             onMouseDown={onMouseDownHandler}
             onMouseUp={onMouseUpHandler}
-            className="volume-interface"
+            className="icon-control-container"
             id="prevent-click"
         >
             <motion.img
                 id="prevent-click"
                 src={muted ? volumeOff : volumeOn}
                 style={{ opacity: isActive ? 0.2 : isHovering ? 0.8 : 1 }}
-                width={12}
+                width={window.innerWidth < 768 ? 8 : 10}
                 animate={
                     isActive ? 'active' : isHovering ? 'hovering' : 'default'
                 }
                 variants={iconVars}
             />
-        </motion.div>
-    ) : (
-        <></>
+        </div>
     );
 };
 
@@ -119,39 +83,18 @@ const iconVars = {
     },
 };
 
-const vars = {
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.5,
-            delay: 0.5,
-            ease: 'easeOut',
-        },
-    },
-    hide: {
-        x: -32,
-        opacity: 0,
-        transition: {
-            duration: 0.3,
-            ease: 'easeOut',
-        },
-    },
-};
-
 const styles: StyleSheetCSS = {
     container: {
         background: 'black',
-        padding: 4,
-        height: 26.5,
+        // padding: 4,
         paddingLeft: 8,
         paddingRight: 8,
         textAlign: 'center',
         display: 'flex',
-        position: 'absolute',
+        // position: 'absolute',
         boxSizing: 'border-box',
         cursor: 'pointer',
     },
 };
 
-export default VolumeInterface;
+export default MuteToggle;

@@ -1,20 +1,25 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import UIEventBus from '../EventBus';
-import { Easing } from '../Animation';
+import FreeCamToggle from './FreeCamToggle';
+import MuteToggle from './MuteToggle';
 
 interface InfoOverlayProps {
-    visibleOverride: boolean;
+    visible: boolean;
 }
 
 const NAME_TEXT = 'Henry Heffernan';
 const TITLE_TEXT = 'Software Engineer and Creative Developer';
+const MULTIPLIER = 0.7;
 
-const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
-    const [visible, setVisible] = useState(false);
+const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     const visRef = useRef(visible);
     const [nameText, setNameText] = useState('');
     const [titleText, setTitleText] = useState('');
+    const [time, setTime] = useState(new Date().toLocaleTimeString());
+    const timeRef = useRef(time);
+    const [timeText, setTimeText] = useState('');
+    const [textDone, setTextDone] = useState(false);
+    const [volumeVisible, setVolumeVisible] = useState(false);
+    const [freeCamVisible, setFreeCamVisible] = useState(false);
 
     const typeText = (
         i: number,
@@ -29,10 +34,11 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
         }
         if (i < text.length) {
             setTimeout(() => {
-                window.postMessage(
-                    { type: 'keydown', key: `_AUTO_${text[i]}` },
-                    '*'
-                );
+                if (visRef.current === true)
+                    window.postMessage(
+                        { type: 'keydown', key: `_AUTO_${text[i]}` },
+                        '*'
+                    );
 
                 setText(curText + text[i]);
                 typeText(
@@ -43,20 +49,11 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
                     callback,
                     refOverride
                 );
-            }, Math.random() * 50 + 50);
+            }, Math.random() * 50 + 50 * MULTIPLIER);
         } else {
             callback();
         }
     };
-
-    useEffect(() => {
-        UIEventBus.on('enterMonitor', () => {
-            setVisible(false);
-        });
-        UIEventBus.on('leftMonitor', () => {
-            setVisible(true);
-        });
-    }, []);
 
     useEffect(() => {
         if (visible && nameText == '') {
@@ -81,13 +78,19 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
     }, [visible]);
 
     useEffect(() => {
-        setVisible(visibleOverride);
-    }, [visibleOverride]);
+        if (textDone) {
+            setTimeout(() => {
+                setVolumeVisible(true);
+                setTimeout(() => {
+                    setFreeCamVisible(true);
+                }, 300);
+            }, 250);
+        }
+    }, [textDone]);
 
-    const [time, setTime] = useState(new Date().toLocaleTimeString());
-    const timeRef = useRef(time);
-    const [timeText, setTimeText] = useState('');
-    const [textDone, setTextDone] = useState(false);
+    useEffect(() => {
+        window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
+    }, [freeCamVisible, volumeVisible]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -102,13 +105,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
     }, [time]);
 
     return (
-        <motion.div
-            variants={vars}
-            initial="hide"
-            animate={visible ? 'visible' : 'hide'}
-            className={'info-wrapper'}
-            style={styles.wrapper}
-        >
+        <div style={styles.wrapper}>
             {nameText !== '' && (
                 <div style={styles.container}>
                     <p>{nameText}</p>
@@ -120,40 +117,31 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visibleOverride }) => {
                 </div>
             )}
             {timeText !== '' && (
-                <div style={styles.container}>
-                    <p>{timeText}</p>
+                <div style={styles.lastRow}>
+                    <div
+                        style={Object.assign(
+                            {},
+                            styles.container,
+                            styles.lastRowChild
+                        )}
+                    >
+                        <p>{timeText}</p>
+                    </div>
+                    {volumeVisible && (
+                        <div style={styles.lastRowChild}>
+                            <MuteToggle />
+                        </div>
+                    )}
+                    {freeCamVisible && (
+                        <div style={styles.lastRowChild}>
+                            <FreeCamToggle />
+                        </div>
+                    )}
                 </div>
             )}
-        </motion.div>
+        </div>
     );
 };
-
-const vars = {
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.5,
-            delay: 0.5,
-            ease: 'easeOut',
-        },
-    },
-    hide: {
-        x: -32,
-        opacity: 0,
-        transition: {
-            duration: 0.3,
-            ease: 'easeOut',
-        },
-    },
-};
-
-// Typescript angry at me for some reason, so I'm just going to ignore it.
-// and redeclare this here
-
-interface StyleSheetCSS {
-    [key: string]: React.CSSProperties;
-}
 
 const styles: StyleSheetCSS = {
     container: {
@@ -163,7 +151,7 @@ const styles: StyleSheetCSS = {
         paddingRight: 16,
         textAlign: 'center',
         display: 'flex',
-        margin: 4,
+        marginBottom: 4,
         boxSizing: 'border-box',
     },
     wrapper: {
@@ -180,6 +168,13 @@ const styles: StyleSheetCSS = {
         marginLeft: 8,
         paddingBottom: 2,
         paddingRight: 4,
+    },
+    lastRow: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    lastRowChild: {
+        marginRight: 4,
     },
 };
 

@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import LoadingScreen from './components/LoadingScreen';
 import HelpPrompt from './components/HelpPrompt';
-import InfoOverlay from './components/InfoOverlay';
-import VolumeInterface from './components/VolumeInterface';
+import InterfaceUI from './components/InterfaceUI';
 import eventBus from './EventBus';
 import './style.css';
 
 const App = () => {
     const [loading, setLoading] = useState(true);
-    const [helpVisible, setHelpVisible] = useState(true);
 
     useEffect(() => {
         eventBus.on('loadingScreenDone', () => {
@@ -19,10 +17,7 @@ const App = () => {
 
     return (
         <div id="ui-app">
-            {!loading && (
-                <HelpPrompt onVisibleChange={(vis) => setHelpVisible(vis)} />
-            )}
-            {!loading && <InfoOverlay visibleOverride={!helpVisible} />}
+            {!loading && <HelpPrompt />}
             <LoadingScreen />
         </div>
     );
@@ -33,10 +28,7 @@ const createUI = () => {
 };
 
 const createVolumeUI = () => {
-    ReactDOM.render(
-        <VolumeInterface />,
-        document.getElementById('volume-controls')
-    );
+    ReactDOM.render(<InterfaceUI />, document.getElementById('ui-interactive'));
 };
 
 export { createUI, createVolumeUI };

@@ -24,15 +24,27 @@ body {
     z-index: -10;
 }
 
-.volume-interface {
-    bottom: 64px;
+.interface-wrapper {
+    width: 100%;
+    top: 64px;
     left: 64px;
 }
 
+.icon-control-container {
+    height: 26.5px;
+    width: 26.5px;
+}
+
 @media only screen and (max-width: 768px) {
-    .volume-interface {
+    .interface-wrapper {
+        width: 100%;
         bottom: 16px;
         left: 16px;
+    }
+
+    .icon-control-container {
+        height: 19.5px;
+        width: 19.5px;
     }
 }
 

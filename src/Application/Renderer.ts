@@ -89,7 +89,7 @@ export default class Renderer {
         };
 
         this.overlay = new THREE.Mesh(
-            new THREE.PlaneGeometry(1000, 1000),
+            new THREE.PlaneGeometry(10000, 10000),
             new THREE.ShaderMaterial({
                 vertexShader: screenVert,
                 fragmentShader: screenFrag,
@@ -98,7 +98,6 @@ export default class Renderer {
                 depthWrite: false,
             })
         );
-        this.overlay.position.add(new THREE.Vector3(0, 1000, -5000));
 
         this.overlayScene.add(this.overlay);
     }
@@ -122,5 +121,6 @@ export default class Renderer {
         this.instance.render(this.scene, this.camera.instance);
         this.cssInstance.render(this.cssScene, this.camera.instance);
         this.overlayInstance.render(this.overlayScene, this.camera.instance);
+        this.overlay.position.copy(this.camera.instance.position);
     }
 }
