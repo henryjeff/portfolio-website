@@ -116,8 +116,10 @@ export class AmbienceAudio extends AudioSource {
 
         const freq = this.mapValues(distance, 0, 10000, 100, 22000);
 
-        const volume = this.mapValues(distance, 1200, 10000, 0, 0.5);
-        const volumeClamped = Math.min(Math.max(volume, 0.1), 0.2);
+        const volume = this.mapValues(distance, 1200, 10000, 0, 0.2);
+        const volumeClamped = Math.min(Math.max(volume, 0.05), 0.1);
+
+        console.log(volumeClamped);
 
         this.manager.setAudioFilterFrequency(this.poolKey, freq - 3000);
         this.manager.setAudioVolume(this.poolKey, volumeClamped);
