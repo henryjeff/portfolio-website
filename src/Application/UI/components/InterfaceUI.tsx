@@ -1,12 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import UIEventBus from '../EventBus';
-import { Easing } from '../Animation';
-// @ts-ignore
-import volumeOn from '../../../../static/textures/UI/volume_on.svg';
-// @ts-ignore
-import volumeOff from '../../../../static/textures/UI/volume_off.svg';
-import VolumeInterface from './MuteToggle';
 import InfoOverlay from './InfoOverlay';
 
 interface InterfaceUIProps {}
@@ -23,7 +17,7 @@ const InterfaceUI: React.FC<InterfaceUIProps> = ({}) => {
         });
 
         // find element by id and set ref
-        const element = document.getElementById('volume-controls');
+        const element = document.getElementById('ui-interactive');
         if (element) {
             // @ts-ignore
             interfaceRef.current = element;

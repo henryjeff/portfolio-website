@@ -75,7 +75,7 @@ export class AmbienceAudio extends AudioSource {
         super(manager);
         UIEventBus.on('loadingScreenDone', () => {
             this.poolKey = this.manager.playAudio('office', {
-                volume: 0.1,
+                volume: 1,
                 loop: true,
                 randDetuneScale: 0,
                 filter: {
@@ -117,7 +117,7 @@ export class AmbienceAudio extends AudioSource {
         const freq = this.mapValues(distance, 0, 10000, 100, 22000);
 
         const volume = this.mapValues(distance, 1200, 10000, 0, 0.5);
-        const volumeClamped = Math.min(Math.max(volume, 0.15), 0.45);
+        const volumeClamped = Math.min(Math.max(volume, 0.1), 0.2);
 
         this.manager.setAudioFilterFrequency(this.poolKey, freq - 3000);
         this.manager.setAudioVolume(this.poolKey, volumeClamped);

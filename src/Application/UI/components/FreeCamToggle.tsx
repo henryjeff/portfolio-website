@@ -50,26 +50,49 @@ const MuteToggle: React.FC<MuteToggleProps> = ({}) => {
     }, [freeCamActive]);
 
     return (
-        <motion.div
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-            style={styles.container}
-            onMouseDown={onMouseDownHandler}
-            onMouseUp={onMouseUpHandler}
-            className="icon-control-container"
-            id="prevent-click"
-        >
-            <motion.img
+        <div style={styles.wrapper}>
+            <div
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+                style={styles.container}
+                onMouseDown={onMouseDownHandler}
+                onMouseUp={onMouseUpHandler}
+                className="icon-control-container"
                 id="prevent-click"
-                src={freeCamActive ? mouse : camera}
-                style={{ opacity: isActive ? 0.2 : isHovering ? 0.8 : 1 }}
-                height={iconSize}
-                animate={
-                    isActive ? 'active' : isHovering ? 'hovering' : 'default'
-                }
-                variants={iconVars}
-            />
-        </motion.div>
+            >
+                <motion.img
+                    id="prevent-click"
+                    src={freeCamActive ? mouse : camera}
+                    style={{ opacity: isActive ? 0.2 : isHovering ? 0.8 : 1 }}
+                    height={iconSize}
+                    animate={
+                        isActive
+                            ? 'active'
+                            : isHovering
+                            ? 'hovering'
+                            : 'default'
+                    }
+                    variants={iconVars}
+                />
+            </div>
+            <motion.div
+                initial="hidden"
+                animate={freeCamActive ? 'active' : 'hidden'}
+                variants={indicatorVars}
+                style={Object.assign({}, styles.container, { marginLeft: 4 })}
+                id="prevent-click"
+            >
+                <p
+                    style={
+                        window.innerWidth < 768
+                            ? { fontSize: 8 }
+                            : { fontSize: 10 }
+                    }
+                >
+                    Free Cam Enabled
+                </p>
+            </motion.div>
+        </div>
     );
 };
 
@@ -100,6 +123,25 @@ const iconVars = {
     },
 };
 
+const indicatorVars = {
+    active: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.2,
+            ease: Easing.expOut,
+        },
+    },
+    hidden: {
+        x: -4,
+        opacity: 0,
+        transition: {
+            duration: 0.2,
+            ease: Easing.expOut,
+        },
+    },
+};
+
 const styles: StyleSheetCSS = {
     container: {
         background: 'black',
@@ -113,6 +155,11 @@ const styles: StyleSheetCSS = {
         justifyContent: 'center',
         alignItems: 'center',
         cursor: 'pointer',
+    },
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
     },
 };
 

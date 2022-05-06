@@ -29,7 +29,6 @@ const MuteToggle: React.FC<MuteToggleProps> = ({}) => {
 
     useEffect(() => {
         UIEventBus.dispatch('muteToggle', muted);
-        window.postMessage({ type: 'keydown', key: `_AUTO_` }, '*');
     }, [muted]);
 
     return (

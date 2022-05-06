@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FreeCamToggle from './FreeCamToggle';
 import MuteToggle from './MuteToggle';
 
@@ -83,7 +83,7 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                 setVolumeVisible(true);
                 setTimeout(() => {
                     setFreeCamVisible(true);
-                }, 300);
+                }, 250);
             }, 250);
         }
     }, [textDone]);
