@@ -38,8 +38,8 @@ body {
 @media only screen and (max-width: 768px) {
     .interface-wrapper {
         width: 100%;
-        bottom: 16px;
-        left: 16px;
+        top: 24px;
+        left: 24px;
     }
 
     .icon-control-container {

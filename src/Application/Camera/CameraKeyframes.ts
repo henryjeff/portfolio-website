@@ -57,7 +57,8 @@ export class MonitorKeyframe extends CameraKeyframeInstance {
 
     update() {
         const aspect = this.sizes.height / this.sizes.width;
-        this.targetPos.z = this.origin.z + aspect * 1200 - 600;
+        const additionalZoom = this.sizes.width < 768 ? 0 : 600;
+        this.targetPos.z = this.origin.z + aspect * 1200 - additionalZoom;
         this.position.copy(this.targetPos);
     }
 }
