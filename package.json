@@ -17,6 +17,7 @@
         "body-parser": "^1.20.0",
         "camera-controls": "^1.34.2",
         "clean-webpack-plugin": "^4.0.0",
+        "compression": "^1.7.4",
         "copy-webpack-plugin": "^10.2.4",
         "cors": "^2.8.5",
         "css-loader": "^6.5.1",
