@@ -62,6 +62,13 @@ export default class MonitorScreen extends EventEmitter {
             'mousemove',
             (event) => {
                 // @ts-ignore
+                const id = event.target.id;
+                if (id === 'computer-screen') {
+                    // @ts-ignore
+                    event.inComputer = true;
+                }
+
+                // @ts-ignore
                 this.inComputer = event.inComputer;
 
                 if (this.inComputer && !this.prevInComputer) {
@@ -134,16 +141,6 @@ export default class MonitorScreen extends EventEmitter {
         container.style.opacity = '1';
         container.style.background = '#1d2e2f';
 
-        // container.addEventListener('mousemove', (event) => {
-        //     var evt = new CustomEvent('mousemove', {
-        //         bubbles: false,
-        //         cancelable: false,
-        //     });
-        //     //@ts-ignore
-        //     evt.inComputer = true;
-        //     document.dispatchEvent(evt);
-        // });
-
         // Create iframe
         const iframe = document.createElement('iframe');
 
@@ -205,6 +202,7 @@ export default class MonitorScreen extends EventEmitter {
         iframe.style.boxSizing = 'border-box';
         iframe.style.opacity = '1';
         iframe.className = 'jitter';
+        iframe.id = 'computer-screen';
         iframe.frameBorder = '0';
 
         // Add iframe to container

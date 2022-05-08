@@ -208,7 +208,7 @@ export default class Camera extends EventEmitter {
             this.keyframes.orbitControlsStart.position
         );
         this.orbitControls.dampingFactor = 0.05;
-        this.orbitControls.maxPolarAngle = Math.PI / 2 - Math.PI / 16;
+        this.orbitControls.maxPolarAngle = Math.PI / 2;
         this.orbitControls.minDistance = 4000;
         this.orbitControls.maxDistance = 29000;
 

@@ -41,6 +41,7 @@ const InterfaceUI: React.FC<InterfaceUIProps> = ({}) => {
     useEffect(() => {
         UIEventBus.on('enterMonitor', () => {
             setVisible(false);
+            setInitLoad(false);
             if (interfaceRef.current) {
                 interfaceRef.current.style.pointerEvents = 'none';
             }

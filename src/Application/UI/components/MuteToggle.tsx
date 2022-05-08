@@ -86,12 +86,14 @@ const styles: StyleSheetCSS = {
     container: {
         background: 'black',
         // padding: 4,
-        paddingLeft: 8,
-        paddingRight: 8,
+        // paddingLeft: 8,
+        // paddingRight: 8,
         textAlign: 'center',
         display: 'flex',
         // position: 'absolute',
         boxSizing: 'border-box',
+        justifyContent: 'center',
+        alignItems: 'center',
         cursor: 'pointer',
     },
 };
