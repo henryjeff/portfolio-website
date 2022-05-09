@@ -59,7 +59,6 @@ export default class Decor {
         this.createHitbox(
             'computerHitbox',
             () => {
-                console.log('PENIS');
                 // this.camera.focusOnMonitor();
             },
             new THREE.Vector3(0, 650, 0),
