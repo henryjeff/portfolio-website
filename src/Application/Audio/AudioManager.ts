@@ -31,7 +31,6 @@ export default class Audio {
         };
 
         UIEventBus.on('loadingScreenDone', () => {
-            // console.log('RESUMING CONTEXT');
             setTimeout(() => {
                 const AudioContext =
                     // @ts-ignore
