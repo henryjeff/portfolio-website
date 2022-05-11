@@ -295,9 +295,9 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                             >
                                 bug in firefox
                             </a>
-                            , this website is temporarily
+                            , this website is temporarily inaccessible for
+                            anyone using the browser.
                         </p>
-                        <p>inaccessible for anyone using the browser.</p>
                         <div style={styles.spacer} />
                         <p>
                             I apologize for the inaccessibility. As this site is
