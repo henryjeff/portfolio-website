@@ -406,6 +406,7 @@ const styles: StyleSheetCSS = {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        maxWidth: 500,
         // alignItems: 'center',
     },
     headerInfo: {
