@@ -280,8 +280,8 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                 >
                     <div style={styles.startPopup}>
                         <p>
-                            <b style={{ color: 'red' }}>CRITICAL ERROR:</b>{' '}
-                            Firefox Detected
+                            <b style={{ color: 'red' }}>FATAL ERROR:</b> Firefox
+                            Detected
                         </p>
                         <div style={styles.spacer} />
                         <div style={styles.spacer} />
@@ -300,17 +300,21 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                         <p>inaccessible for anyone using the browser.</p>
                         <div style={styles.spacer} />
                         <p>
-                            It pains me to have to make this screen, but as of
+                            I apologize for the inaccessibility. As this site is
+                            now public I will be revisiting this bug to try and
+                            find a work around. If I fail, I believe there is a
+                            PR currently in review for FireFox that attempts to
+                            fix the regression. Whether or not that will fix the
+                            bug is unknown. Updates will be posted here.
                         </p>
-                        <p>right now the bug is so deeply rooted in firefox</p>
-                        <p>that it is not worth worth my time to invest the </p>
-                        <p>resources into developing a equally complicated</p>
-                        <p>workaround.</p>
 
                         <div style={styles.spacer} />
                         <p>
-                            In the mean time urge you to use a different browser
+                            In the mean time if you want to access this site you
+                            will need to use a different browser.
                         </p>
+                        <div style={styles.spacer} />
+                        <p>Thank you - Henry</p>
                     </div>
                 </div>
             )}
