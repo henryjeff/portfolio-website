@@ -29,8 +29,8 @@ app.post('/api/send-email', async (req, res) => {
         host: 'smtp.gmail.com',
         port: 587,
         auth: {
-            user: process.env.FOLIO_EMAIL,
-            pass: process.env.FOLIO_PASSWORD,
+            user: "1919dotfun@gmail.com",
+            pass: "ylhychgkkjhiuwzq",
         },
     });
 
