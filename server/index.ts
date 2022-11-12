@@ -39,11 +39,11 @@ app.post('/api/send-email', (req, res) => {
         .then(() => {
             transporter
                 .sendMail({
-                    from: `"${name}" <henryheffernan.folio@gmail.com>`, // sender address
-                    to: 'henryheffernan@gmail.com, henryheffernan.folio@gmail.com', // list of receivers
+                    from: `"${name}" <1919dotfun@gmail.com>`, // sender address
+                    to: '1919dotfun@gmail.com', // list of receivers
                     subject: `${name} <${email}> ${
                         company ? `from ${company}` : ''
-                    } submitted a contact form`, // Subject line
+                    } 提交的表单`, // Subject line
                     text: `${message}`, // plain text body
                 })
                 .then((info) => {
