@@ -16,7 +16,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     const [showBiosInfo, setShowBiosInfo] = useState(false);
     const [showLoadingResources, setShowLoadingResources] = useState(false);
     const [doneLoading, setDoneLoading] = useState(false);
-    const [firefoxError, setFirefoxError] = useState(false);
     const [webGLError, setWebGLError] = useState(false);
     const [counter, setCounter] = useState(0);
     const [resources] = useState<string[]>([]);
@@ -36,9 +35,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('debug')) {
             start();
-        }
-        if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-            setFirefoxError(true);
         } else if (!detectWebGLContext()) {
             setWebGLError(true);
         } else {
@@ -68,7 +64,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
     }, [loaded]);
 
     useEffect(() => {
-        if (progress >= 1 && !firefoxError && !webGLError) {
+        if (progress >= 1 && !webGLError) {
             setDoneLoading(true);
 
             setTimeout(() => {
@@ -79,14 +75,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
             }, 1000);
         }
     }, [progress]);
-
-    useEffect(() => {
-        if (firefoxError) {
-            setTimeout(() => {
-                setFirefoxPopupOpacity(1);
-            }, 500);
-        }
-    }, [firefoxError]);
 
     useEffect(() => {
         if (webGLError) {
@@ -148,7 +136,7 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     <span className="blinking-cursor" />
                 </div>
             )}
-            {!firefoxError && !webGLError && (
+            {!webGLError && (
                 <div
                     style={Object.assign({}, styles.overlayText, {
                         opacity: loadingTextOpacity,
@@ -272,52 +260,6 @@ const LoadingScreen: React.FC<LoadingProps> = () => {
                     </div>
                 </div>
             </div>
-            {firefoxError && (
-                <div
-                    style={Object.assign({}, styles.popupContainer, {
-                        opacity: firefoxPopupOpacity,
-                    })}
-                >
-                    <div style={styles.startPopup}>
-                        <p>
-                            <b style={{ color: 'red' }}>FATAL ERROR:</b> Firefox
-                            Detected
-                        </p>
-                        <div style={styles.spacer} />
-                        <div style={styles.spacer} />
-                        <p>
-                            Due to a{' '}
-                            <a
-                                style={styles.link}
-                                href={
-                                    'https://github.com/henryjeff/portfolio-website/issues/6'
-                                }
-                            >
-                                bug in firefox
-                            </a>
-                            , this website is temporarily inaccessible for
-                            anyone using the browser.
-                        </p>
-                        <div style={styles.spacer} />
-                        <p>
-                            I apologize for the inaccessibility. As this site is
-                            now public I will be revisiting this bug to try and
-                            find a work around. If I fail, I believe there is a
-                            PR currently in review for FireFox that attempts to
-                            fix the regression. Whether or not that will fix the
-                            bug is unknown. Updates will be posted here.
-                        </p>
-
-                        <div style={styles.spacer} />
-                        <p>
-                            In the mean time if you want to access this site you
-                            will need to use a different browser.
-                        </p>
-                        <div style={styles.spacer} />
-                        <p>Thank you - Henry</p>
-                    </div>
-                </div>
-            )}
             {webGLError && (
                 <div
                     style={Object.assign({}, styles.popupContainer, {
