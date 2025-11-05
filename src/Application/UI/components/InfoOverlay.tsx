@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import FreeCamToggle from './FreeCamToggle';
 import MuteToggle from './MuteToggle';
+import TerminalIcon from './TerminalIcon';
+import Terminal from './Terminal';
 
 interface InfoOverlayProps {
     visible: boolean;
@@ -20,6 +22,8 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     const [textDone, setTextDone] = useState(false);
     const [volumeVisible, setVolumeVisible] = useState(false);
     const [freeCamVisible, setFreeCamVisible] = useState(false);
+    const [terminalVisible, setTerminalVisible] = useState(false);
+    const [terminalIconVisible, setTerminalIconVisible] = useState(false);
 
     const typeText = (
         i: number,
@@ -83,6 +87,9 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
                 setVolumeVisible(true);
                 setTimeout(() => {
                     setFreeCamVisible(true);
+                    setTimeout(() => {
+                        setTerminalIconVisible(true);
+                    }, 250);
                 }, 250);
             }, 250);
         }
@@ -105,41 +112,54 @@ const InfoOverlay: React.FC<InfoOverlayProps> = ({ visible }) => {
     }, [time]);
 
     return (
-        <div style={styles.wrapper}>
-            {nameText !== '' && (
-                <div style={styles.container}>
-                    <p>{nameText}</p>
-                </div>
-            )}
-            {titleText !== '' && (
-                <div style={styles.container}>
-                    <p>{titleText}</p>
-                </div>
-            )}
-            {timeText !== '' && (
-                <div style={styles.lastRow}>
-                    <div
-                        style={Object.assign(
-                            {},
-                            styles.container,
-                            styles.lastRowChild
-                        )}
-                    >
-                        <p>{timeText}</p>
+        <>
+            <div style={styles.wrapper}>
+                {nameText !== '' && (
+                    <div style={styles.container}>
+                        <p>{nameText}</p>
                     </div>
-                    {volumeVisible && (
-                        <div style={styles.lastRowChild}>
-                            <MuteToggle />
+                )}
+                {titleText !== '' && (
+                    <div style={styles.container}>
+                        <p>{titleText}</p>
+                    </div>
+                )}
+                {timeText !== '' && (
+                    <div style={styles.lastRow}>
+                        <div
+                            style={Object.assign(
+                                {},
+                                styles.container,
+                                styles.lastRowChild
+                            )}
+                        >
+                            <p>{timeText}</p>
                         </div>
-                    )}
-                    {freeCamVisible && (
-                        <div style={styles.lastRowChild}>
-                            <FreeCamToggle />
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
+                        {volumeVisible && (
+                            <div style={styles.lastRowChild}>
+                                <MuteToggle />
+                            </div>
+                        )}
+                        {freeCamVisible && (
+                            <div style={styles.lastRowChild}>
+                                <FreeCamToggle />
+                            </div>
+                        )}
+                        {terminalIconVisible && (
+                            <div style={styles.lastRowChild}>
+                                <TerminalIcon
+                                    onClick={() => setTerminalVisible(true)}
+                                />
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
+            <Terminal
+                visible={terminalVisible}
+                onClose={() => setTerminalVisible(false)}
+            />
+        </>
     );
 };
 

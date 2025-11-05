@@ -183,3 +183,50 @@ br {
         padding-bottom: 32px;
     }
 }
+
+/* Terminal Styles */
+.terminal-window {
+    font-family: 'Fira Code', 'Courier New', monospace;
+}
+
+.terminal-cursor {
+    color: #00ff41;
+    animation: terminal-blink 1s step-end infinite;
+}
+
+@keyframes terminal-blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+.terminal-window::-webkit-scrollbar {
+    width: 10px;
+}
+
+.terminal-window::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+.terminal-window::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 5px;
+}
+
+.terminal-window::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Terminal button hover effects */
+.terminal-window .terminal-button:hover {
+    filter: brightness(1.2);
+}
+
+/* Selection styles for terminal */
+.terminal-window ::selection {
+    background-color: #00ff4150;
+    color: #00ff41;
+}
