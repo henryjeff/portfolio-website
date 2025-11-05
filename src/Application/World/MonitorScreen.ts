@@ -183,8 +183,8 @@ export default class MonitorScreen extends EventEmitter {
         };
 
         // Set iframe attributes
-        // PROD
-        iframe.src = 'about:blank';
+        // Load terminal interface
+        iframe.src = './terminal.html';
         /**
          * Use dev server is query params are present
          *

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #0a0a0a;
+            color: #00ff41;
+            padding: 16px;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #terminal {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 20px;
+        }
+
+        #terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #terminal::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        #terminal::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        #terminal::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .line {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 4px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .command {
+            color: #00d9ff;
+            margin-top: 8px;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .output {
+            color: #00ff41;
+        }
+
+        #input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .prompt {
+            color: #00d9ff;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        #command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #00ff41;
+            font-family: inherit;
+            font-size: 14px;
+            caret-color: #00ff41;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #00ff41;
+            margin-left: 2px;
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% {
+                opacity: 1;
+            }
+            51%, 100% {
+                opacity: 0;
+            }
+        }
+
+        ::selection {
+            background-color: #00ff4150;
+            color: #00ff41;
+        }
+
+        .ascii-art {
+            color: #00d9ff;
+        }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div>
+    <div id="input-line">
+        <span class="prompt">$</span>
+        <input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false">
+        <span class="cursor"></span>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const input = document.getElementById('command-input');
+        const inputLine = document.getElementById('input-line');
+        let commandHistory = [];
+        let historyIndex = -1;
+
+        // Welcome message
+        addOutput('Welcome to Portfolio Terminal v1.0.0');
+        addOutput('Type "help" for available commands');
+        addOutput('');
+
+        const commands = {
+            help: () => {
+                return `Available commands:
+  help        - Show this help message
+  about       - Information about this portfolio
+  skills      - List technical skills
+  projects    - Show projects
+  contact     - Display contact information
+  whoami      - Display current user
+  date        - Show current date and time
+  clear       - Clear terminal screen
+  ls          - List directory contents
+  pwd         - Print working directory
+  echo [text] - Print text to terminal
+  neofetch    - Display system information
+  cat [file]  - Display file contents`;
+            },
+            about: () => {
+                return `About This Portfolio
+━━━━━━━━━━━━━━━━━━━━━━
+This is an interactive 3D portfolio built with:
+- Three.js for 3D graphics and rendering
+- React & TypeScript for UI components
+- WebGL for advanced graphics rendering
+- CSS3D for screen integration
+
+Navigate through the 3D environment and explore!
+The terminal you're viewing is rendered inside the
+3D computer screen using CSS3DRenderer.`;
+            },
+            skills: () => {
+                return `Technical Skills
+━━━━━━━━━━━━━━━━
+Frontend:     React, TypeScript, Three.js, WebGL
+Backend:      Node.js, Express
+Tools:        Git, Webpack, npm
+Languages:    JavaScript, TypeScript, HTML5, CSS3
+3D Graphics:  Three.js, GLSL, WebGL`;
+            },
+            projects: () => {
+                return `Featured Projects
+━━━━━━━━━━━━━━━━
+[1] 3D Interactive Portfolio
+    - Immersive 3D environment with interactive elements
+    - Real-time rendering with Three.js
+    - Terminal interface inside 3D screen
+
+[2] Web Applications
+    - Full-stack development projects
+    - Modern JavaScript frameworks
+
+[3] Graphics & Visualization
+    - WebGL experiments and demos
+    - Shader programming with GLSL
+
+Type 'contact' to get in touch!`;
+            },
+            contact: () => {
+                return `Contact Information
+━━━━━━━━━━━━━━━━━━━
+📧 Email:    your-email@example.com
+💼 LinkedIn: linkedin.com/in/your-profile
+🐙 GitHub:   github.com/your-username
+🌐 Website:  your-website.com
+
+Feel free to reach out for collaborations or opportunities!`;
+            },
+            whoami: () => {
+                return 'guest@portfolio';
+            },
+            date: () => {
+                return new Date().toString();
+            },
+            clear: () => {
+                terminal.innerHTML = '';
+                return null;
+            },
+            ls: () => {
+                return `about.txt    projects/    skills.txt    contact.txt    README.md`;
+            },
+            pwd: () => {
+                return '/home/guest/portfolio';
+            },
+            echo: (args) => {
+                return args.join(' ');
+            },
+            neofetch: () => {
+                return `       ___           guest@portfolio
+      (.. |          ━━━━━━━━━━━━━━━━━
+      (<> |          OS: PortfolioOS 3D Edition
+     / __  \\         Shell: bash 5.0
+    ( /  \\ /|        Terminal: portfolio-term
+   _/\\ __)/_)        Resolution: ${window.innerWidth}x${window.innerHeight}
+   \\/-____\\/         CPU: Your Browser Engine
+                     GPU: WebGL 2.0
+                     Theme: Matrix Green
+                     Renderer: CSS3DRenderer
+                     3D Engine: Three.js r137`;
+            },
+            cat: (args) => {
+                const files = {
+                    'about.txt': 'Interactive 3D Portfolio\n\nA modern portfolio showcasing web development\nand 3D graphics skills.',
+                    'skills.txt': 'React, TypeScript, Three.js, WebGL, Node.js',
+                    'contact.txt': 'Email: your-email@example.com\nGitHub: your-username',
+                    'README.md': '# Portfolio\n\nWelcome to my interactive 3D portfolio!\n\nExplore the environment and discover my work.'
+                };
+
+                if (args.length === 0) {
+                    return 'cat: missing file operand\nTry \'cat [filename]\'';
+                }
+
+                const filename = args[0];
+                if (files[filename]) {
+                    return files[filename];
+                } else {
+                    return `cat: ${filename}: No such file or directory`;
+                }
+            }
+        };
+
+        function addOutput(text, className = 'output') {
+            const line = document.createElement('div');
+            line.className = `line ${className}`;
+            line.textContent = text;
+            terminal.appendChild(line);
+            scrollToBottom();
+        }
+
+        function addCommand(text) {
+            const line = document.createElement('div');
+            line.className = 'line command';
+            line.textContent = `$ ${text}`;
+            terminal.appendChild(line);
+            scrollToBottom();
+        }
+
+        function executeCommand(cmdText) {
+            const trimmed = cmdText.trim();
+            if (!trimmed) return;
+
+            addCommand(trimmed);
+
+            const parts = trimmed.split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+
+            if (cmd in commands) {
+                const output = commands[cmd](args);
+                if (output !== null) {
+                    const lines = output.split('\n');
+                    lines.forEach(line => {
+                        addOutput(line, cmd === 'neofetch' ? 'ascii-art' : 'output');
+                    });
+                }
+            } else {
+                addOutput(`Command not found: ${cmd}. Type 'help' for available commands.`, 'error');
+            }
+
+            commandHistory.push(trimmed);
+            historyIndex = -1;
+        }
+
+        function scrollToBottom() {
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value;
+                executeCommand(cmd);
+                input.value = '';
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (commandHistory.length > 0) {
+                    historyIndex = historyIndex === -1
+                        ? commandHistory.length - 1
+                        : Math.max(0, historyIndex - 1);
+                    input.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex !== -1) {
+                    historyIndex++;
+                    if (historyIndex >= commandHistory.length) {
+                        historyIndex = -1;
+                        input.value = '';
+                    } else {
+                        input.value = commandHistory[historyIndex];
+                    }
+                }
+            } else if (e.key === 'l' && e.ctrlKey) {
+                e.preventDefault();
+                terminal.innerHTML = '';
+            } else if (e.key === 'c' && e.ctrlKey) {
+                e.preventDefault();
+                input.value = '';
+            }
+        });
+
+        // Keep focus on input
+        document.body.addEventListener('click', () => {
+            input.focus();
+        });
+
+        // Send mouse events to parent
+        ['mousemove', 'mousedown', 'mouseup', 'keydown', 'keyup'].forEach(eventType => {
+            document.addEventListener(eventType, (e) => {
+                window.parent.postMessage({
+                    type: eventType,
+                    clientX: e.clientX,
+                    clientY: e.clientY,
+                    key: e.key
+                }, '*');
+            });
+        });
+
+        // Focus input on load
+        input.focus();
+    </script>
+</body>
+</html>
