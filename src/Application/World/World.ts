@@ -29,11 +29,11 @@ export default class World {
         // Wait for resources
         this.resources.on('ready', () => {
             // Setup
-            this.environment = new Environment();
-            this.decor = new Decor();
+            // this.environment = new Environment();
+            // this.decor = new Decor();
             this.computerSetup = new ComputerSetup();
-            this.monitorScreen = new MonitorScreen();
-            this.coffeeSteam = new CoffeeSteam();
+            // this.monitorScreen = new MonitorScreen();
+            // this.coffeeSteam = new CoffeeSteam();
             this.audioManager = new AudioManager();
             // const hb = new Hitboxes();
             // this.cursor = new Cursor();

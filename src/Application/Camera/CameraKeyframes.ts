@@ -19,24 +19,24 @@ export class CameraKeyframeInstance {
 
 const keys: { [key in CameraKey]: CameraKeyframe } = {
     idle: {
-        position: new THREE.Vector3(-20000, 12000, 20000),
-        focalPoint: new THREE.Vector3(0, -1000, 0),
+        position: new THREE.Vector3(0, 500, 5000),
+        focalPoint: new THREE.Vector3(0, 0, 0),
     },
     monitor: {
-        position: new THREE.Vector3(0, 950, 2000),
-        focalPoint: new THREE.Vector3(0, 950, 0),
+        position: new THREE.Vector3(0, 200, 1500),
+        focalPoint: new THREE.Vector3(0, 200, 0),
     },
     desk: {
-        position: new THREE.Vector3(0, 1800, 5500),
-        focalPoint: new THREE.Vector3(0, 500, 0),
+        position: new THREE.Vector3(0, 400, 4000),
+        focalPoint: new THREE.Vector3(0, 0, 0),
     },
     loading: {
-        position: new THREE.Vector3(-35000, 35000, 35000),
-        focalPoint: new THREE.Vector3(0, -5000, 0),
+        position: new THREE.Vector3(0, 400, 6000),
+        focalPoint: new THREE.Vector3(0, 0, 0),
     },
     orbitControlsStart: {
-        position: new THREE.Vector3(-15000, 10000, 15000),
-        focalPoint: new THREE.Vector3(-100, 350, 0),
+        position: new THREE.Vector3(0, 400, 6000),
+        focalPoint: new THREE.Vector3(0, 0, 0),
     },
 };
 
