@@ -66,28 +66,8 @@ export default class Camera extends EventEmitter {
             orbitControlsStart: new OrbitControlsStart(),
         };
 
-        document.addEventListener('mousedown', (event) => {
-            event.preventDefault();
-            // @ts-ignore
-            if (event.target.id === 'prevent-click') return;
-            // print target and current keyframe
-            if (
-                this.currentKeyframe === CameraKey.IDLE ||
-                this.targetKeyframe === CameraKey.IDLE
-            ) {
-                this.transition(CameraKey.DESK);
-            } else if (
-                this.currentKeyframe === CameraKey.DESK ||
-                this.targetKeyframe === CameraKey.DESK
-            ) {
-                this.transition(CameraKey.IDLE);
-            }
-        });
-
-        this.setPostLoadTransition();
         this.setInstance();
-        this.setMonitorListeners();
-        this.setFreeCamListeners();
+        this.setFreeCamStart();
     }
 
     transition(
@@ -129,61 +109,20 @@ export default class Camera extends EventEmitter {
             10,
             900000
         );
-        this.currentKeyframe = CameraKey.LOADING;
+        this.currentKeyframe = CameraKey.ORBIT_CONTROLS_START;
 
         this.scene.add(this.instance);
     }
 
-    setMonitorListeners() {
-        this.on('enterMonitor', () => {
-            this.transition(
-                CameraKey.MONITOR,
-                2000,
-                BezierEasing(0.13, 0.99, 0, 1)
-            );
-            UIEventBus.dispatch('enterMonitor', {});
-        });
-        this.on('leftMonitor', () => {
-            this.transition(CameraKey.DESK);
-            UIEventBus.dispatch('leftMonitor', {});
-        });
-    }
-
-    setFreeCamListeners() {
-        UIEventBus.on('freeCamToggle', (toggle: boolean) => {
-            // if (toggle === this.freeCam) return;
-            if (toggle) {
-                this.transition(
-                    CameraKey.ORBIT_CONTROLS_START,
-                    750,
-                    BezierEasing(0.13, 0.99, 0, 1),
-                    () => {
-                        this.instance.position.copy(
-                            this.keyframes.orbitControlsStart.position
-                        );
-
-                        this.orbitControls.update();
-                        this.freeCam = true;
-                    }
-                );
-                // @ts-ignore
-                document.getElementById('webgl').style.pointerEvents = 'auto';
-            } else {
-                this.freeCam = false;
-                this.transition(
-                    CameraKey.IDLE,
-                    4000,
-                    TWEEN.Easing.Exponential.Out
-                );
-                // @ts-ignore
-                document.getElementById('webgl').style.pointerEvents = 'none';
-            }
-        });
-    }
-
-    setPostLoadTransition() {
+    setFreeCamStart() {
         UIEventBus.on('loadingScreenDone', () => {
-            this.transition(CameraKey.IDLE, 2500, TWEEN.Easing.Exponential.Out);
+            this.instance.position.copy(
+                this.keyframes.orbitControlsStart.position
+            );
+            // @ts-ignore
+            document.getElementById('webgl').style.pointerEvents = 'auto';
+            this.freeCam = true;
+            this.orbitControls.update();
         });
     }
 
@@ -201,6 +140,7 @@ export default class Camera extends EventEmitter {
 
         const { x, y, z } = this.keyframes.orbitControlsStart.focalPoint;
         this.orbitControls.target.set(x, y, z);
+        this.orbitControls.enablePan = true;
 
         this.orbitControls.enablePan = false;
         this.orbitControls.enableDamping = true;
@@ -209,8 +149,8 @@ export default class Camera extends EventEmitter {
         );
         this.orbitControls.dampingFactor = 0.05;
         this.orbitControls.maxPolarAngle = Math.PI / 2;
-        this.orbitControls.minDistance = 4000;
-        this.orbitControls.maxDistance = 29000;
+        this.orbitControls.minDistance = 500;
+        this.orbitControls.maxDistance = 10000;
 
         this.orbitControls.update();
     }
