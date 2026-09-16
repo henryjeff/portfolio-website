@@ -184,7 +184,7 @@ export default class MonitorScreen extends EventEmitter {
 
         // Set iframe attributes
         // PROD
-        iframe.src = 'https://os.henryheffernan.com/';
+        iframe.src = '/os.html';
         /**
          * Use dev server is query params are present
          *
@@ -194,7 +194,7 @@ export default class MonitorScreen extends EventEmitter {
          */
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('dev')) {
-            iframe.src = 'http://localhost:3000/';
+            iframe.src = '/os.html';
         }
         iframe.style.width = this.screenSize.width + 'px';
         iframe.style.height = this.screenSize.height + 'px';
@@ -204,7 +204,7 @@ export default class MonitorScreen extends EventEmitter {
         iframe.className = 'jitter';
         iframe.id = 'computer-screen';
         iframe.frameBorder = '0';
-        iframe.title = 'HeffernanOS';
+        iframe.title = 'WaseeqOS';
 
         // Add iframe to container
         container.appendChild(iframe);

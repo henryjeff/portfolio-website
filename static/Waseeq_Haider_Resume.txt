@@ -1,0 +1,85 @@
+================================================================================
+                           WASEEQ HAIDER - CV / RESUME
+  Cybersecurity Specialist & Software Developer | CEH (Certified Ethical Hacker)
+================================================================================
+
+CONTACT DETAILS:
+----------------
+Location:  Muzaffarabad, Pakistan
+Phone:     (+92) 317 0883933
+Email:     waseeqyt@gmail.com
+Portfolio: https://waseeq.vercel.app/
+GitHub:    https://github.com/waseeq-haider
+
+PROFESSIONAL SUMMARY:
+---------------------
+Passionate Computer Science student with CEH certification and hands-on experience
+in web development, cybersecurity, and modern AI-driven coding workflows.
+
+WORK EXPERIENCE:
+----------------
+1. Cultural Voyagers, Rawalpindi, Pakistan
+   Cybersecurity Specialist & Software Developer
+   SEPTEMBER 2025 - PRESENT
+   • Secured company web platforms, booking systems, and internal tools against cyber threats.
+   • Conducted vulnerability assessments and penetration testing on websites and web applications.
+   • Identified and fixed security misconfigurations, weak authentication, and data exposure risks.
+   • Implemented basic web application security controls including input validation, access control, and secure sessions.
+   • Monitored systems for suspicious activity, malware, and unauthorized access attempts.
+   • Assisted in securing customer data, booking records, and payment-related workflows.
+   • Advised management on cybersecurity best practices and risk mitigation strategies.
+   • Helped develop new web software and led IT infrastructure migration to transition manual Google Sheets and workflows to a software-driven online system.
+   • Performed Linux-based security testing using industry tools.
+
+2. TechRealm, Lahore, Pakistan
+   Web Developer
+   NOVEMBER 2025 - DECEMBER 2025
+   • Developed and maintained responsive websites and web applications for multiple clients.
+   • Converted UI/UX designs into clean, functional frontend code using HTML, CSS, and JavaScript.
+   • Built and optimized landing pages, business websites, and portfolios.
+   • Ensured cross-browser compatibility and mobile responsiveness.
+   • Improved website performance, loading speed, and visual consistency.
+   • Debugged and fixed frontend issues, layout bugs, and JavaScript errors.
+   • Integrated contact forms, inquiry systems, and dynamic UI components.
+
+EDUCATION:
+----------
+Paramount School and Science College, Muzaffarabad, Pakistan
+Intermediate in Computer Science (ICS)
+AUGUST 2022 - APRIL 2024
+
+FEATURED SOFTWARE PROJECTS:
+---------------------------
+1. CV Generator Web App (https://waseeq-haider.github.io/cv-generator/)
+   Web-based resume builder application focused on usability and PDF output.
+2. HIBI — Learning Management System (LMS) | Japan
+   Learning Management System for Japanese education environments.
+3. StayCore — Property Management System
+   Property management solution to automate bookings, property tracking, and client communications.
+4. Cultural Voyagers — Attendance Management System
+   Automated attendance tracking solution for organizational operations.
+5. Cultural Voyagers — Finance & Invoice Management System
+   Financial and invoice management application for billing workflows and financial reporting.
+6. Techytoolsai Portfolio & Showcase (https://techytoolai.vercel.app/)
+   Showcase site for AI tools and development projects, alongside client web solutions.
+
+TECHNICAL SKILLS:
+-----------------
+• Cybersecurity: Metasploit, Burp Suite, Hydra, Wireshark, Nmap, Penetration Testing, Vulnerability Assessment, Linux Auditing.
+• AI Development: Claude Code, Google Antigravity, OpenCode, Cursor, Lovable, Prompt Engineering, AI Coding Workflows.
+• Languages: JavaScript, Python, HTML5, CSS3.
+• Frameworks & Libraries: React.js, Next.js, Vite, Tailwind CSS.
+• Backend & Database: Supabase, PostgreSQL, REST APIs.
+• Dev Tools & Workflow: Git, GitHub, Vercel, Responsive Web Development.
+
+OFFICIAL CERTIFICATIONS:
+------------------------
+• Certified Ethical Hacker (CEH) — EC-Council (2024)
+• Claude 101 — Anthropic
+• AI Fluency — Anthropic
+
+LANGUAGES:
+----------
+• Urdu: Native
+• English: Proficient (Reading: C2; Listening, Speaking, Writing: C1)
+================================================================================

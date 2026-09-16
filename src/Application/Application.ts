@@ -7,7 +7,7 @@ import Camera from './Camera/Camera';
 import Renderer from './Renderer';
 import Mouse from './Utils/Mouse';
 
-//@ts-ignore
+// @ts-ignore
 import World from './World/World';
 import Resources from './Utils/Resources';
 
@@ -44,9 +44,8 @@ export default class Application {
 
         instance = this;
 
-        // Global access
-        //@ts-ignore
-        // window.Application = this;
+        // Set Title
+        document.title = 'Waseeq Haider | Cybersecurity Specialist & Software Developer';
 
         // Setup
         this.debug = new Debug();
